@@ -1,0 +1,43 @@
+---
+import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
+import Heading from "@/components/Heading/Heading.astro";
+import PortfolioCard from "@/components/PortfolioCard/PortfolioCard";
+import { Portfolios } from "@/data/portfolios";
+---
+
+<FixedWidthLayout
+    title="Portfolio | Ping Cheng - Software Development Projects"
+    description="Explore Ping Cheng's portfolio showcasing modern web applications, full-stack projects, and software solutions using Node.js, TypeScript, React, and cloud technologies."
+    keywords="Ping Cheng Portfolio,Software Development Projects,Web Applications,Full Stack Developer,Node.js Projects,TypeScript Applications,React Projects,Cloud Solutions,Enterprise Software,Melbourne Developer"
+    ogTitle="Portfolio | Ping Cheng - Software Development Projects"
+    ogDescription="Discover innovative software solutions and web applications developed by Ping Cheng. Showcasing expertise in modern technologies and full-stack development."
+    ogUrl="https://www.pingchengtech.com/portfolio"
+    twitterCard="summary_large_image"
+    twitterTitle="Portfolio | Ping Cheng - Software Development Projects"
+    twitterDescription="Discover innovative software solutions and web applications developed by Ping Cheng."
+>
+    <div class="py-4">
+        <div class="animate-fade-in">
+            <Heading text="Portfolio" align="center" />
+        </div>
+
+        <div class="mt-4 flex flex-row flex-wrap gap-8 justify-center">
+            {
+                Portfolios.map((portfolio, index) => (
+                    <div
+                        class={`animate-fade-in-scale animate-delay-${
+                            200 + index * 100
+                        }`}
+                    >
+                        <a href={`/portfolio/${portfolio.slug}`}>
+                            <PortfolioCard
+                                portfolio={portfolio}
+                                client:visible
+                            />
+                        </a>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</FixedWidthLayout>

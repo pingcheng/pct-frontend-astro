@@ -1,0 +1,53 @@
+---
+import "@/styles/globals.css";
+
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
+interface Props {
+    text: string;
+    level?: HeadingLevel;
+    align?: "left" | "center" | "right";
+    class?: string;
+}
+
+const { text, level = 1, align = "left", class: className } = Astro.props;
+
+const Tag = `h${level}` as any;
+
+const alignClass =
+    align === "center"
+        ? "heading-center"
+        : align === "right"
+        ? "heading-right"
+        : "";
+const classes = [`heading${level}`, alignClass, className]
+    .filter(Boolean)
+    .join(" ");
+---
+
+<Tag class={classes}>{text}</Tag>
+
+<style>
+    .heading1 {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        letter-spacing: -0.025em;
+        color: var(--color-text-light);
+    }
+
+    .heading-center {
+        text-align: center;
+    }
+
+    .heading-right {
+        text-align: right;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .heading1 {
+            color: var(--color-text-dark);
+        }
+    }
+</style>

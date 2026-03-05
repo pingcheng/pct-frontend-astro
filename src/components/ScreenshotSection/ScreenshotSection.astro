@@ -1,0 +1,82 @@
+---
+import Heading from "@/components/Heading/Heading.astro";
+
+interface Props {
+    images: string[];
+}
+
+const { images } = Astro.props;
+
+const SCREENSHOT_COLUMNS = 3;
+const columns: string[][] = [];
+
+images.forEach((image, index) => {
+    const columnIndex = index % SCREENSHOT_COLUMNS;
+    if (!columns[columnIndex]) {
+        columns[columnIndex] = [];
+    }
+    columns[columnIndex].push(image);
+});
+---
+
+{
+    images.length === 0 ? (
+        <div class="w-full card p-8 px-8 rounded-2xl mt-8 bg-opacity-90">
+            <div class="mb-8">
+                <Heading text="Screenshots" align="center" />
+            </div>
+            <div class="text-center text-gray-500 py-8">
+                No screenshots available for this project.
+            </div>
+        </div>
+    ) : (
+        <div class="w-full card p-8 px-8 rounded-2xl mt-8 bg-opacity-90">
+            <div class="mb-8">
+                <Heading text="Screenshots" align="center" />
+            </div>
+            <div class="portfolio-screenshots">
+                {columns.map((column) => (
+                    <div>
+                        {column.map((image) => (
+                            <div class="screenshot">
+                                <img
+                                    src={image}
+                                    alt="Screenshot"
+                                    loading="lazy"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+<style>
+    @reference "../../styles/globals.css";
+
+    .portfolio-screenshots {
+        display: flex;
+        gap: 15px;
+    }
+
+    .screenshot {
+        position: relative;
+        width: 100%;
+    }
+
+    .screenshot img {
+        border-radius: 0.25rem;
+        width: 100%;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+    }
+
+    .screenshot img:hover {
+        transform: scale(1.01);
+    }
+</style>

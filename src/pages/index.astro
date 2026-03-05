@@ -1,0 +1,190 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Avatar } from "@/components/Avatar/Avatar";
+import { CyclingTypewriterEffect } from "@/components/TypewriterEffect/CyclingTypewriterEffect";
+import StructuredData from "@/components/StructuredData/StructuredData.astro";
+import { profile, socialUrls } from "@/data/profile";
+import { URLS } from "@/constants/urls";
+
+const links = [
+	{
+		href: socialUrls.github,
+		label: "Github",
+		icon: "github",
+		external: true,
+	},
+	{
+		href: socialUrls.linkedin,
+		label: "LinkedIn",
+		icon: "linkedin",
+		external: true,
+	},
+	{
+		href: "/portfolio",
+		label: "Portfolio",
+		icon: "portfolio",
+		external: false,
+	},
+	{ href: "/about", label: "About", icon: "about", external: false },
+];
+---
+
+<BaseLayout
+	title="Ping Cheng"
+	description="Ping Cheng - Principal Engineer at REA Group. Software engineer in Melbourne working with Node, TypeScript, and Java."
+	keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Node,TypeScript,PHP,Java,Linux,REA Group,PropTrack,Web Development,Digital Solutions"
+	ogTitle="Ping Cheng"
+	ogDescription="Principal Engineer at REA Group. Software engineer in Melbourne working with Node, TypeScript, and Java."
+	ogUrl="https://www.pingchengtech.com"
+	ogType="profile"
+	twitterCard="summary"
+	twitterTitle="Ping Cheng"
+	twitterDescription="Principal Engineer at REA Group. Software engineer in Melbourne."
+>
+	<StructuredData
+		type="person"
+		person={{
+			name: profile.fullName,
+			jobTitle: "Principal Engineer",
+			url: URLS.WEBSITE.BASE,
+			image: URLS.ASSETS.APPLE_ICON,
+			sameAs: [socialUrls.github, socialUrls.linkedin],
+			worksFor: { name: "REA Group", url: URLS.COMPANY.REA_GROUP },
+			knowsAbout: [
+				"Node.js",
+				"TypeScript",
+				"JavaScript",
+				"PHP",
+				"Java",
+				"Linux",
+				"React",
+				"Vue.js",
+				"AWS",
+				"Docker",
+				"MySQL",
+				"Redis",
+			],
+			address: {
+				addressLocality: "Melbourne",
+				addressRegion: "Victoria",
+				addressCountry: "Australia",
+			},
+		}}
+	/>
+	<StructuredData
+		type="website"
+		website={{
+			name: "Ping Cheng Tech",
+			url: URLS.WEBSITE.BASE,
+			description:
+				"Personal website of Ping Cheng, Principal Engineer at REA Group",
+			author: { name: profile.fullName, url: URLS.WEBSITE.BASE },
+		}}
+	/>
+
+	<main
+		class="h-screen flex flex-col items-center justify-center mx-auto gap-8 page-container"
+	>
+		{/* Avatar */}
+		<section class="animate-fade-in-scale">
+			<Avatar width={192} height={192} client:load />
+		</section>
+
+		{/* Description */}
+		<section class="description animate-fade-in animate-delay-200">
+			<h1>
+				Hey, I&apos;m <span class="text-primary"
+					>{profile.fullName}</span
+				>.
+			</h1>
+			<p>
+				<span class="text-primary">Principal Engineer</span> at REA Group,
+				building products and solving problems.
+			</p>
+			<p class="min-h-[1.5rem]">
+				<CyclingTypewriterEffect
+					texts={[
+						"Working on PropTrack",
+						"Writing code",
+						"Solving problems",
+						"Learning new things",
+						"Just here to build",
+					]}
+					typeSpeed={80}
+					deleteSpeed={40}
+					pauseTime={2000}
+					delay={1000}
+					className="text-primary font-medium"
+					client:visible
+				/>
+			</p>
+			<p>
+				Working with <span class="text-primary">Node</span>,{" "}
+				<span class="text-primary">TypeScript</span>,{" "}
+				<span class="text-primary">Java</span>, and some other tools.
+			</p>
+		</section>
+
+		{/* Social links */}
+		<nav
+			class="flex flex-wrap content-around text-lg justify-center animate-fade-in animate-delay-400"
+			aria-label="Social links and navigation"
+		>
+			{
+				links.map((link, index) => (
+					<div
+						class={`animate-fade-in animate-delay-${
+							500 + index * 100
+						}`}
+					>
+						{link.external ? (
+							<a
+								class="social-link"
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								aria-label={`${link.label} (opens in new tab)`}
+							>
+								{link.label}
+							</a>
+						) : (
+							<a
+								class="social-link"
+								href={link.href}
+								aria-label={link.label}
+							>
+								{link.label}
+							</a>
+						)}
+					</div>
+				))
+			}
+		</nav>
+	</main>
+</BaseLayout>
+
+<style>
+	@reference "../styles/globals.css";
+
+	.description {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		font-family: var(--font-code);
+		color: #9ca3af;
+	}
+
+	.social-link {
+		cursor: pointer;
+		color: #9ca3af;
+		margin-right: 1rem;
+		padding: 0.5rem;
+		transition: all 0.3s ease-in-out;
+		transform: translateY(0);
+	}
+
+	.social-link:hover {
+		color: var(--color-text);
+		transform: translateY(-2px);
+	}
+</style>

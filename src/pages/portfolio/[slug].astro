@@ -1,0 +1,86 @@
+---
+import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
+import Heading from "@/components/Heading/Heading.astro";
+import DataRow from "@/components/DataRow/DataRow.astro";
+import ScreenshotSection from "@/components/ScreenshotSection/ScreenshotSection.astro";
+import PortfolioCard from "@/components/PortfolioCard/PortfolioCard";
+import { Portfolios } from "@/data/portfolios";
+import type { Portfolio } from "@/models/Portfolio/Portfolio";
+
+export function getStaticPaths() {
+    return Portfolios.map((portfolio) => ({
+        params: { slug: portfolio.slug },
+        props: { portfolio },
+    }));
+}
+
+interface Props {
+    portfolio: Portfolio;
+}
+
+const { portfolio } = Astro.props;
+---
+
+<FixedWidthLayout
+    title={`Portfolio - ${portfolio.name}`}
+    description={portfolio.longDescription}
+    ogTitle={`Portfolio - ${portfolio.name}`}
+>
+    <div class="py-4">
+        <div class="animate-fade-in">
+            <a
+                href="/portfolio"
+                class="text-gray-500 hover:text-gray-700 transition-colors duration-200"
+            >
+                &lt; Back
+            </a>
+        </div>
+
+        <div class="animate-fade-in animate-delay-100">
+            <Heading text={portfolio.name} align="center" />
+        </div>
+
+        <div class="flex mt-4 flex-wrap">
+            <div
+                class="w-full md:w-1/2 flex justify-center items-center mb-8 md:mb-0 animate-slide-in-left animate-delay-200"
+            >
+                <PortfolioCard portfolio={portfolio} client:visible />
+            </div>
+            <div
+                class="w-full md:w-1/2 flex flex-col text-sm animate-slide-in-right animate-delay-300"
+            >
+                <DataRow label="project">{portfolio.name}</DataRow>
+                <DataRow label="url">
+                    {
+                        portfolio.url ? (
+                            <a
+                                href={portfolio.url}
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                {portfolio.url}
+                            </a>
+                        ) : (
+                            "-"
+                        )
+                    }
+                </DataRow>
+                <DataRow label="description"
+                    >{portfolio.longDescription}</DataRow
+                >
+                <DataRow label="workplace">{portfolio.workplace}</DataRow>
+                <DataRow label="project role">{portfolio.projectRole}</DataRow>
+                <DataRow label="role description">
+                    {portfolio.roleDescription.map((line) => <div>{line}</div>)}
+                </DataRow>
+                <DataRow label="team members">
+                    {portfolio.members.map((member) => <div>{member}</div>)}
+                </DataRow>
+            </div>
+        </div>
+
+        <div class="flex mt-4 animate-fade-in animate-delay-500">
+            <ScreenshotSection images={portfolio.screenshots} />
+        </div>
+    </div>
+</FixedWidthLayout>

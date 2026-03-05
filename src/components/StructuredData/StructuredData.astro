@@ -1,0 +1,146 @@
+---
+/**
+ * StructuredData component for JSON-LD structured data injection.
+ * These are pure data components, so they are best as Astro components
+ * that render at build time with zero client JS.
+ */
+
+interface PersonData {
+    name: string;
+    jobTitle: string;
+    url: string;
+    image: string;
+    sameAs: string[];
+    worksFor?: { name: string; url: string };
+    knowsAbout?: string[];
+    address?: {
+        addressLocality: string;
+        addressRegion?: string;
+        addressCountry: string;
+    };
+    email?: string;
+    telephone?: string;
+}
+
+interface WebsiteData {
+    name: string;
+    url: string;
+    description: string;
+    author: { name: string; url: string };
+}
+
+interface BreadcrumbItem {
+    name: string;
+    url: string;
+}
+
+interface ProfessionalServiceData {
+    name: string;
+    description: string;
+    provider: { name: string; url: string };
+    areaServed?: string;
+    serviceType?: string;
+}
+
+interface Props {
+    type: "person" | "website" | "breadcrumb" | "professionalService";
+    person?: PersonData;
+    website?: WebsiteData;
+    breadcrumbItems?: BreadcrumbItem[];
+    professionalService?: ProfessionalServiceData;
+}
+
+const { type, person, website, breadcrumbItems, professionalService } =
+    Astro.props;
+
+function buildStructuredData() {
+    switch (type) {
+        case "person":
+            if (!person) return null;
+            return {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                name: person.name,
+                jobTitle: person.jobTitle,
+                url: person.url,
+                image: person.image,
+                sameAs: person.sameAs,
+                ...(person.worksFor && {
+                    worksFor: {
+                        "@type": "Organization",
+                        name: person.worksFor.name,
+                        url: person.worksFor.url,
+                    },
+                }),
+                ...(person.knowsAbout && { knowsAbout: person.knowsAbout }),
+                ...(person.address && {
+                    address: {
+                        "@type": "PostalAddress",
+                        addressLocality: person.address.addressLocality,
+                        ...(person.address.addressRegion && {
+                            addressRegion: person.address.addressRegion,
+                        }),
+                        addressCountry: person.address.addressCountry,
+                    },
+                }),
+                ...(person.email && { email: person.email }),
+                ...(person.telephone && { telephone: person.telephone }),
+            };
+
+        case "website":
+            if (!website) return null;
+            return {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: website.name,
+                url: website.url,
+                description: website.description,
+                author: {
+                    "@type": "Person",
+                    name: website.author.name,
+                    url: website.author.url,
+                },
+            };
+
+        case "breadcrumb":
+            if (!breadcrumbItems) return null;
+            return {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: breadcrumbItems.map((item, index) => ({
+                    "@type": "ListItem",
+                    position: index + 1,
+                    name: item.name,
+                    item: item.url,
+                })),
+            };
+
+        case "professionalService":
+            if (!professionalService) return null;
+            return {
+                "@context": "https://schema.org",
+                "@type": "ProfessionalService",
+                name: professionalService.name,
+                description: professionalService.description,
+                provider: {
+                    "@type": "Person",
+                    name: professionalService.provider.name,
+                    url: professionalService.provider.url,
+                },
+                ...(professionalService.areaServed && {
+                    areaServed: professionalService.areaServed,
+                }),
+                ...(professionalService.serviceType && {
+                    serviceType: professionalService.serviceType,
+                }),
+            };
+
+        default:
+            return null;
+    }
+}
+
+const data = buildStructuredData();
+---
+
+{data && <script type="application/ld+json" set:html={JSON.stringify(data)} />}

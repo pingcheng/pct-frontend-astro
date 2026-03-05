@@ -1,0 +1,20 @@
+@import './vars-light.css';
+@import './vars-dark.css';
+
+:root {
+  --color-bg: var(--color-bg-light);
+  --color-text: var(--color-text-light);
+  --color-accent: var(--color-accent-light);
+  --color-card: var(--color-card-light);
+  --color-border: var(--color-border-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: var(--color-bg-dark);
+    --color-text: var(--color-text-dark);
+    --color-accent: var(--color-accent-dark);
+    --color-card: var(--color-card-dark);
+    --color-border: var(--color-border-dark);
+  }
+}
