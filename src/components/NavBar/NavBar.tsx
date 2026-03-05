@@ -15,10 +15,14 @@ const menuItems: MenuItem[] = [
 ];
 
 function isActive(item: MenuItem, pathName: string): boolean {
+    const normalizedPath = pathName.endsWith('/') && pathName !== '/'
+        ? pathName.slice(0, -1)
+        : pathName;
+
     if (item.activePattern) {
-        return item.activePattern.test(pathName);
+        return item.activePattern.test(normalizedPath);
     }
-    return pathName === item.path;
+    return normalizedPath === item.path;
 }
 
 function MenuIcon({ className = "" }: { className?: string }) {
