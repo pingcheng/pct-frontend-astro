@@ -7,5 +7,6 @@ export default getViteConfig({
         globals: true,
         setupFiles: ['./src/test/setup.ts'],
         include: ['src/**/*.spec.ts', 'src/**/*.spec.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
+        exclude: ['src/**/*.e2e.ts', 'node_modules', 'dist'],
     },
 });
