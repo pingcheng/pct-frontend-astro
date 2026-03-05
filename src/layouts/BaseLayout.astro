@@ -1,5 +1,6 @@
 ---
 import '@/styles/globals.css';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -61,6 +62,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     {(twitterDescription || description) && <meta name="twitter:description" content={twitterDescription || description} />}
     {twitterImage && <meta name="twitter:image" content={twitterImage} />}
 
+    <Analytics />
     <slot name="head" />
   </head>
   <body>
@@ -80,11 +82,9 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
       </>
     )}
 
-    {/* Vercel Analytics & Speed Insights */}
+    {/* Vercel Speed Insights */}
     <script>
-      import { inject } from '@vercel/analytics';
       import { injectSpeedInsights } from '@vercel/speed-insights';
-      inject();
       injectSpeedInsights();
     </script>
   </body>
