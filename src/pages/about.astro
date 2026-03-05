@@ -15,11 +15,18 @@ import { workExperiences } from "@/data/work-experience";
 import { URLS } from "@/constants/urls";
 import { getDurationString } from "@/utils/getDurationString";
 
+// React Icons
+import { FaLinkedin, FaGithub, FaLink } from "react-icons/fa";
+import { MdEmail, MdHistory } from "react-icons/md";
+import { GrCode } from "react-icons/gr";
+import { IoLogoJavascript } from "react-icons/io5";
+import { FaCloud } from "react-icons/fa6";
+
 const skillCategories = [
-    { icon: "🔧", title: "Backend", skills: backendStack },
-    { icon: "💻", title: "Frontend", skills: frontendStack },
-    { icon: "☁️", title: "Cloud & DevOps", skills: devOpsStack },
-    { icon: "📜", title: "Legacy", skills: legacyStack },
+    { Icon: GrCode, title: "Backend", skills: backendStack },
+    { Icon: IoLogoJavascript, title: "Frontend", skills: frontendStack },
+    { Icon: FaCloud, title: "Cloud & DevOps", skills: devOpsStack },
+    { Icon: MdHistory, title: "Legacy", skills: legacyStack },
 ];
 
 const links = [
@@ -28,18 +35,21 @@ const links = [
         url: socialUrls.github,
         text: "GitHub",
         ariaLabel: "Visit my GitHub profile",
+        Icon: FaGithub,
     },
     {
         label: "linkedin",
         url: socialUrls.linkedin,
         text: "LinkedIn",
         ariaLabel: "Visit my LinkedIn profile",
+        Icon: FaLinkedin,
     },
     {
         label: "email",
         url: `mailto:${profile.email}`,
         text: profile.email,
         ariaLabel: `Send email to ${profile.email}`,
+        Icon: MdEmail,
     },
 ];
 
@@ -155,7 +165,7 @@ function renderDescriptionLine(line: string) {
                                         class="inline-flex items-center gap-2 px-3 py-1.5 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                                         aria-label={link.ariaLabel}
                                     >
-                                        {link.label === "email" && "✉️"}
+                                        <link.Icon size={14} />
                                         <span class="text-xs">{link.text}</span>
                                     </a>
                                 ))
@@ -180,9 +190,10 @@ function renderDescriptionLine(line: string) {
                             <div>
                                 <div class="text-center mb-3">
                                     <div class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <span aria-hidden="true">
-                                            {category.icon}
-                                        </span>
+                                        <category.Icon
+                                            className="text-base text-gray-600 dark:text-gray-400"
+                                            aria-hidden="true"
+                                        />
                                     </div>
                                     <h3 class="font-medium text-gray-900 dark:text-gray-100 text-sm">
                                         {category.title}
@@ -226,7 +237,10 @@ function renderDescriptionLine(line: string) {
                                                 class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                                                 aria-label={`${companyItem.company.name} LinkedIn profile`}
                                             >
-                                                🔗
+                                                <FaLinkedin
+                                                    size={14}
+                                                    aria-hidden="true"
+                                                />
                                             </a>
                                         )}
                                     </div>

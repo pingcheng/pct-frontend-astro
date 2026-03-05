@@ -3,29 +3,20 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Avatar } from "@/components/Avatar/Avatar";
 import { CyclingTypewriterEffect } from "@/components/TypewriterEffect/CyclingTypewriterEffect";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
+import SocialLink from "@/components/SocialLink/SocialLink.astro";
 import { profile, socialUrls } from "@/data/profile";
 import { URLS } from "@/constants/urls";
 
+// React Icons
+import { FiGithub, FiSmile } from "react-icons/fi";
+import { IoLogoLinkedin } from "react-icons/io5";
+import { BsCollectionFill } from "react-icons/bs";
+
 const links = [
-	{
-		href: socialUrls.github,
-		label: "Github",
-		icon: "github",
-		external: true,
-	},
-	{
-		href: socialUrls.linkedin,
-		label: "LinkedIn",
-		icon: "linkedin",
-		external: true,
-	},
-	{
-		href: "/portfolio",
-		label: "Portfolio",
-		icon: "portfolio",
-		external: false,
-	},
-	{ href: "/about", label: "About", icon: "about", external: false },
+	{ href: socialUrls.github, label: "Github", Icon: FiGithub },
+	{ href: socialUrls.linkedin, label: "LinkedIn", Icon: IoLogoLinkedin },
+	{ href: "/portfolio", label: "Portfolio", Icon: BsCollectionFill },
+	{ href: "/about", label: "About", Icon: FiSmile },
 ];
 ---
 
@@ -131,31 +122,15 @@ const links = [
 			aria-label="Social links and navigation"
 		>
 			{
-				links.map((link, index) => (
+				links.map(({ href, label, Icon }, index) => (
 					<div
 						class={`animate-fade-in animate-delay-${
 							500 + index * 100
 						}`}
 					>
-						{link.external ? (
-							<a
-								class="social-link"
-								href={link.href}
-								target="_blank"
-								rel="noopener noreferrer"
-								aria-label={`${link.label} (opens in new tab)`}
-							>
-								{link.label}
-							</a>
-						) : (
-							<a
-								class="social-link"
-								href={link.href}
-								aria-label={link.label}
-							>
-								{link.label}
-							</a>
-						)}
+						<SocialLink href={href} label={label}>
+							<Icon />
+						</SocialLink>
 					</div>
 				))
 			}
@@ -172,19 +147,5 @@ const links = [
 		gap: 2rem;
 		font-family: var(--font-code);
 		color: #9ca3af;
-	}
-
-	.social-link {
-		cursor: pointer;
-		color: #9ca3af;
-		margin-right: 1rem;
-		padding: 0.5rem;
-		transition: all 0.3s ease-in-out;
-		transform: translateY(0);
-	}
-
-	.social-link:hover {
-		color: var(--color-text);
-		transform: translateY(-2px);
 	}
 </style>

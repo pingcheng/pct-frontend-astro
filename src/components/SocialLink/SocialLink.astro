@@ -1,0 +1,59 @@
+---
+// src/components/SocialLink/SocialLink.astro
+interface Props {
+    href: string;
+    label: string;
+}
+
+const { href, label } = Astro.props;
+
+const isExternal = href.startsWith("http://") || href.startsWith("https://");
+---
+
+{
+    isExternal ? (
+        <a
+            class="social-link"
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${label} (opens in new tab)`}
+        >
+            <span aria-hidden="true">
+                <slot />
+            </span>{" "}
+            {label}
+        </a>
+    ) : (
+        <a class="social-link" href={href} aria-label={label}>
+            <span aria-hidden="true">
+                <slot />
+            </span>{" "}
+            {label}
+        </a>
+    )
+}
+
+<style>
+    @reference "../../styles/globals.css";
+
+    .social-link {
+        cursor: pointer;
+        color: #9ca3af;
+        margin-right: 1rem;
+        padding: 0.5rem;
+        transition: all 0.3s ease-in-out;
+        transform: translateY(0);
+    }
+
+    .social-link:hover {
+        color: var(--color-text);
+        transform: translateY(-2px);
+    }
+
+    .social-link span :global(svg) {
+        display: inline-block;
+        position: relative;
+        top: -2px;
+    }
+</style>
