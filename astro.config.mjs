@@ -8,6 +8,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://www.pingchengtech.com',
   integrations: [react(), sitemap()],
+  redirects: {
+    '/sitemap.xml': '/sitemap-index.xml',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
