@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import NavBar from "./NavBar";
 
 vi.mock("@/data/profile", () => ({
@@ -9,7 +9,7 @@ vi.mock("@/data/profile", () => ({
 }));
 
 afterEach(() => {
-    vi.restoreAllMocks();
+    document.body.innerHTML = "";
 });
 
 describe("NavBar", () => {
@@ -52,20 +52,28 @@ describe("NavBar", () => {
     });
 
     it("closes the mobile menu when a menu item is clicked", () => {
-        vi.spyOn(console, "error").mockImplementation(() => {});
-
         render(<NavBar currentPath="/" />);
 
         const toggleButton = screen.getByRole("button", {
             name: "Open main menu",
         });
+        const mobileMenu = document.getElementById("mobile-menu");
 
         fireEvent.click(toggleButton);
-        fireEvent.click(screen.getAllByRole("link", { name: "Portfolio" })[1]);
+
+        const portfolioLink = within(mobileMenu as HTMLElement).getByRole("link", {
+            name: "Portfolio",
+        });
+
+        portfolioLink.addEventListener("click", (event) => {
+            event.preventDefault();
+        });
+
+        fireEvent.click(portfolioLink);
 
         expect(toggleButton).toHaveAttribute("aria-expanded", "false");
         expect(toggleButton).toHaveAttribute("aria-label", "Open main menu");
-        expect(document.getElementById("mobile-menu")).toHaveAttribute(
+        expect(mobileMenu).toHaveAttribute(
             "aria-hidden",
             "true",
         );
