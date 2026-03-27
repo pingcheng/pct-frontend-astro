@@ -32,6 +32,11 @@ export default [
     },
     {
         files: ['**/*.astro'],
+        languageOptions: {
+            parserOptions: {
+                parser: tseslint.parser,
+            },
+        },
         rules: {
             'react/jsx-key': 'off',
             'react/no-unknown-property': 'off',
