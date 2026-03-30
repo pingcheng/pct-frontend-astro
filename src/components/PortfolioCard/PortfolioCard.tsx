@@ -23,9 +23,7 @@ function PortfolioCardDetails({ portfolio }: { portfolio: Portfolio }) {
 export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
     const [imageError, setImageError] = useState(false);
     const [transform, setTransform] = useState("rotateX(0deg) rotateY(0deg)");
-    const [isHovered, setIsHovered] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    const throttledHandlerRef = useRef<((e: MouseEvent) => void) | null>(null);
 
     useEffect(() => {
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -34,23 +32,15 @@ export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
             return;
         }
 
-        if (isHovered) {
-            throttledHandlerRef.current = throttle((e: MouseEvent) => {
-                if (!containerRef.current) return;
-                const rect = containerRef.current.getBoundingClientRect();
-                setTransform(calculateRotation(e.clientX, e.clientY, rect));
-            }, 16);
+        const handleGlobalMouseMove = throttle((e: MouseEvent) => {
+            if (!containerRef.current) return;
+            const rect = containerRef.current.getBoundingClientRect();
+            setTransform(calculateRotation(e.clientX, e.clientY, rect));
+        }, 16);
 
-            document.addEventListener("mousemove", throttledHandlerRef.current);
-            return () => {
-                if (throttledHandlerRef.current) {
-                    document.removeEventListener("mousemove", throttledHandlerRef.current);
-                }
-            };
-        } else {
-            setTransform("rotateX(0deg) rotateY(0deg)");
-        }
-    }, [isHovered]);
+        document.addEventListener("mousemove", handleGlobalMouseMove);
+        return () => document.removeEventListener("mousemove", handleGlobalMouseMove);
+    }, []);
 
     if (imageError) {
         return (
@@ -65,12 +55,7 @@ export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
     }
 
     return (
-        <div
-            ref={containerRef}
-            className={styles.perspectiveContainer}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
+        <div ref={containerRef} className={styles.perspectiveContainer}>
             <div
                 className={styles.portfolioCard}
                 style={{
