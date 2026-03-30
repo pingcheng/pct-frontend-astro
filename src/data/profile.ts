@@ -2,6 +2,8 @@ export const profile = {
   fullName: "Ping Cheng",
   avatarUrl: "https://avatars0.githubusercontent.com/u/8447539",
   email: "ping.che@hotmail.com",
+  currentRole: "Principal Engineer",
+  company: "REA Group",
 } as const;
 
 export const socialUrls = {
