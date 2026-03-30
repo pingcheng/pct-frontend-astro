@@ -1,7 +1,8 @@
-import { createPortfolio, PortfolioProps } from "./Portfolio";
+import type { Portfolio } from "./Portfolio";
 
 describe("test Portfolio model", () => {
-  const mockPortfolioProps: PortfolioProps = {
+  const mockPortfolio: Portfolio = {
+    slug: "test-portfolio",
     name: "Test Portfolio",
     coverImage: "/images/test-cover.jpg",
     url: "https://example.com",
@@ -20,69 +21,25 @@ describe("test Portfolio model", () => {
     year: "2023",
   };
 
-  it("should create a portfolio with provided values", () => {
-    const portfolio = createPortfolio("test-portfolio", mockPortfolioProps);
-
-    expect(portfolio.slug).toBe("test-portfolio");
-    expect(portfolio.name).toBe("Test Portfolio");
-    expect(portfolio.coverImage).toBe("/images/test-cover.jpg");
-    expect(portfolio.url).toBe("https://example.com");
-    expect(portfolio.shortDescription).toBe("This is a short description");
-    expect(portfolio.longDescription).toBe(
-      "This is a longer description that explains the portfolio in detail"
-    );
-    expect(portfolio.workplace).toBe("Test Company");
-    expect(portfolio.projectRole).toBe("Developer");
-    expect(portfolio.roleDescription).toEqual([
-      "Developed features",
-      "Fixed bugs",
-      "Deployed to production",
-    ]);
-    expect(portfolio.members).toEqual(["John Doe", "Jane Smith"]);
-    expect(portfolio.screenshots).toEqual([
-      "/images/screenshot1.jpg",
-      "/images/screenshot2.jpg",
-    ]);
+  it("should have correct slug", () => {
+    expect(mockPortfolio.slug).toBe("test-portfolio");
   });
 
-  it("should handle null values with defaults", () => {
-    const nullProps: PortfolioProps = {
-      name: null,
-      coverImage: null,
-      url: null,
-      shortDescription: null,
-      longDescription: null,
-      workplace: null,
-      projectRole: null,
-      roleDescription: null,
-      members: null,
-      screenshots: null,
-      year: null,
-    };
-
-    const portfolio = createPortfolio("empty-portfolio", nullProps);
-
-    expect(portfolio.slug).toBe("empty-portfolio");
-    expect(portfolio.name).toBe("");
-    expect(portfolio.coverImage).toBe("");
-    expect(portfolio.url).toBe(null);
-    expect(portfolio.shortDescription).toBe("");
-    expect(portfolio.longDescription).toBe("");
-    expect(portfolio.workplace).toBe("");
-    expect(portfolio.projectRole).toBe("");
-    expect(portfolio.roleDescription).toEqual([]);
-    expect(portfolio.members).toEqual([]);
-    expect(portfolio.screenshots).toEqual([]);
+  it("should have all required fields", () => {
+    expect(mockPortfolio.name).toBe("Test Portfolio");
+    expect(mockPortfolio.coverImage).toBe("/images/test-cover.jpg");
+    expect(mockPortfolio.url).toBe("https://example.com");
+    expect(mockPortfolio.shortDescription).toBe("This is a short description");
+    expect(mockPortfolio.workplace).toBe("Test Company");
+    expect(mockPortfolio.projectRole).toBe("Developer");
+    expect(mockPortfolio.roleDescription).toHaveLength(3);
+    expect(mockPortfolio.members).toHaveLength(2);
+    expect(mockPortfolio.screenshots).toHaveLength(2);
   });
 
-  it("hasScreenshots should return true when screenshots exist", () => {
-    const portfolio = createPortfolio("with-screenshots", mockPortfolioProps);
-    expect(portfolio.hasScreenshots).toBe(true);
-  });
-
-  it("hasScreenshots should return false when no screenshots exist", () => {
-    const propsWithoutScreenshots = { ...mockPortfolioProps, screenshots: [] };
-    const portfolio = createPortfolio("no-screenshots", propsWithoutScreenshots);
-    expect(portfolio.hasScreenshots).toBe(false);
+  it("should detect screenshots via length", () => {
+    expect(mockPortfolio.screenshots.length > 0).toBe(true);
+    const noScreens = { ...mockPortfolio, screenshots: [] };
+    expect(noScreens.screenshots.length > 0).toBe(false);
   });
 });

@@ -59,41 +59,36 @@ const allSkills = [
     ...devOpsStack,
     ...legacyStack,
 ];
+
+const roleDescription = `${profile.currentRole} at ${profile.company}`;
+
 const breadcrumbItems = [
     { name: "Home", url: URLS.WEBSITE.BASE },
     { name: "About", url: URLS.WEBSITE.ABOUT },
 ];
-
-function renderDescriptionLine(line: string) {
-    if (line === ":line-break:") return { type: "break" as const };
-    if (line.startsWith("- "))
-        return { type: "bullet" as const, text: line.substring(2) };
-    if (line.endsWith(":")) return { type: "heading" as const, text: line };
-    return { type: "text" as const, text: line };
-}
 ---
 
 <FixedWidthLayout
     title="About Ping Cheng"
-    description="Principal Engineer at REA Group with expertise in Node.js, TypeScript, PHP, Java, and Linux. Experienced in full-stack development, cloud solutions, and enterprise software."
+    description={`${profile.currentRole} at ${profile.company} with expertise in Node.js, TypeScript, PHP, Java, and Linux. Experienced in full-stack development, cloud solutions, and enterprise software.`}
     keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Full Stack Developer,Cloud Engineer,REA Group,PropTrack,Node.js,TypeScript,PHP,Java,DevOps"
     ogTitle="About Ping Cheng"
-    ogDescription="Principal Engineer at REA Group specializing in modern web technologies, cloud solutions, and enterprise software development."
+    ogDescription={`${profile.currentRole} at ${profile.company} specializing in modern web technologies, cloud solutions, and enterprise software development.`}
     ogUrl="https://www.pingchengtech.com/about"
     ogType="profile"
     twitterCard="summary"
     twitterTitle="About Ping Cheng"
-    twitterDescription="Principal Engineer at REA Group specializing in modern web technologies, cloud solutions, and enterprise software development."
+    twitterDescription={`${profile.currentRole} at ${profile.company} specializing in modern web technologies, cloud solutions, and enterprise software development.`}
 >
     <StructuredData
         type="person"
         person={{
             name: profile.fullName,
-            jobTitle: "Principal Engineer",
+            jobTitle: profile.currentRole,
             url: URLS.WEBSITE.BASE,
             image: URLS.ASSETS.APPLE_ICON,
             sameAs: [socialUrls.github, socialUrls.linkedin],
-            worksFor: { name: "REA Group", url: URLS.COMPANY.REA_GROUP },
+            worksFor: { name: profile.company, url: URLS.COMPANY.REA_GROUP },
             knowsAbout: allSkills,
             address: {
                 addressLocality: "Melbourne",
@@ -142,16 +137,14 @@ function renderDescriptionLine(line: string) {
                         <h2
                             class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4 animate-fade-in animate-delay-400"
                         >
-                            Principal Engineer at REA Group
+                            {roleDescription}
                         </h2>
                         <p
                             class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 animate-fade-in animate-delay-500"
                         >
                             Experienced full-stack engineer specializing in
                             modern web technologies, cloud solutions, and
-                            enterprise software development. Passionate about
-                            building scalable systems and leading technical
-                            initiatives that drive business value.
+                            enterprise software development.
                         </p>
                         <div
                             class="flex flex-wrap gap-3 justify-center lg:justify-start animate-fade-in animate-delay-600"
@@ -264,45 +257,26 @@ function renderDescriptionLine(line: string) {
                                                     <div class="space-y-1">
                                                         {item.description.map(
                                                             (line) => {
-                                                                const parsed =
-                                                                    renderDescriptionLine(
-                                                                        line
-                                                                    );
-                                                                if (
-                                                                    parsed.type ===
-                                                                    "break"
-                                                                )
+                                                                if (line.type === "break")
                                                                     return (
                                                                         <div class="h-1" />
                                                                     );
-                                                                if (
-                                                                    parsed.type ===
-                                                                    "bullet"
-                                                                )
+                                                                if (line.type === "bullet")
                                                                     return (
                                                                         <div class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed ml-3">
                                                                             •{" "}
-                                                                            {
-                                                                                parsed.text
-                                                                            }
+                                                                            {line.text}
                                                                         </div>
                                                                     );
-                                                                if (
-                                                                    parsed.type ===
-                                                                    "heading"
-                                                                )
+                                                                if (line.type === "heading")
                                                                     return (
                                                                         <div class="text-xs font-medium text-gray-700 dark:text-gray-300 mt-2 mb-1">
-                                                                            {
-                                                                                parsed.text
-                                                                            }
+                                                                            {line.text}
                                                                         </div>
                                                                     );
                                                                 return (
                                                                     <div class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                                                                        {
-                                                                            parsed.text
-                                                                        }
+                                                                        {line.text}
                                                                     </div>
                                                                 );
                                                             }

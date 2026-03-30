@@ -32,13 +32,11 @@ export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
             return;
         }
 
-        const THROTTLE_MS = 16;
         const handleGlobalMouseMove = throttle((e: MouseEvent) => {
             if (!containerRef.current) return;
             const rect = containerRef.current.getBoundingClientRect();
-            const transform = calculateRotation(e.clientX, e.clientY, rect);
-            setTransform(transform);
-        }, THROTTLE_MS);
+            setTransform(calculateRotation(e.clientX, e.clientY, rect));
+        }, 16);
 
         document.addEventListener("mousemove", handleGlobalMouseMove);
         return () => document.removeEventListener("mousemove", handleGlobalMouseMove);

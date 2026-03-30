@@ -8,7 +8,6 @@ enum TypewriterState {
 }
 
 function getCurrentState(
-    isTyping: boolean,
     isDeleting: boolean,
     displayLength: number,
     targetLength: number,
@@ -16,10 +15,7 @@ function getCurrentState(
     if (isDeleting) {
         return displayLength > 0 ? TypewriterState.DELETING : TypewriterState.TRANSITIONING;
     }
-    if (isTyping) {
-        return displayLength < targetLength ? TypewriterState.TYPING : TypewriterState.PAUSING;
-    }
-    return TypewriterState.PAUSING;
+    return displayLength < targetLength ? TypewriterState.TYPING : TypewriterState.PAUSING;
 }
 
 function getAnimationDelay(
@@ -65,7 +61,6 @@ export function CyclingTypewriterEffect({
 }: CyclingTypewriterEffectProps) {
     const [displayText, setDisplayText] = useState("");
     const [textIndex, setTextIndex] = useState(0);
-    const [isTyping] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
     const [showCursor, setShowCursor] = useState(cursor);
     const [hasStarted, setHasStarted] = useState(false);
@@ -82,7 +77,6 @@ export function CyclingTypewriterEffect({
 
         const currentText = texts[textIndex];
         const currentState = getCurrentState(
-            isTyping,
             isDeleting,
             displayText.length,
             currentText.length,
@@ -115,7 +109,7 @@ export function CyclingTypewriterEffect({
             default:
                 break;
         }
-    }, [displayText, textIndex, isTyping, isDeleting, hasStarted, texts, typeSpeed, deleteSpeed, pauseTime, delay]);
+    }, [displayText, textIndex, isDeleting, hasStarted, texts, typeSpeed, deleteSpeed, pauseTime, delay]);
 
     useEffect(() => {
         if (!cursor) return;

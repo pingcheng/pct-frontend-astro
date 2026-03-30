@@ -1,8 +1,14 @@
+export type DescriptionLine =
+  | { type: "text"; text: string }
+  | { type: "bullet"; text: string }
+  | { type: "heading"; text: string }
+  | { type: "break" };
+
 export type WorkPosition = {
   position: string;
   startDate: string;
   endDate: string;
-  description: string[];
+  description: DescriptionLine[];
 };
 
 export type Company = {
@@ -45,13 +51,13 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Jul 2022",
         endDate: "Aug 2024",
         description: [
-          "Highly involved in digital mortgage areas, seamlessly connecting banks and the valuation industry with modern digital solutions. Contributing to the development of secure, enterprise-level products.",
-          ":line-break:",
-          "Key Responsibilities:",
-          "- Collaborate closely with the lead developer to design system solutions.",
-          "- Utilise existing group-wide infrastructure to optimise efficiency and avoid redundancy.",
-          "- Take the lead in developing feature slices and efficiently allocate work within the team.",
-          "- Provide mentorship to less experienced developers within the team.",
+          { type: "text", text: "Highly involved in digital mortgage areas, seamlessly connecting banks and the valuation industry with modern digital solutions. Contributing to the development of secure, enterprise-level products." },
+          { type: "break" },
+          { type: "heading", text: "Key Responsibilities:" },
+          { type: "bullet", text: "Collaborate closely with the lead developer to design system solutions." },
+          { type: "bullet", text: "Utilise existing group-wide infrastructure to optimise efficiency and avoid redundancy." },
+          { type: "bullet", text: "Take the lead in developing feature slices and efficiently allocate work within the team." },
+          { type: "bullet", text: "Provide mentorship to less experienced developers within the team." },
         ],
       },
       {
@@ -73,7 +79,7 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Aug 2019",
         endDate: "Sept 2021",
         description: [
-          "Working as a full stack developer. Delivering new features to AroFlo Platform which is an industry leading product in Australia, my current main involves in the platform include but not limited to project management, quotes, invoices, payment integration areas.",
+          { type: "text", text: "Working as a full stack developer. Delivering new features to AroFlo Platform which is an industry leading product in Australia, my current main involves in the platform include but not limited to project management, quotes, invoices, payment integration areas." },
         ],
       },
     ],
@@ -88,7 +94,7 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Jan 2018",
         endDate: "May 2019",
         description: [
-          "Work with the dev team on two main products. Design and implement IT architecture on the clouding computing platforms (AWS and Aliyun). Deliver stable, rapid responsible and reliable web applications to product's users.",
+          { type: "text", text: "Work with the dev team on two main products. Design and implement IT architecture on the clouding computing platforms (AWS and Aliyun). Deliver stable, rapid responsible and reliable web applications to product's users." },
         ],
       },
       {
@@ -96,11 +102,9 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Oct 2016",
         endDate: "Jan 2018",
         description: [
-          "One of the key contributors to the start-up company, and participated in almost every stage of product design, implement and testing. Took responsibilities on full solutions to the technical side such as coding and servers' setup.",
+          { type: "text", text: "One of the key contributors to the start-up company, and participated in almost every stage of product design, implement and testing. Took responsibilities on full solutions to the technical side such as coding and servers' setup." },
         ],
       },
     ],
   },
 ];
-
-

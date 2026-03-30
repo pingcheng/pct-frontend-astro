@@ -4,6 +4,7 @@
 :root {
   --color-bg: var(--color-bg-light);
   --color-text: var(--color-text-light);
+  --color-text-secondary: var(--color-text-secondary-light);
   --color-accent: var(--color-accent-light);
   --color-card: var(--color-card-light);
   --color-border: var(--color-border-light);
@@ -13,6 +14,7 @@
   :root {
     --color-bg: var(--color-bg-dark);
     --color-text: var(--color-text-dark);
+    --color-text-secondary: var(--color-text-secondary-dark);
     --color-accent: var(--color-accent-dark);
     --color-card: var(--color-card-dark);
     --color-border: var(--color-border-dark);

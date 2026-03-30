@@ -3,6 +3,8 @@ import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
 import Heading from "@/components/Heading/Heading.astro";
 import PortfolioCard from "@/components/PortfolioCard/PortfolioCard";
 import { Portfolios } from "@/data/portfolios";
+
+const portfolioDelays = ["animate-delay-200", "animate-delay-300", "animate-delay-400", "animate-delay-500", "animate-delay-600", "animate-delay-700"];
 ---
 
 <FixedWidthLayout
@@ -24,11 +26,7 @@ import { Portfolios } from "@/data/portfolios";
         <div class="mt-4 flex flex-row flex-wrap gap-8 justify-center">
             {
                 Portfolios.map((portfolio, index) => (
-                    <div
-                        class={`animate-fade-in-scale animate-delay-${
-                            200 + index * 100
-                        }`}
-                    >
+                    <div class={`animate-fade-in-scale ${portfolioDelays[index] ?? ""}`}>
                         <a href={`/portfolio/${portfolio.slug}`}>
                             <PortfolioCard
                                 portfolio={portfolio}

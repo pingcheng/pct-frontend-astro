@@ -12,35 +12,39 @@ import { FiGithub, FiSmile } from "react-icons/fi";
 import { IoLogoLinkedin } from "react-icons/io5";
 import { BsCollectionFill } from "react-icons/bs";
 
+const linkDelays = ["animate-delay-500", "animate-delay-600", "animate-delay-700", "animate-delay-800"];
+
 const links = [
 	{ href: socialUrls.github, label: "Github", Icon: FiGithub },
 	{ href: socialUrls.linkedin, label: "LinkedIn", Icon: IoLogoLinkedin },
 	{ href: "/portfolio", label: "Portfolio", Icon: BsCollectionFill },
 	{ href: "/about", label: "About", Icon: FiSmile },
 ];
+
+const roleDescription = `${profile.currentRole} at ${profile.company}`;
 ---
 
 <BaseLayout
 	title="Ping Cheng"
-	description="Ping Cheng - Principal Engineer at REA Group. Software engineer in Melbourne working with Node, TypeScript, and Java."
+	description={`Ping Cheng - ${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
 	keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Node,TypeScript,PHP,Java,Linux,REA Group,PropTrack,Web Development,Digital Solutions"
 	ogTitle="Ping Cheng"
-	ogDescription="Principal Engineer at REA Group. Software engineer in Melbourne working with Node, TypeScript, and Java."
+	ogDescription={`${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
 	ogUrl="https://www.pingchengtech.com"
 	ogType="profile"
 	twitterCard="summary"
 	twitterTitle="Ping Cheng"
-	twitterDescription="Principal Engineer at REA Group. Software engineer in Melbourne."
+	twitterDescription={`${roleDescription}. Software engineer in Melbourne.`}
 >
 	<StructuredData
 		type="person"
 		person={{
 			name: profile.fullName,
-			jobTitle: "Principal Engineer",
+			jobTitle: profile.currentRole,
 			url: URLS.WEBSITE.BASE,
 			image: URLS.ASSETS.APPLE_ICON,
 			sameAs: [socialUrls.github, socialUrls.linkedin],
-			worksFor: { name: "REA Group", url: URLS.COMPANY.REA_GROUP },
+			worksFor: { name: profile.company, url: URLS.COMPANY.REA_GROUP },
 			knowsAbout: [
 				"Node.js",
 				"TypeScript",
@@ -68,7 +72,7 @@ const links = [
 			name: "Ping Cheng Tech",
 			url: URLS.WEBSITE.BASE,
 			description:
-				"Personal website of Ping Cheng, Principal Engineer at REA Group",
+				`Personal website of Ping Cheng, ${roleDescription}`,
 			author: { name: profile.fullName, url: URLS.WEBSITE.BASE },
 		}}
 	/>
@@ -82,14 +86,14 @@ const links = [
 		</section>
 
 		{/* Description */}
-		<section class="description animate-fade-in animate-delay-200">
+		<section class="description text-gray-400 animate-fade-in animate-delay-200">
 			<h1>
 				Hey, I&apos;m <span class="text-primary"
 					>{profile.fullName}</span
 				>.
 			</h1>
 			<p>
-				<span class="text-primary">Principal Engineer</span> at REA Group,
+				<span class="text-primary">{profile.currentRole}</span> at {profile.company},
 				building products and solving problems.
 			</p>
 			<p class="min-h-[1.5rem]">
@@ -123,11 +127,7 @@ const links = [
 		>
 			{
 				links.map(({ href, label, Icon }, index) => (
-					<div
-						class={`animate-fade-in animate-delay-${
-							500 + index * 100
-						}`}
-					>
+					<div class={`animate-fade-in ${linkDelays[index]}`}>
 						<SocialLink href={href} label={label}>
 							<Icon />
 						</SocialLink>
@@ -146,6 +146,5 @@ const links = [
 		flex-direction: column;
 		gap: 2rem;
 		font-family: var(--font-code);
-		color: #9ca3af;
 	}
 </style>
