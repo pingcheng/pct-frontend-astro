@@ -80,7 +80,7 @@ const { portfolio } = Astro.props;
         </div>
 
         <div class="flex mt-4 animate-fade-in animate-delay-500">
-            <ScreenshotSection images={portfolio.screenshots} />
+            <ScreenshotSection images={portfolio.screenshots} projectName={portfolio.name} />
         </div>
     </div>
 </FixedWidthLayout>
