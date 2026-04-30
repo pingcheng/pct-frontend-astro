@@ -51,6 +51,15 @@ describe('Static Pages Content', () => {
         );
         expect(getMetaContent('meta[name="twitter:title"]')).toBe('Ping Cheng');
 
+        // Canonical URL
+        const canonical = document.querySelector('link[rel="canonical"]');
+        expect(canonical).not.toBeNull();
+        expect(canonical?.getAttribute('href')).toBe('https://www.pingchengtech.com');
+
+        // OG image should be an absolute URL
+        const ogImage = getMetaContent('meta[property="og:image"]');
+        expect(ogImage).toMatch(/^https?:\/\//);
+
         const structuredData = getStructuredData();
         const personData = structuredData.find((item) => item?.['@type'] === 'Person');
         const websiteData = structuredData.find((item) => item?.['@type'] === 'WebSite');
@@ -97,6 +106,11 @@ describe('Static Pages Content', () => {
             'https://www.pingchengtech.com/about',
         );
         expect(getMetaContent('meta[property="og:type"]')).toBe('profile');
+
+        // Canonical URL
+        const canonical = document.querySelector('link[rel="canonical"]');
+        expect(canonical).not.toBeNull();
+        expect(canonical?.getAttribute('href')).toBe('https://www.pingchengtech.com/about');
 
         const structuredData = getStructuredData();
         const personData = structuredData.find((item) => item?.['@type'] === 'Person');
@@ -158,5 +172,10 @@ describe('Static Pages Content', () => {
         // Nav should still outline "Portfolio" as active
         const activeNav = document.querySelector('nav a[class*="active"]');
         expect(activeNav?.textContent?.trim()).toBe('Portfolio');
+
+        // OG image should be the portfolio cover image, not the default icon
+        const ogImage = getMetaContent('meta[property="og:image"]');
+        expect(ogImage).toBeDefined();
+        expect(ogImage).not.toBe('https://www.pingchengtech.com/apple-icon.png');
     });
 });
