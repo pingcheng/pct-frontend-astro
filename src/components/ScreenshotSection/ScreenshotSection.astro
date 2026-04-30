@@ -3,19 +3,22 @@ import Heading from "@/components/Heading/Heading.astro";
 
 interface Props {
     images: string[];
+    projectName: string;
 }
 
-const { images } = Astro.props;
+const { images, projectName } = Astro.props;
+
+type IndexedImage = { src: string; index: number };
 
 const SCREENSHOT_COLUMNS = 3;
-const columns: string[][] = [];
+const columns: IndexedImage[][] = [];
 
 images.forEach((image, index) => {
     const columnIndex = index % SCREENSHOT_COLUMNS;
     if (!columns[columnIndex]) {
         columns[columnIndex] = [];
     }
-    columns[columnIndex].push(image);
+    columns[columnIndex].push({ src: image, index });
 });
 ---
 
@@ -40,8 +43,8 @@ images.forEach((image, index) => {
                         {column.map((image) => (
                             <div class="screenshot">
                                 <img
-                                    src={image}
-                                    alt="Screenshot"
+                                    src={image.src}
+                                    alt={`Screenshot ${image.index + 1} of ${projectName}`}
                                     loading="lazy"
                                 />
                             </div>
