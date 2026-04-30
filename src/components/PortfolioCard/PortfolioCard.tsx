@@ -56,6 +56,13 @@ export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
 
     return (
         <div ref={containerRef} className={styles.perspectiveContainer}>
+            {/* Hidden img to detect load failures for the CSS background image */}
+            <img
+                src={portfolio.coverImage}
+                alt=""
+                style={{ display: "none" }}
+                onError={() => setImageError(true)}
+            />
             <div
                 className={styles.portfolioCard}
                 style={{
@@ -65,7 +72,6 @@ export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
                 }}
                 role="article"
                 aria-label={`${portfolio.name} project`}
-                onError={() => setImageError(true)}
             >
                 <PortfolioCardDetails portfolio={portfolio} />
             </div>
