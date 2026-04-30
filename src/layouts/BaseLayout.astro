@@ -9,15 +9,16 @@ const {
   title,
   description = import.meta.env.PUBLIC_APP_DESCRIPTION || '',
   keywords = 'ping,cheng,software,developer,high,passionate',
+  canonicalUrl,
   ogTitle,
   ogDescription,
   ogUrl,
   ogType = 'website',
-  ogImage = '/apple-icon.png',
+  ogImage = 'https://www.pingchengtech.com/apple-icon.png',
   twitterCard = 'summary',
   twitterTitle,
   twitterDescription,
-  twitterImage = '/apple-icon.png',
+  twitterImage = 'https://www.pingchengtech.com/apple-icon.png',
 } = Astro.props;
 
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
@@ -34,6 +35,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <title>{title}</title>
+    {(canonicalUrl || ogUrl) && <link rel="canonical" href={canonicalUrl || ogUrl} />}
     {description && <meta name="description" content={description} />}
     {keywords && <meta name="keywords" content={keywords} />}
 
