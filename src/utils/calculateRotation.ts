@@ -1,3 +1,9 @@
+/** Maximum rotation angle in degrees */
+const MAX_ROTATION_DEG = 5;
+
+/** Intensity multiplier for rotation calculation */
+const ROTATION_INTENSITY = 3;
+
 /**
  * Calculate 3D rotation for an element based on mouse position
  * @param mouseX Mouse X position
@@ -16,8 +22,8 @@ export function calculateRotation(
   const centerX = rect.width / 2;
   const centerY = rect.height / 2;
   
-  const rotateX = Math.max(-5, Math.min(5, (y - centerY) / centerY * -3));
-  const rotateY = Math.max(-5, Math.min(5, (x - centerX) / centerX * 3));
+  const rotateX = Math.max(-MAX_ROTATION_DEG, Math.min(MAX_ROTATION_DEG, (y - centerY) / centerY * -ROTATION_INTENSITY));
+  const rotateY = Math.max(-MAX_ROTATION_DEG, Math.min(MAX_ROTATION_DEG, (x - centerX) / centerX * ROTATION_INTENSITY));
   
   return `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 }

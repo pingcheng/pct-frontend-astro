@@ -1,6 +1,7 @@
 import type { Portfolio } from "@/models/Portfolio/Portfolio";
+import { URLS } from "@/constants/urls";
 
-const S3_BASE = "https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio";
+const S3_BASE = URLS.ASSETS.S3_BASE;
 
 export const Portfolios: Portfolio[] = [
   {
