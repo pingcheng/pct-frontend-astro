@@ -9,7 +9,7 @@ describe("URLS constants", () => {
 
     it("should have S3_BASE matching expected S3 URL pattern", () => {
       expect(URLS.ASSETS.S3_BASE).toMatch(
-        /^https:\/\/.*\.s3\..*\.amazonaws\.com\//,
+        /^https:\/\/[\w-]+\.s3\.[\w-]+\.amazonaws\.com\//,
       );
     });
 
