@@ -8,7 +8,7 @@ export type WorkPosition = {
   position: string;
   startDate: string;
   endDate: string;
-  description: DescriptionLine[];
+  description?: DescriptionLine[];
 };
 
 export type Company = {
@@ -32,19 +32,16 @@ export const workExperiences: WorkExperience[] = [
         position: "Principal Engineer",
         startDate: "Feb 2026",
         endDate: "Present",
-        description: []
       },
       {
         position: "Staff Engineer",
         startDate: "July 2025",
         endDate: "Jan 2026",
-        description: []
       },
       {
         position: "Lead Developer",
         startDate: "Aug 2024",
         endDate: "July 2025",
-        description: [],
       },
       {
         position: "Senior Developer",
@@ -64,7 +61,6 @@ export const workExperiences: WorkExperience[] = [
         position: "Developer",
         startDate: "Aug 2021",
         endDate: "Jun 2022",
-        description: [],
       },
     ],
   },

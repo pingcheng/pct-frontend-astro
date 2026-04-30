@@ -252,10 +252,10 @@ const breadcrumbItems = [
                                                         item.endDate
                                                     )}
                                                 </div>
-                                                {item.description.length >
+                                                {(item.description?.length ?? 0) >
                                                     0 && (
                                                     <div class="space-y-1">
-                                                        {item.description.map(
+                                                        {item.description?.map(
                                                             (line) => {
                                                                 if (line.type === "break")
                                                                     return (

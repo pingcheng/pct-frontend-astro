@@ -9,6 +9,8 @@ export const URLS = {
   },
   ASSETS: {
     APPLE_ICON: "https://www.pingchengtech.com/apple-icon.png",
+    S3_BASE:
+      "https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio",
   },
   COMPANY: {
     REA_GROUP: "https://www.rea-group.com",
