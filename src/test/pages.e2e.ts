@@ -173,6 +173,14 @@ describe('Static Pages Content', () => {
         const activeNav = document.querySelector('nav a[class*="active"]');
         expect(activeNav?.textContent?.trim()).toBe('Portfolio');
 
+        // External links should have rel="noopener noreferrer"
+        const externalLinks = document.querySelectorAll('a[target="_blank"]');
+        for (const link of externalLinks) {
+            const rel = link.getAttribute('rel');
+            expect(rel).toContain('noopener');
+            expect(rel).toContain('noreferrer');
+        }
+
         // OG image should be the portfolio cover image, not the default icon
         const ogImage = getMetaContent('meta[property="og:image"]');
         expect(ogImage).toBeDefined();

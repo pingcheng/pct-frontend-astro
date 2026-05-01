@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import NavBar from "./NavBar";
+import fs from "fs";
+import path from "path";
 
 vi.mock("@/data/profile", () => ({
     profile: {
@@ -77,6 +79,14 @@ describe("NavBar", () => {
             "aria-hidden",
             "true",
         );
+    });
+
+    it("has focus-visible styles defined for nav items", () => {
+        const cssPath = path.resolve(__dirname, "style.module.css");
+        const css = fs.readFileSync(cssPath, "utf-8");
+
+        expect(css).toContain(":focus-visible");
+        expect(css).toContain("outline");
     });
 
     it("closes the mobile menu when Escape is pressed", () => {
