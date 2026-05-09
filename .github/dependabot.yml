@@ -10,7 +10,35 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      npm-dependencies:
+      production-patch:
+        dependency-type: "production"
+        update-types:
+          - "patch"
+        patterns:
+          - "*"
+      production-minor:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+        patterns:
+          - "*"
+      production-major:
+        dependency-type: "production"
+        update-types:
+          - "major"
+        patterns:
+          - "*"
+      development-patch-minor:
+        dependency-type: "development"
+        update-types:
+          - "patch"
+          - "minor"
+        patterns:
+          - "*"
+      development-major:
+        dependency-type: "development"
+        update-types:
+          - "major"
         patterns:
           - "*"
     ignore:
