@@ -1,0 +1,56 @@
+name: Dependabot Auto Merge
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  enable-auto-merge:
+    name: Enable auto-merge
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.event.pull_request.draft == false
+
+    steps:
+    - name: Fetch Dependabot metadata
+      id: metadata
+      uses: dependabot/fetch-metadata@v2
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+    - name: Classify update risk
+      id: classify
+      run: |
+        low_risk=false
+
+        if [[ "$DEPENDENCY_TYPE" == "direct:production" && "$UPDATE_TYPE" == "version-update:semver-patch" ]]; then
+          low_risk=true
+        fi
+
+        if [[ "$DEPENDENCY_TYPE" == "direct:development" && ( "$UPDATE_TYPE" == "version-update:semver-patch" || "$UPDATE_TYPE" == "version-update:semver-minor" ) ]]; then
+          low_risk=true
+        fi
+
+        echo "low_risk=$low_risk" >> "$GITHUB_OUTPUT"
+      env:
+        DEPENDENCY_TYPE: ${{ steps.metadata.outputs.dependency-type }}
+        UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+
+    - name: Enable auto-merge for low-risk updates
+      if: steps.classify.outputs.low_risk == 'true'
+      run: gh pr merge --auto --squash "$PR_URL"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_URL: ${{ github.event.pull_request.html_url }}
+
+    - name: Keep higher-risk updates for manual review
+      if: steps.classify.outputs.low_risk != 'true'
+      run: |
+        echo "::notice::Dependabot update left for manual review: $DEPENDENCY_TYPE $UPDATE_TYPE."
+      env:
+        DEPENDENCY_TYPE: ${{ steps.metadata.outputs.dependency-type }}
+        UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
