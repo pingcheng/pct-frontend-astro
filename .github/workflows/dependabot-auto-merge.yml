@@ -22,15 +22,33 @@ jobs:
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
+    - name: Classify update risk
+      id: classify
+      run: |
+        low_risk=false
+
+        if [[ "$DEPENDENCY_TYPE" == "direct:production" && "$UPDATE_TYPE" == "version-update:semver-patch" ]]; then
+          low_risk=true
+        fi
+
+        if [[ "$DEPENDENCY_TYPE" == "direct:development" && ( "$UPDATE_TYPE" == "version-update:semver-patch" || "$UPDATE_TYPE" == "version-update:semver-minor" ) ]]; then
+          low_risk=true
+        fi
+
+        echo "low_risk=$low_risk" >> "$GITHUB_OUTPUT"
+      env:
+        DEPENDENCY_TYPE: ${{ steps.metadata.outputs.dependency-type }}
+        UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+
     - name: Enable auto-merge for low-risk updates
-      if: ${{ (steps.metadata.outputs.dependency-type == 'direct:production' && steps.metadata.outputs.update-type == 'version-update:semver-patch') || (steps.metadata.outputs.dependency-type == 'direct:development' && (steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor')) }}
+      if: steps.classify.outputs.low_risk == 'true'
       run: gh pr merge --auto --squash "$PR_URL"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_URL: ${{ github.event.pull_request.html_url }}
 
     - name: Keep higher-risk updates for manual review
-      if: ${{ !((steps.metadata.outputs.dependency-type == 'direct:production' && steps.metadata.outputs.update-type == 'version-update:semver-patch') || (steps.metadata.outputs.dependency-type == 'direct:development' && (steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'))) }}
+      if: steps.classify.outputs.low_risk != 'true'
       run: |
         echo "::notice::Dependabot update left for manual review: $DEPENDENCY_TYPE $UPDATE_TYPE."
       env:

@@ -40,10 +40,10 @@ jobs:
       run: npm run build
 
     - name: Run Static Page Tests
-      run: npm run test:e2e
+      run: npx vitest run -c vitest.e2e.config.ts
 
     - name: Install Playwright browsers
       run: npx playwright install --with-deps chromium
 
     - name: Run Browser Smoke Tests
-      run: npm run test:browser
+      run: npx playwright test
