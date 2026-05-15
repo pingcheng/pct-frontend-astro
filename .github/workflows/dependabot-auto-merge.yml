@@ -35,6 +35,10 @@ jobs:
           low_risk=true
         fi
 
+        if [[ "$DEPENDENCY_TYPE" == "indirect" && ( "$UPDATE_TYPE" == "version-update:semver-patch" || "$UPDATE_TYPE" == "version-update:semver-minor" ) ]]; then
+          low_risk=true
+        fi
+
         echo "low_risk=$low_risk" >> "$GITHUB_OUTPUT"
       env:
         DEPENDENCY_TYPE: ${{ steps.metadata.outputs.dependency-type }}
