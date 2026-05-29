@@ -27,7 +27,7 @@ jobs:
       run: |
         low_risk=false
 
-        if [[ "$DEPENDENCY_TYPE" == "direct:production" && "$UPDATE_TYPE" == "version-update:semver-patch" ]]; then
+        if [[ "$DEPENDENCY_TYPE" == "direct:production" && ( "$UPDATE_TYPE" == "version-update:semver-patch" || "$UPDATE_TYPE" == "version-update:semver-minor" ) ]]; then
           low_risk=true
         fi
 
