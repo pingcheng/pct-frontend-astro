@@ -81,8 +81,13 @@ test.describe('personal site browser smoke', () => {
       'href',
       '/about',
     );
-    await expect(page.getByText('Working on PropTrack')).toBeVisible({
-      timeout: 5_000,
+    // The homepage cycles taglines via a typewriter (each line types out,
+    // pauses, then deletes before the next). 'Writing code' is the second
+    // line, so the assertion needs to wait for the first line's full
+    // type/pause/delete cycle (~6.7s) before it can appear. Allow a full
+    // cycle plus margin.
+    await expect(page.getByText('Writing code')).toBeVisible({
+      timeout: 15_000,
     });
 
     await expectNoHorizontalOverflow(page);

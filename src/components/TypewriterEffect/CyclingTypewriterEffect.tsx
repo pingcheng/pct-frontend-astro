@@ -1,5 +1,25 @@
 import { useState, useEffect } from "react";
 
+// Split a string into user-perceived characters (graphemes) so that
+// multi-code-unit characters (emoji, combining marks, ZWJ sequences) are
+// never cut in half while typing/deleting.
+//
+// Guard with a feature check, not just `typeof Intl`: older browsers (e.g.
+// Safari < 15.4) ship `Intl` without `Intl.Segmenter`, and constructing it at
+// module init would throw a TypeError that breaks the whole module. Checking
+// `typeof Intl.Segmenter === "function"` lets those browsers fall through to
+// the Array.from fallback instead.
+const graphemeSegmenter =
+    typeof Intl !== "undefined" && typeof Intl.Segmenter === "function"
+        ? new Intl.Segmenter()
+        : null;
+function toGraphemes(str: string): string[] {
+    if (graphemeSegmenter) {
+        return [...graphemeSegmenter.segment(str)].map((s) => s.segment);
+    }
+    return Array.from(str);
+}
+
 enum TypewriterState {
     TYPING = "typing",
     PAUSING = "pausing",
@@ -76,16 +96,22 @@ export function CyclingTypewriterEffect({
         if (!hasStarted) return;
 
         const currentText = texts[textIndex];
+        const targetGraphemes = toGraphemes(currentText);
+        const displayedGraphemes = toGraphemes(displayText);
         const currentState = getCurrentState(
             isDeleting,
-            displayText.length,
-            currentText.length,
+            displayedGraphemes.length,
+            targetGraphemes.length,
         );
 
         switch (currentState) {
             case TypewriterState.TYPING: {
                 const timeout = setTimeout(() => {
-                    setDisplayText(currentText.slice(0, displayText.length + 1));
+                    setDisplayText(
+                        targetGraphemes
+                            .slice(0, displayedGraphemes.length + 1)
+                            .join(""),
+                    );
                 }, getAnimationDelay(currentState, typeSpeed, deleteSpeed, pauseTime));
                 return () => clearTimeout(timeout);
             }
@@ -97,7 +123,11 @@ export function CyclingTypewriterEffect({
             }
             case TypewriterState.DELETING: {
                 const timeout = setTimeout(() => {
-                    setDisplayText(currentText.slice(0, displayText.length - 1));
+                    setDisplayText(
+                        displayedGraphemes
+                            .slice(0, displayedGraphemes.length - 1)
+                            .join(""),
+                    );
                 }, getAnimationDelay(currentState, typeSpeed, deleteSpeed, pauseTime));
                 return () => clearTimeout(timeout);
             }
