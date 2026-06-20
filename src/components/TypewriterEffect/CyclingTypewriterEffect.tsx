@@ -3,8 +3,16 @@ import { useState, useEffect } from "react";
 // Split a string into user-perceived characters (graphemes) so that
 // multi-code-unit characters (emoji, combining marks, ZWJ sequences) are
 // never cut in half while typing/deleting.
+//
+// Guard with a feature check, not just `typeof Intl`: older browsers (e.g.
+// Safari < 15.4) ship `Intl` without `Intl.Segmenter`, and constructing it at
+// module init would throw a TypeError that breaks the whole module. Checking
+// `typeof Intl.Segmenter === "function"` lets those browsers fall through to
+// the Array.from fallback instead.
 const graphemeSegmenter =
-    typeof Intl !== "undefined" ? new Intl.Segmenter() : null;
+    typeof Intl !== "undefined" && typeof Intl.Segmenter === "function"
+        ? new Intl.Segmenter()
+        : null;
 function toGraphemes(str: string): string[] {
     if (graphemeSegmenter) {
         return [...graphemeSegmenter.segment(str)].map((s) => s.segment);

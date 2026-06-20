@@ -175,3 +175,42 @@ describe("CyclingTypewriterEffect", () => {
         expect(container.textContent).toContain("|");
     });
 });
+
+// When Intl.Segmenter is unavailable (older browsers like Safari < 15.4), the
+// component must fall back to Array.from-based splitting and still keep emoji
+// intact. This guards the feature check added in review.
+describe("CyclingTypewriterEffect without Intl.Segmenter", () => {
+    const originalSegmenter = Intl.Segmenter;
+
+    beforeEach(() => {
+        vi.useFakeTimers();
+        // Hide Intl.Segmenter so the module falls through to the fallback.
+        // @ts-expect-error — intentionally deleting a global for the test.
+        delete Intl.Segmenter;
+        vi.resetModules();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+        Object.defineProperty(Intl, "Segmenter", {
+            value: originalSegmenter,
+            writable: true,
+            configurable: true,
+        });
+    });
+
+    it("types emoji as whole code points via the Array.from fallback", async () => {
+        const mod = await import("./CyclingTypewriterEffect");
+        const utils = render(<mod.CyclingTypewriterEffect cursor={false} texts={["🍳 Cooking"]} typeSpeed={10} deleteSpeed={10} pauseTime={20} delay={0} />);
+        const read = () => utils.container.textContent ?? "";
+
+        const seen = collectTrajectory(read, 30, 10);
+        expect(seen.has("🍳")).toBe(true);
+        expect(seen.has("🍳 Cooking")).toBe(true);
+        for (const value of seen) {
+            expect(value.includes("�")).toBe(false);
+        }
+        // No lone surrogate of the emoji should leak through the fallback.
+        expect(seen.has("🍳".charAt(0))).toBe(false);
+    });
+});
