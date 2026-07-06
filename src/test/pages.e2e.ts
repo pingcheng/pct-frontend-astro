@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 
 const DIST_DIR = path.resolve(__dirname, '../../dist');
+const configuredGaMeasurementId = process.env.PUBLIC_GA_MEASUREMENT_ID;
+const gaTest = configuredGaMeasurementId ? it : it.skip;
 
 function loadHtml(filePath: string) {
     const fullPath = path.join(DIST_DIR, filePath);
@@ -84,6 +86,24 @@ describe('Static Pages Content', () => {
             name: 'Ping Cheng Tech',
             url: 'https://www.pingchengtech.com',
         });
+    });
+
+    gaTest('should expose the configured Google Analytics tag globally', () => {
+        loadHtml('index.html');
+
+        const measurementId = configuredGaMeasurementId as string;
+        const gaLoader = document.querySelector(
+            `script[src="https://www.googletagmanager.com/gtag/js?id=${measurementId}"]`,
+        );
+        const gaConfig = Array.from(document.querySelectorAll('script:not([src])')).find(
+            (script) => script.textContent?.includes(measurementId),
+        );
+
+        expect(gaLoader).not.toBeNull();
+        expect(gaConfig?.textContent).toContain('window.gtag');
+        expect(gaConfig?.textContent).toContain(
+            `gtag('config', ${JSON.stringify(measurementId)})`,
+        );
     });
 
     it('should render the About page content correctly', () => {
