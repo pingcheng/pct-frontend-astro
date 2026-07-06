@@ -61,7 +61,14 @@ images.forEach((image, index) => {
 
     .portfolio-screenshots {
         display: flex;
+        flex-direction: column;
         gap: 15px;
+    }
+
+    @media (min-width: 640px) {
+        .portfolio-screenshots {
+            flex-direction: row;
+        }
     }
 
     .screenshot {
