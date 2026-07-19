@@ -5,6 +5,26 @@ const S3_BASE = URLS.ASSETS.S3_BASE;
 
 export const Portfolios: Portfolio[] = [
   {
+    slug: "daily-english-worksheet",
+    name: "Daily English Worksheet",
+    shortDescription:
+      "Free daily printable Year 2 English worksheets in Australian English",
+    coverImage: "/images/portfolio/daily-english-worksheet.png",
+    url: "https://daily-english-worksheet.vercel.app/",
+    longDescription:
+      "A Next.js app that generates a fresh two-page printable Year 2 English reading and writing worksheet every day, written in Australian English for kids to practise with a parent.",
+    workplace: "Private project",
+    projectRole: "Sole Developer",
+    roleDescription: [
+      "Full-stack development with Next.js",
+      "Daily worksheet content generation",
+      "Deployment and hosting on Vercel",
+    ],
+    members: ["Ping Cheng - Developer"],
+    screenshots: [],
+    year: "2026",
+  },
+  {
     slug: "empire-cbs",
     name: "Empire CBS",
     shortDescription: "Empire CBS internal job management system",
