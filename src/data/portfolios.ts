@@ -8,20 +8,24 @@ export const Portfolios: Portfolio[] = [
     slug: "daily-english-worksheet",
     name: "Daily English Worksheet",
     shortDescription:
-      "Free daily printable Year 2 English worksheets in Australian English",
+      "A fresh, printable Year 2 English worksheet every day, written in Australian English",
     coverImage: "/images/portfolio/daily-english-worksheet.png",
     url: "https://daily-english-worksheet.vercel.app/",
     longDescription:
-      "A Next.js app that generates a fresh two-page printable Year 2 English reading and writing worksheet every day, written in Australian English for kids to practise with a parent.",
-    workplace: "Private project",
-    projectRole: "Sole Developer",
+      "A free learning app that creates a fresh two-page Year 2 English worksheet every day. Each printable activity pairs a short reading passage and vocabulary with comprehension questions and guided writing, using Australian English and difficulty levels designed for practice at home with a parent.",
+    workplace: "Independent project",
+    projectRole: "Creator & Sole Developer",
     roleDescription: [
-      "Full-stack development with Next.js",
-      "Daily worksheet content generation",
-      "Deployment and hosting on Vercel",
+      "Designed and built the full-stack product with Next.js and TypeScript",
+      "Automated daily worksheet generation, PDF rendering and archiving",
+      "Created responsive experiences for reading, printing and browsing by difficulty",
+      "Deployed and operated the application on Vercel",
     ],
-    members: ["Ping Cheng - Developer"],
-    screenshots: [],
+    members: ["Ping Cheng - Creator & Developer"],
+    screenshots: [
+      "/images/portfolio/daily-english-worksheet-today.png",
+      "/images/portfolio/daily-english-worksheet-history.png",
+    ],
     year: "2026",
   },
   {
