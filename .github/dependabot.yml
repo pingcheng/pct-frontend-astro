@@ -46,3 +46,5 @@ updates:
         versions: [">=10"]
       - dependency-name: "eslint-plugin-astro"
         versions: [">=2"]
+      - dependency-name: "typescript"
+        versions: ["7.x"]
