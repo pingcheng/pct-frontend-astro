@@ -180,6 +180,67 @@ describe('Static Pages Content', () => {
         expect(activeNav?.textContent?.trim()).toBe('Portfolio');
     });
 
+    it('should render the Friends page correctly', () => {
+        loadHtml('friends/index.html');
+
+        expectTextContent('Friends');
+        expectTextContent('Ken Chen');
+
+        // Friend links to external sites should exist
+        const friendLinks = document.querySelectorAll(
+            'a[href^="https://kenchen.info"]',
+        );
+        expect(friendLinks.length).toBeGreaterThan(0);
+
+        // External links should have rel="noopener noreferrer"
+        const externalLinks = document.querySelectorAll('a[target="_blank"]');
+        expect(externalLinks.length).toBeGreaterThan(0);
+        for (const link of externalLinks) {
+            const rel = link.getAttribute('rel');
+            expect(rel).toContain('noopener');
+            expect(rel).toContain('noreferrer');
+        }
+
+        // The Friends page is reached from the footer, not the navbar
+        const footerLink = document.querySelector('footer a[href="/friends"]');
+        expect(footerLink).not.toBeNull();
+        expect(document.querySelector('nav a[href="/friends"]')).toBeNull();
+    });
+
+    it('should include friends page SEO metadata and structured data', () => {
+        loadHtml('friends/index.html');
+
+        expect(document.title).toBe('Friends | Ping Cheng - Personal Websites I Recommend');
+        expect(getMetaContent('meta[property="og:url"]')).toBe(
+            'https://www.pingchengtech.com/friends',
+        );
+
+        // Canonical URL
+        const canonical = document.querySelector('link[rel="canonical"]');
+        expect(canonical).not.toBeNull();
+        expect(canonical?.getAttribute('href')).toBe(
+            'https://www.pingchengtech.com/friends',
+        );
+
+        const structuredData = getStructuredData();
+        const breadcrumbData = structuredData.find(
+            (item) => item?.['@type'] === 'BreadcrumbList',
+        );
+
+        expect(breadcrumbData.itemListElement).toEqual([
+            expect.objectContaining({
+                position: 1,
+                name: 'Home',
+                item: 'https://www.pingchengtech.com',
+            }),
+            expect.objectContaining({
+                position: 2,
+                name: 'Friends',
+                item: 'https://www.pingchengtech.com/friends',
+            }),
+        ]);
+    });
+
     it('should render a typical Portfolio detail page correctly (e.g. empire-cbs)', () => {
         loadHtml('portfolio/empire-cbs/index.html');
         expectTextContent('Empire CBS');

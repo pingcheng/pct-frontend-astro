@@ -1,0 +1,121 @@
+---
+import { Avatar } from "@/components/Avatar/Avatar";
+import type { Friend } from "@/models/Friend/Friend";
+
+interface Props {
+    friend: Friend;
+}
+
+const { friend } = Astro.props;
+
+const domain = new URL(friend.url).hostname.replace(/^www\./, "");
+const initials = friend.name
+    .split(/\s+/)
+    .map((word) => word.charAt(0))
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+---
+
+<a
+    href={friend.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="card flex items-center gap-4 p-5 h-full"
+    aria-label={`Visit ${friend.name}'s website`}
+>
+    {
+        friend.avatar ? (
+            <Avatar
+                src={friend.avatar}
+                alt={`${friend.name} avatar`}
+                fallbackLabel={initials}
+                width={48}
+                height={48}
+                class="shrink-0"
+                client:visible
+            />
+        ) : (
+            <div
+                class="friend-avatar-fallback shrink-0"
+                role="img"
+                aria-label={`${friend.name} avatar`}
+            >
+                {initials}
+            </div>
+        )
+    }
+
+    <div class="flex flex-col min-w-0 flex-1 gap-0.5">
+        <span class="font-semibold text-[15px] text-primary truncate">
+            {friend.name}
+        </span>
+        {
+            friend.description && (
+                <span class="text-sm line-clamp-2 friend-description">
+                    {friend.description}
+                </span>
+            )
+        }
+        <span class="text-sm font-medium friend-domain">{domain}</span>
+    </div>
+
+    <svg
+        class="friend-external-icon shrink-0 self-center"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M7 17L17 7"></path>
+        <path d="M7 7h10v10"></path>
+    </svg>
+</a>
+
+<style>
+    .friend-avatar-fallback {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: #e5e7eb;
+        color: #6b7280;
+    }
+
+    .friend-description {
+        color: var(--color-text-secondary);
+    }
+
+    .friend-domain {
+        color: var(--color-accent);
+    }
+
+    .friend-external-icon {
+        color: var(--color-text-secondary);
+        transition:
+            transform 0.2s ease-in-out,
+            color 0.2s ease-in-out;
+    }
+
+    a.card:hover .friend-external-icon {
+        color: var(--color-accent);
+        transform: translate(2px, -2px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .friend-avatar-fallback {
+            background: #374151;
+            color: #9ca3af;
+        }
+    }
+</style>

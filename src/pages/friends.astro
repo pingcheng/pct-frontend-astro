@@ -1,0 +1,61 @@
+---
+import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
+import Heading from "@/components/Heading/Heading.astro";
+import FriendCard from "@/components/FriendCard/FriendCard.astro";
+import StructuredData from "@/components/StructuredData/StructuredData.astro";
+import { Friends } from "@/data/friends";
+import { URLS } from "@/constants/urls";
+
+const friendDelays = [
+    "animate-delay-200",
+    "animate-delay-300",
+    "animate-delay-400",
+    "animate-delay-500",
+    "animate-delay-600",
+    "animate-delay-700",
+];
+
+const breadcrumbItems = [
+    { name: "Home", url: URLS.WEBSITE.BASE },
+    { name: "Friends", url: URLS.WEBSITE.FRIENDS },
+];
+---
+
+<FixedWidthLayout
+    title="Friends | Ping Cheng - Personal Websites I Recommend"
+    description="A curated list of personal websites built by people Ping Cheng knows — engineers, makers, and friends worth following."
+    keywords="Ping Cheng Friends,Blogroll,Personal Websites,Software Engineers,Tech Community,Web Development"
+    ogTitle="Friends | Ping Cheng - Personal Websites I Recommend"
+    ogDescription="A curated list of personal websites built by people Ping Cheng knows."
+    ogUrl={URLS.WEBSITE.FRIENDS}
+    twitterCard="summary"
+    twitterTitle="Friends | Ping Cheng - Personal Websites I Recommend"
+    twitterDescription="A curated list of personal websites built by people Ping Cheng knows."
+>
+    <StructuredData type="breadcrumb" breadcrumbItems={breadcrumbItems} />
+
+    <div class="py-4">
+        <div class="animate-fade-in">
+            <Heading text="Friends" align="center" />
+        </div>
+
+        <p
+            class="animate-fade-in animate-delay-100 text-center text-sm md:text-base mt-2"
+            style="color: var(--color-text-secondary);"
+        >
+            Personal websites of people I know — each opens in a new tab.
+        </p>
+
+        <div class="mt-8 flex flex-row flex-wrap gap-6 justify-center">
+            {
+                Friends.map((friend, index) => (
+                    <div
+                        class={`animate-fade-in-scale w-full md:w-[28rem] ${friendDelays[index] ?? ""}`}
+                    >
+                        <FriendCard friend={friend} />
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</FixedWidthLayout>
