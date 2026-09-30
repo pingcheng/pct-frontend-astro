@@ -19,4 +19,9 @@ export const Friends: Friend[] = [
         description:
             "Melbourne-based Senior Data Engineer building data platforms for renewable energy and making AI practical.",
     },
+    {
+        name: "Xiangyu Zhou",
+        url: "https://xiangyuzhou.xyz",
+        description: "Something fun is on the way — a personal site in the making.",
+    },
 ];
