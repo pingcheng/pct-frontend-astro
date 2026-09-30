@@ -3,7 +3,17 @@ import { profile } from "@/data/profile";
 ---
 
 <footer class="text-center mb-4 text-gray-400 pt-4 pb-4">
-    Hand and AI crafted with{" "}
-    <span class="text-red-400">❤</span>{" "}
-    by {profile.fullName}
+    <p>
+        Hand and AI crafted with{" "}
+        <span class="text-red-400">❤</span>{" "}
+        by {profile.fullName}
+    </p>
+    <p class="mt-1 text-sm">
+        <a
+            href="/friends"
+            class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-600 hover:text-gray-600 dark:hover:text-gray-300"
+        >
+            Friends
+        </a>
+    </p>
 </footer>

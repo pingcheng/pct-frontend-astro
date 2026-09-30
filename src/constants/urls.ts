@@ -6,6 +6,7 @@ export const URLS = {
     BASE: "https://www.pingchengtech.com",
     ABOUT: "https://www.pingchengtech.com/about",
     PORTFOLIO: "https://www.pingchengtech.com/portfolio",
+    FRIENDS: "https://www.pingchengtech.com/friends",
   },
   ASSETS: {
     APPLE_ICON: "https://www.pingchengtech.com/apple-icon.png",
