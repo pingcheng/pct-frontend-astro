@@ -12,4 +12,11 @@ export const Friends: Friend[] = [
         description:
             "Sydney-based Data Engineer passionate about data, cloud, and AI — sharing what he learns.",
     },
+    {
+        name: "Yangyang Cai",
+        url: "https://yangyangcai.me",
+        avatar: "/images/friends/yangyangcai.png",
+        description:
+            "Melbourne-based Senior Data Engineer building data platforms for renewable energy and making AI practical.",
+    },
 ];
