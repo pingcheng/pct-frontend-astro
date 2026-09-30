@@ -22,6 +22,6 @@ export const Friends: Friend[] = [
     {
         name: "Xiangyu Zhou",
         url: "https://xiangyuzhou.xyz",
-        description: "Something fun is on the way — a personal site in the making.",
+        description: "Ex-Googler, aka 韭天 — something fun is on the way.",
     },
 ];
