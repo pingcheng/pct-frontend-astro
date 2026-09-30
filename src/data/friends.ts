@@ -8,7 +8,8 @@ export const Friends: Friend[] = [
     {
         name: "Ken Chen",
         url: "https://kenchen.info",
+        avatar: "/images/friends/kenchen.png",
         description:
-            "A retro Windows 98-style personal homepage from Sydney, with side projects and reading notes.",
+            "Sydney-based Data Engineer passionate about data, cloud, and AI — sharing what he learns.",
     },
 ];
