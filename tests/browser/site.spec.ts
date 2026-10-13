@@ -104,7 +104,7 @@ test.describe('personal site browser smoke', () => {
 
     await expect(page.getByRole('heading', { name: 'Ping Cheng' })).toBeVisible();
     await expect(page.getByText('Principal Engineer at REA Group')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Technical Expertise' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Focus & Interests' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Professional Experience' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Visit my GitHub profile' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Visit my LinkedIn profile' })).toBeVisible();
