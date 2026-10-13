@@ -1,5 +1,6 @@
 ---
 import Heading from "@/components/Heading/Heading.astro";
+import { imageDimensions } from "@/data/image-dimensions";
 
 interface Props {
     images: string[];
@@ -45,6 +46,7 @@ images.forEach((image, index) => {
                                 <img
                                     src={image.src}
                                     alt={`Screenshot ${image.index + 1} of ${projectName}`}
+                                    {...imageDimensions[image.src]}
                                     loading="lazy"
                                 />
                             </div>
@@ -79,6 +81,7 @@ images.forEach((image, index) => {
     .screenshot img {
         border-radius: 0.25rem;
         width: 100%;
+        height: auto;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),

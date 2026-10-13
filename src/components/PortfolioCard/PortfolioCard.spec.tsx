@@ -42,7 +42,7 @@ vi.mock("./style.module.css", () => ({
 const mockPortfolio: Portfolio = {
     slug: "test-project",
     name: "Test Project",
-    coverImage: "https://example.com/cover.png",
+    coverImage: "/images/portfolio/cover.webp",
     url: "https://example.com",
     shortDescription: "A test project",
     longDescription: "A longer description",
@@ -63,7 +63,7 @@ describe("PortfolioCard", () => {
     it("renders a hidden img element for image error detection", () => {
         render(<PortfolioCard portfolio={mockPortfolio} />);
         const hiddenImg = document.querySelector(
-            'img[src="https://example.com/cover.png"]'
+            'img[src="/images/portfolio/cover.webp"]'
         );
         expect(hiddenImg).toBeInTheDocument();
     });
@@ -71,7 +71,7 @@ describe("PortfolioCard", () => {
     it("renders fallback UI when the image fails to load", () => {
         render(<PortfolioCard portfolio={mockPortfolio} />);
         const hiddenImg = document.querySelector(
-            'img[src="https://example.com/cover.png"]'
+            'img[src="/images/portfolio/cover.webp"]'
         ) as HTMLImageElement;
 
         fireEvent.error(hiddenImg);

@@ -5,6 +5,7 @@ const browserErrors = new WeakMap<
   {
     consoleErrors: string[];
     pageErrors: string[];
+    unexpectedRequests: string[];
   }
 >();
 
@@ -12,12 +13,21 @@ function installBrowserErrorGuards(page: Page) {
   const errors = {
     consoleErrors: [] as string[],
     pageErrors: [] as string[],
+    unexpectedRequests: [] as string[],
   };
 
   browserErrors.set(page, errors);
   page.on('console', (message) => {
-    if (message.type() === 'error') {
+    const source = message.location().url;
+    const expected404 = source.endsWith('/this-page-does-not-exist') && message.text().includes('404');
+    if (message.type() === 'error' && !expected404 && !source.startsWith('https://www.googletagmanager.com/')) {
       errors.consoleErrors.push(message.text());
+    }
+  });
+
+  page.on('request', (request) => {
+    if (/fonts\.googleapis|fonts\.gstatic|_vercel\/|vercel-insights|avatars0?\.githubusercontent|pct-frontend-assets\.s3/.test(request.url())) {
+      errors.unexpectedRequests.push(request.url());
     }
   });
 
@@ -39,13 +49,8 @@ async function expectNoHorizontalOverflow(page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.route('**/_vercel/**', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/javascript',
-      body: '',
-    });
-  });
+  // Analytics can fail on restricted networks; site rendering must still work.
+  await page.route('https://www.googletagmanager.com/**', (route) => route.abort());
 
   installBrowserErrorGuards(page);
 });
@@ -53,6 +58,7 @@ test.beforeEach(async ({ page }) => {
 test.afterEach(async ({ page }) => {
   const errors = browserErrors.get(page);
 
+  expect(errors?.unexpectedRequests ?? [], 'Unexpected external asset or Vercel requests').toEqual([]);
   expect(errors?.pageErrors ?? [], 'Unexpected browser page errors').toEqual([]);
   expect(errors?.consoleErrors ?? [], 'Unexpected browser console errors').toEqual([]);
 });
@@ -165,4 +171,65 @@ test.describe('personal site browser smoke', () => {
 
     await expectNoHorizontalOverflow(page);
   });
+});
+
+
+test('local Inter loads and every portfolio image decodes', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  expect(await page.evaluate(() => Array.from(document.fonts).some(
+    (font) => font.family === 'Inter' && font.status === 'loaded',
+  ))).toBe(true);
+
+  const { Portfolios } = await import('../../src/data/portfolios');
+  const images = ['/images/avatar.webp', ...new Set(Portfolios.flatMap(
+    (portfolio) => [portfolio.coverImage, ...portfolio.screenshots],
+  ))];
+  const failures = await page.evaluate(async (sources) => {
+    return (await Promise.all(sources.map(async (src) => {
+      const image = new Image();
+      image.src = src;
+      try {
+        await image.decode();
+        return image.naturalWidth > 0 ? null : src;
+      } catch {
+        return src;
+      }
+    }))).filter(Boolean);
+  }, images);
+  expect(failures).toEqual([]);
+});
+
+test('unknown routes return the static 404 page', async ({ page }) => {
+  const response = await page.goto('/this-page-does-not-exist');
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Back to home' })).toHaveAttribute('href', '/');
+});
+
+test('Pages serves a native sitemap redirect', async ({ request }) => {
+  test.skip(!process.env.PLAYWRIGHT_BASE_URL, 'Run against Pages or Wrangler to check hosting redirects.');
+  const response = await request.get('/sitemap.xml', { maxRedirects: 0 });
+  expect(response.status()).toBe(301);
+  expect(new URL(response.headers().location, response.url()).pathname).toBe('/sitemap-index.xml');
+  const sitemap = await request.get('/sitemap-index.xml');
+  expect(sitemap.status()).toBe(200);
+  expect(await sitemap.text()).toContain('https://www.pingchengtech.com/sitemap-0.xml');
+});
+
+test('navigation works when the optional analytics loader fails', async ({ page }) => {
+  const failedAnalytics: string[] = [];
+  page.on('requestfailed', (request) => {
+    if (request.url().startsWith('https://www.googletagmanager.com/')) {
+      failedAnalytics.push(request.url());
+    }
+  });
+  await page.goto('/');
+  if (await page.locator('script[src^="https://www.googletagmanager.com/"]').count()) {
+    await expect.poll(() => failedAnalytics.length).toBeGreaterThan(0);
+  }
+  await page.getByRole('link', { name: 'Portfolio', exact: true }).first().click();
+  await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
+  await page.getByRole('link', { name: /Empire CBS/ }).click();
+  await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
 });
