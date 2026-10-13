@@ -1,6 +1,5 @@
 ---
 import '@/styles/globals.css';
-import Analytics from '@vercel/analytics/astro';
 import type { SEOProps } from '@/models/SEOProps';
 
 type Props = SEOProps;
@@ -22,6 +21,8 @@ const {
 } = Astro.props;
 
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const absoluteOgImage = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+const absoluteTwitterImage = twitterImage ? new URL(twitterImage, Astro.site).href : undefined;
 const gaConfigScript = gaMeasurementId
   ? `
 window.dataLayer = window.dataLayer || [];
@@ -39,9 +40,6 @@ gtag('config', ${JSON.stringify(gaMeasurementId)});
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <title>{title}</title>
     {(canonicalUrl || ogUrl) && <link rel="canonical" href={canonicalUrl || ogUrl} />}
@@ -53,15 +51,14 @@ gtag('config', ${JSON.stringify(gaMeasurementId)});
     {(ogDescription || description) && <meta property="og:description" content={ogDescription || description} />}
     {ogUrl && <meta property="og:url" content={ogUrl} />}
     <meta property="og:type" content={ogType} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
 
     {/* Twitter */}
     <meta name="twitter:card" content={twitterCard} />
     {(twitterTitle || title) && <meta name="twitter:title" content={twitterTitle || title} />}
     {(twitterDescription || description) && <meta name="twitter:description" content={twitterDescription || description} />}
-    {twitterImage && <meta name="twitter:image" content={twitterImage} />}
+    {absoluteTwitterImage && <meta name="twitter:image" content={absoluteTwitterImage} />}
 
-    <Analytics />
     <slot name="head" />
   </head>
   <body>
@@ -70,15 +67,10 @@ gtag('config', ${JSON.stringify(gaMeasurementId)});
     {/* Google Analytics */}
     {gaMeasurementId && (
       <>
-        <script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
         <script is:inline set:html={gaConfigScript} />
       </>
     )}
 
-    {/* Vercel Speed Insights */}
-    <script>
-      import { injectSpeedInsights } from '@vercel/speed-insights';
-      injectSpeedInsights();
-    </script>
   </body>
 </html>

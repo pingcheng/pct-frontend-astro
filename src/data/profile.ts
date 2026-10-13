@@ -1,6 +1,6 @@
 export const profile = {
   fullName: "Ping Cheng",
-  avatarUrl: "https://avatars0.githubusercontent.com/u/8447539",
+  avatarUrl: "/images/avatar.webp",
   email: "ping.che@hotmail.com",
   currentRole: "Principal Engineer",
   company: "REA Group",

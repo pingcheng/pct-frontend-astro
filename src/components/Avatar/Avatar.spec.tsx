@@ -5,7 +5,7 @@ import { Avatar } from './Avatar';
 // Mock the profile data for consistent tests
 vi.mock('@/data/profile', () => ({
     profile: {
-        avatarUrl: 'https://example.com/avatar.jpg',
+        avatarUrl: '/images/avatar.webp',
         fullName: 'Test User'
     }
 }));
@@ -14,7 +14,7 @@ describe('Avatar Component', () => {
     it('renders the image by default', () => {
         render(<Avatar width={100} height={100} />);
         const img = screen.getByRole('img');
-        expect(img).toHaveAttribute('src', 'https://example.com/avatar.jpg');
+        expect(img).toHaveAttribute('src', '/images/avatar.webp');
         expect(img).toHaveAttribute('alt', 'Test User profile photo');
     });
 

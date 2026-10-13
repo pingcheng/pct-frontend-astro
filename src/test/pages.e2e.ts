@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
+import { Portfolios } from '../data/portfolios';
 
 const DIST_DIR = path.resolve(__dirname, '../../dist');
 const configuredGaMeasurementId = process.env.PUBLIC_GA_MEASUREMENT_ID;
@@ -100,6 +101,7 @@ describe('Static Pages Content', () => {
         );
 
         expect(gaLoader).not.toBeNull();
+        expect(gaLoader?.hasAttribute('async')).toBe(true);
         expect(gaConfig?.textContent).toContain('window.gtag');
         expect(gaConfig?.textContent).toContain(
             `gtag('config', ${JSON.stringify(measurementId)})`,
@@ -266,5 +268,53 @@ describe('Static Pages Content', () => {
         const ogImage = getMetaContent('meta[property="og:image"]');
         expect(ogImage).toBeDefined();
         expect(ogImage).not.toBe('https://www.pingchengtech.com/apple-icon.png');
+    });
+});
+
+describe('Self-hosted static deployment', () => {
+    const pages = ['index.html', 'about/index.html', 'friends/index.html', 'portfolio/index.html',
+        ...Portfolios.map((portfolio) => `portfolio/${portfolio.slug}/index.html`)];
+
+    it.each(pages)('%s uses local images and absolute social previews', (file) => {
+        loadHtml(file);
+        for (const image of document.querySelectorAll('img')) {
+            const src = image.getAttribute('src') ?? '';
+            expect(src).toMatch(/^\/images\//);
+            expect(fs.existsSync(path.join(DIST_DIR, src))).toBe(true);
+        }
+        for (const selector of ['meta[property="og:image"]', 'meta[name="twitter:image"]']) {
+            const image = new URL(getMetaContent(selector) ?? '');
+            expect(image.origin).toBe('https://www.pingchengtech.com');
+            expect(fs.existsSync(path.join(DIST_DIR, image.pathname))).toBe(true);
+        }
+        expect(document.documentElement.innerHTML).not.toMatch(/fonts\.googleapis|fonts\.gstatic|_vercel\/|vercel-insights/);
+    });
+
+    it.each(Portfolios)('$slug keeps its canonical URL and screenshot dimensions', (portfolio) => {
+        loadHtml(`portfolio/${portfolio.slug}/index.html`);
+        expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+            `https://www.pingchengtech.com/portfolio/${portfolio.slug}`,
+        );
+        for (const screenshot of document.querySelectorAll('img[loading="lazy"]')) {
+            expect(Number(screenshot.getAttribute('width'))).toBeGreaterThan(0);
+            expect(Number(screenshot.getAttribute('height'))).toBeGreaterThan(0);
+        }
+    });
+
+    it('includes Pages redirect rules, sitemaps, robots and a static 404', () => {
+        expect(fs.readFileSync(path.join(DIST_DIR, '_redirects'), 'utf8')).toContain(
+            '/sitemap.xml /sitemap-index.xml 301',
+        );
+        expect(fs.readFileSync(path.join(DIST_DIR, 'robots.txt'), 'utf8')).toContain(
+            'Sitemap: https://www.pingchengtech.com/sitemap.xml',
+        );
+        expect(fs.readFileSync(path.join(DIST_DIR, 'sitemap-index.xml'), 'utf8')).toContain('sitemap-0.xml');
+        const sitemap = fs.readFileSync(path.join(DIST_DIR, 'sitemap-0.xml'), 'utf8');
+        for (const portfolio of Portfolios) {
+            expect(sitemap).toContain(`https://www.pingchengtech.com/portfolio/${portfolio.slug}`);
+        }
+        expect(sitemap).not.toContain('/404');
+        loadHtml('404.html');
+        expectTextContent('Page not found');
     });
 });
