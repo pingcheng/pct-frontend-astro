@@ -139,7 +139,11 @@ available through production verification.
    sitemap redirect and SEO metadata through the production domain. Keep Vercel
    available until these checks and the performance comparison are complete.
 6. After production verification, disable redundant Vercel Git deployments.
-   Check other consumers and access logs before retiring external image storage.
+   The repository now sets `git.deploymentEnabled: false` in `vercel.json`,
+   disabling automatic Vercel deployments for all branches while retaining
+   the project and existing deployments for rollback. Cloudflare Pages Git
+   deployments remain enabled. Check other consumers and access logs before
+   retiring external image storage.
 
 ### Rollback
 
@@ -160,7 +164,8 @@ may remove its managed DNS record, so restore DNS afterwards.
 These targets were read on 13 October 2026; confirm the current Vercel dashboard
 still specifies them before restoring. Revert redirect/HTTPS rule changes to
 the saved configuration, remove any conflicting Pages CNAME first, re-enable
-Vercel Git deployments if disabled, and verify HTTPS and the public routes again.
+Vercel Git deployments if needed by removing `git.deploymentEnabled: false`
+from `vercel.json` (or setting it to `true`), and verify HTTPS and public routes again.
 Cloudflare can remain the registrar and DNS provider throughout rollback.
 
 ## Self-hosted assets
