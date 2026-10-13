@@ -111,7 +111,7 @@ describe('Static Pages Content', () => {
     it('should render the About page content correctly', () => {
         loadHtml('about/index.html');
         expectTextContent('Ping Cheng');
-        expectTextContent('Technical Expertise');
+        expectTextContent('Focus & Interests');
         expectTextContent('Professional Experience');
 
         expect(document.querySelector('nav')).toBeDefined();

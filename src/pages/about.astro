@@ -6,27 +6,22 @@ import Chip from "@/components/Chip/Chip.astro";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
 import { profile, socialUrls } from "@/data/profile";
 import {
-    backendStack,
-    devOpsStack,
-    frontendStack,
-    legacyStack,
+    mainFocus,
+    earlierExperience,
+    tinkeringInterests,
 } from "@/data/skills";
 import { workExperiences } from "@/data/work-experience";
 import { URLS } from "@/constants/urls";
 import { getDurationString } from "@/utils/getDurationString";
 
 // React Icons
-import { FaLinkedin, FaGithub } from "react-icons/fa";
-import { MdEmail, MdHistory } from "react-icons/md";
-import { GrCode } from "react-icons/gr";
-import { IoLogoJavascript } from "react-icons/io5";
-import { FaCloud } from "react-icons/fa6";
+import { FaLinkedin, FaGithub, FaRobot } from "react-icons/fa";
+import { MdEmail, MdHistory, MdOutlineScience } from "react-icons/md";
 
 const skillCategories = [
-    { Icon: GrCode, title: "Backend", skills: backendStack },
-    { Icon: IoLogoJavascript, title: "Frontend", skills: frontendStack },
-    { Icon: FaCloud, title: "Cloud & DevOps", skills: devOpsStack },
-    { Icon: MdHistory, title: "Legacy", skills: legacyStack },
+    { ...mainFocus, Icon: FaRobot },
+    { ...earlierExperience, Icon: MdHistory },
+    { ...tinkeringInterests, Icon: MdOutlineScience },
 ];
 
 const links = [
@@ -54,10 +49,9 @@ const links = [
 ];
 
 const allSkills = [
-    ...backendStack,
-    ...frontendStack,
-    ...devOpsStack,
-    ...legacyStack,
+    ...mainFocus.skills,
+    ...earlierExperience.skills,
+    ...tinkeringInterests.skills,
 ];
 
 const roleDescription = `${profile.currentRole} at ${profile.company}`;
@@ -70,15 +64,15 @@ const breadcrumbItems = [
 
 <FixedWidthLayout
     title="About Ping Cheng"
-    description={`${profile.currentRole} at ${profile.company} with expertise in Node.js, TypeScript, PHP, Java, and Linux. Experienced in full-stack development, cloud solutions, and enterprise software.`}
-    keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Full Stack Developer,Cloud Engineer,REA Group,PropTrack,Node.js,TypeScript,PHP,Java,DevOps"
+    description={`${profile.currentRole} at ${profile.company} focused on agentic engineering, technical direction, TypeScript, and agent harnesses, with a background in full-stack development and cloud infrastructure.`}
+    keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Agentic Engineering,Technical Direction,Agent Harnesses,Context Engineering,REA Group,PropTrack,TypeScript,System Design"
     ogTitle="About Ping Cheng"
-    ogDescription={`${profile.currentRole} at ${profile.company} specializing in modern web technologies, cloud solutions, and enterprise software development.`}
+    ogDescription={`${profile.currentRole} at ${profile.company} focused on agentic engineering, technical direction, and building with coding agents.`}
     ogUrl="https://www.pingchengtech.com/about"
     ogType="profile"
     twitterCard="summary"
     twitterTitle="About Ping Cheng"
-    twitterDescription={`${profile.currentRole} at ${profile.company} specializing in modern web technologies, cloud solutions, and enterprise software development.`}
+    twitterDescription={`${profile.currentRole} at ${profile.company} focused on agentic engineering, technical direction, and building with coding agents.`}
 >
     <StructuredData
         type="person"
@@ -173,30 +167,31 @@ const breadcrumbItems = [
                 class="card p-6 rounded-lg w-full mb-8 animate-fade-in animate-delay-700"
             >
                 <div class="mb-6 animate-fade-in animate-delay-800">
-                    <Heading text="Technical Expertise" align="center" />
+                    <Heading text="Focus & Interests" align="center" />
                 </div>
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-                >
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {
                         skillCategories.map((category) => (
-                            <div>
-                                <div class="text-center mb-3">
-                                    <div class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <category.Icon
-                                            className="text-base text-gray-600 dark:text-gray-400"
-                                            aria-hidden="true"
-                                        />
-                                    </div>
-                                    <h3 class="font-medium text-gray-900 dark:text-gray-100 text-sm">
-                                        {category.title}
-                                    </h3>
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mb-2">
+                                    <category.Icon
+                                        className="text-base text-gray-600 dark:text-gray-400"
+                                        aria-hidden="true"
+                                    />
                                 </div>
-                                <div class="flex flex-wrap gap-2 justify-center">
-                                    {category.skills.map((text) => (
-                                        <Chip>{text}</Chip>
+                                <h3 class="font-medium text-gray-900 dark:text-gray-100 text-sm mb-2">
+                                    {category.title}
+                                </h3>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-4 md:min-h-10">
+                                    {category.description}
+                                </p>
+                                <ul class="flex flex-wrap gap-2 justify-center" role="list">
+                                    {category.skills.map((skill) => (
+                                        <li class="flex">
+                                            <Chip>{skill}</Chip>
+                                        </li>
                                     ))}
-                                </div>
+                                </ul>
                             </div>
                         ))
                     }
