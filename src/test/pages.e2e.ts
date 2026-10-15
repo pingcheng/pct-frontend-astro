@@ -146,7 +146,7 @@ describe('Static Pages Content', () => {
         expect(personData).toMatchObject({
             '@type': 'Person',
             name: 'Ping Cheng',
-            email: 'ping.che@hotmail.com',
+            email: 'info@pingchengtech.com',
         });
 
         expect(breadcrumbData.itemListElement).toEqual([

@@ -1,7 +1,7 @@
 export const profile = {
   fullName: "Ping Cheng",
   avatarUrl: "/images/avatar.webp",
-  email: "ping.che@hotmail.com",
+  email: "info@pingchengtech.com",
   currentRole: "Principal Engineer",
   company: "REA Group",
 } as const;
