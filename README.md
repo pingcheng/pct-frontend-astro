@@ -13,6 +13,9 @@ Personal website for Ping Cheng, built with Astro, React, and Tailwind CSS.
 
 ## Development
 
+Use Node.js `24.19.0`, as pinned in `.nvmrc` and used by CI. If using nvm,
+run `nvm install` and `nvm use` before installing dependencies.
+
 ```sh
 npm install
 npm run dev
@@ -54,11 +57,12 @@ storage binding or paid plan is needed. The production canonical origin remains
 | Root directory | Repository root |
 | Build command | `npm run build` |
 | Build output directory | `dist` |
-| Node.js | `22.13.1`, matching `.nvmrc`, or a newer version satisfying `package.json` |
+| Node.js | `24.19.0`, matching `.nvmrc` |
 
 4. In both production and preview build environments, set `NODE_VERSION` to
-   the selected version and copy the existing values for the variables below
-   from Vercel. Keep their values out of commits, screenshots and shared logs.
+   `24.19.0` (update any existing `22.13.1` override) and copy the existing values
+   for the variables below from Vercel. Keep their values out of commits,
+   screenshots and shared logs.
    These `PUBLIC_` values are intentionally included in the generated browser
    content; they are not credentials. Rebuild after changing a build variable.
 
