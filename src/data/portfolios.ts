@@ -35,13 +35,13 @@ export const Portfolios: Portfolio[] = [
     coverImage: `${PORTFOLIO_BASE}/empire-cbs/empire-cbs.webp`,
     url: null,
     longDescription:
-      "An internal job management system that helps Empire CBS to record and track their project progress and manage their resources, timesheets and etc.",
+      "An internal job management system that helps Empire CBS record and track project progress and manage resources and timesheets.",
     workplace: "Private project",
     projectRole: "Backend & DevOps Developer",
     roleDescription: [
-      "Backend developments",
+      "Backend development",
       "CI/CD implementation",
-      "DevOps and Server management",
+      "DevOps and server management",
     ],
     members: [
       "Ping Cheng - Backend & DevOps Developer",
@@ -59,19 +59,19 @@ export const Portfolios: Portfolio[] = [
     slug: "pteplus",
     name: "PTEPLUS",
     shortDescription:
-      "PTEPLUS provides a user friendly UI and accurate machine scoring for PTE test taker",
+      "PTEPLUS provides a user-friendly interface and accurate machine scoring for PTE test takers",
     coverImage: `${PORTFOLIO_BASE}/pteplus/pteplus.webp`,
     url: null,
     longDescription:
-      "PTEPLUS is the first of its' kind 'smart platform' for English language practice in Australia. Its' Natural Language Processing technology provides PTE applicants with automated machine grading in alignment with the PTE Academic official score guide, such that PTE Academic future Test takers may practise for the Test, and also easily gauge their current standards and Test-readiness.",
+      "PTEPLUS is the first of its kind: a smart platform for English language practice in Australia. Its natural language processing technology provides PTE applicants with automated machine grading aligned with the official PTE Academic score guide, helping test takers practise for the test and gauge their current skills and readiness.",
     workplace: "Eduplus 2016 - 2019",
     projectRole: "Development Lead",
     roleDescription: [
-      "The decision on tech stack",
-      "Architecture design and implement",
+      "Technology stack selection",
+      "Architecture design and implementation",
       "Requirements analysis and breakdown",
-      "Tasks split up and allocation",
-      "Backend/Frontend developments",
+      "Task breakdown and allocation",
+      "Backend/frontend development",
       "Bridging different teams",
     ],
     members: [
@@ -105,14 +105,14 @@ export const Portfolios: Portfolio[] = [
     coverImage: `${PORTFOLIO_BASE}/pinhr/cover.webp`,
     url: null,
     longDescription:
-      "A customised human resources management tool, including online application form and auto email system",
+      "A customised human resources management tool, including an online application form and an automated email system.",
     workplace: "EDUPLUS",
     projectRole: "Sole Developer",
     roleDescription: [
-      "The decision on tech stack",
-      "Architecture design and implement",
+      "Technology stack selection",
+      "Architecture design and implementation",
       "Requirements analysis and breakdown",
-      "Backend/Frontend developments",
+      "Backend/frontend development",
     ],
     members: ["Ping Cheng - Developer"],
     screenshots: [
@@ -129,15 +129,15 @@ export const Portfolios: Portfolio[] = [
   {
     slug: "vatgc",
     name: "VAGTC",
-    shortDescription: "The final year project in the university",
+    shortDescription: "A final-year university project",
     coverImage: `${PORTFOLIO_BASE}/vagtc/vagtc.webp`,
     url: "https://www.vagtc.org.au/",
     longDescription:
-      "The final year project in the university, worked with the non-profit organisation to provide a modern and clean website. The web is WordPress based.",
+      "A final-year university project working with a non-profit organisation to provide a clean, modern website built with WordPress.",
     workplace: "Swinburne University",
     projectRole: "Developer",
     roleDescription: [
-      "Setup the WordPress",
+      "Set up WordPress",
       "Customise the theme",
       "Integrate plugins",
     ],
@@ -158,19 +158,19 @@ export const Portfolios: Portfolio[] = [
     slug: "qce-eduplus",
     name: "QCE Eduplus",
     shortDescription:
-      "Maths practice platform partners with Cengage for Queensland secondary schools",
+      "A maths practice platform developed in partnership with Cengage for Queensland secondary schools",
     coverImage: `${PORTFOLIO_BASE}/qce-eduplus/cover.webp`,
     url: null,
     longDescription:
-      "EduPlus empowers teachers and students with immediate feedback, live progress tracking, and real-time actionable insights – so you can harness more potential with less effort",
+      "EduPlus empowers teachers and students with immediate feedback, live progress tracking, and real-time actionable insights – so you can harness more potential with less effort.",
     workplace: "EDUPLUS",
     projectRole: "Development Lead",
     roleDescription: [
-      "The decision on tech stack",
-      "Architecture design and implement",
+      "Technology stack selection",
+      "Architecture design and implementation",
       "Requirements analysis and breakdown",
-      "Tasks split up and allocation",
-      "Backend/Frontend developments",
+      "Task breakdown and allocation",
+      "Backend/frontend development",
       "Bridging different teams",
     ],
     members: [
@@ -193,15 +193,15 @@ export const Portfolios: Portfolio[] = [
     slug: "rhfoto",
     name: "RH.foto",
     shortDescription:
-      "A simplistic and clean photo wall for a group of professional photographers",
+      "A simple and clean photo wall for a group of professional photographers",
     coverImage: `${PORTFOLIO_BASE}/rhfoto/rhfoto.webp`,
     url: "https://rhfoto.com.au/",
     longDescription:
-      "A simple and clean Wordpress based website for a group of professional wedding photographers demonstrates their abilities to deliver high end, breathtaking, fashionable and personalised images.",
+      "A simple and clean WordPress-based website for a group of professional wedding photographers, showcasing their ability to deliver high-end, breathtaking, fashionable and personalised images.",
     workplace: "Private project",
     projectRole: "Sole Developer",
     roleDescription: [
-      "Wordpress customisation",
+      "WordPress customisation",
       "Theme development",
       "Plugin integration",
     ],

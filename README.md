@@ -2,6 +2,11 @@
 
 Personal website for Ping Cheng, built with Astro, React, and Tailwind CSS.
 
+Use Australian English for site copy, metadata and documentation (for example,
+“specialising”, “optimise” and “organisation”). Use “practice” as a noun and
+“practise” as a verb. Preserve official product names, quoted titles, URLs and
+code identifiers.
+
 ## Stack
 
 - Astro
@@ -43,7 +48,7 @@ storage binding or paid plan is needed. The production canonical origin remains
 ### Connect Git and configure builds
 
 1. In Cloudflare, open **Workers & Pages → Create application → Pages → Import
-   an existing Git repository**. Authorize the Cloudflare Workers and Pages
+   an existing Git repository**. Authorise the Cloudflare Workers and Pages
    GitHub app for `pingcheng/pct-frontend-astro` if necessary.
 2. Create a Git-integrated Pages project named `pct-frontend-astro` (or another
    available name). Do not create a Direct Upload project: use Git integration
@@ -86,7 +91,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-CI builds with a test GA ID so both its async loader and failure behavior are
+CI builds with a test GA ID so both its async loader and failure behaviour are
 covered. To run browser checks against a Pages preview instead of the local
 Astro preview server:
 

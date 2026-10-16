@@ -75,7 +75,7 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Aug 2019",
         endDate: "Sept 2021",
         description: [
-          { type: "text", text: "Working as a full stack developer. Delivering new features to AroFlo Platform which is an industry leading product in Australia, my current main involves in the platform include but not limited to project management, quotes, invoices, payment integration areas." },
+          { type: "text", text: "Worked as a full-stack developer, delivering new features for the AroFlo platform, an industry-leading product in Australia. Main areas of work included project management, quotes, invoices and payment integration." },
         ],
       },
     ],
@@ -90,7 +90,7 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Jan 2018",
         endDate: "May 2019",
         description: [
-          { type: "text", text: "Work with the dev team on two main products. Design and implement IT architecture on the clouding computing platforms (AWS and Aliyun). Deliver stable, rapid responsible and reliable web applications to product's users." },
+          { type: "text", text: "Worked with the development team on two main products. Designed and implemented IT architecture on cloud computing platforms (AWS and Aliyun). Delivered stable, responsive and reliable web applications to users." },
         ],
       },
       {
@@ -98,7 +98,7 @@ export const workExperiences: WorkExperience[] = [
         startDate: "Oct 2016",
         endDate: "Jan 2018",
         description: [
-          { type: "text", text: "One of the key contributors to the start-up company, and participated in almost every stage of product design, implement and testing. Took responsibilities on full solutions to the technical side such as coding and servers' setup." },
+          { type: "text", text: "One of the key contributors to the start-up company, participating in almost every stage of product design, implementation and testing. Took responsibility for technical solutions, including coding and server setup." },
         ],
       },
     ],
