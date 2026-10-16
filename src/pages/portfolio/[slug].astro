@@ -35,7 +35,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
     twitterImage={portfolio.coverImage}
 >
     <main class="project-page">
-        <header class="project-header">
+        <header class="project-header animate-fade-in">
             <a class="back-link" href="/portfolio">
                 <MdArrowBack size={16} aria-hidden="true" />
                 Back to portfolio
@@ -43,7 +43,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
             <h1>{portfolio.name}</h1>
         </header>
 
-        <div class="project-summary">
+        <div class="project-summary animate-fade-in animate-delay-100">
             <div class="project-copy">
                 <p class="project-description">{portfolio.longDescription}</p>
                 <section
@@ -112,11 +112,19 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
             class="screenshots-section"
             aria-labelledby="screenshots-title"
         >
-            <h2 id="screenshots-title">Screenshots</h2>
+            <h2
+                id="screenshots-title"
+                class="animate-fade-in animate-delay-200"
+            >
+                Screenshots
+            </h2>
             <div class="screenshot-grid">
                 {screenshots.map((src, index) => (
                     <a
-                        class="screenshot-link"
+                        class="screenshot-link animate-fade-in"
+                        style={{
+                            animationDelay: `${Math.min(200 + index * 40, 400)}ms`,
+                        }}
                         href={src}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -134,7 +142,10 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
             </div>
         </section>
 
-        <nav class="project-navigation" aria-label="Project navigation">
+        <nav
+            class="project-navigation animate-fade-in animate-delay-300"
+            aria-label="Project navigation"
+        >
             <a href="/portfolio">
                 <MdArrowBack size={16} aria-hidden="true" />
                 All projects

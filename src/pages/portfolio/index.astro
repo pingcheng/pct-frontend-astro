@@ -23,7 +23,7 @@ const yearRange = projectYears.length
     twitterDescription="Discover innovative software solutions and web applications developed by Ping Cheng."
 >
     <main class="portfolio-page">
-        <header class="portfolio-intro">
+        <header class="portfolio-intro animate-fade-in">
             <div class="intro-topline">
                 <p class="eyebrow">Selected work</p>
                 {yearRange && <p class="year-range">{yearRange}</p>}
@@ -36,7 +36,7 @@ const yearRange = projectYears.length
         </header>
 
         <section aria-label="Projects">
-            <div class="collection-heading">
+            <div class="collection-heading animate-fade-in animate-delay-100">
                 <p>Independent projects &amp; collaborations</p>
                 <span>
                     {Portfolios.length.toString().padStart(2, "0")} projects
@@ -47,8 +47,12 @@ const yearRange = projectYears.length
                     <article
                         class:list={[
                             "project",
+                            "animate-fade-in",
                             { "project-featured": index === 0 },
                         ]}
+                        style={{
+                            animationDelay: `${Math.min(120 + index * 50, 350)}ms`,
+                        }}
                     >
                         <a
                             class="project-link"
@@ -105,7 +109,10 @@ const yearRange = projectYears.length
             </div>
         </section>
 
-        <aside class="portfolio-outro" aria-label="About the developer">
+        <aside
+            class="portfolio-outro animate-fade-in animate-delay-300"
+            aria-label="About the developer"
+        >
             <div>
                 <h2>The person behind the projects</h2>
                 <p>More about my background and what I’m exploring now.</p>
