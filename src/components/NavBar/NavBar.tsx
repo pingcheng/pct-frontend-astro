@@ -99,8 +99,8 @@ export default function NavBar({ currentPath }: NavBarProps) {
     const mobileMenuRef = useRef<HTMLDivElement>(null);
 
     const logoStyles = {
-        borderTop: "3px solid var(--logo-line-color)",
-        borderBottom: "3px solid var(--logo-line-color)",
+        borderTop: "3px solid var(--color-text)",
+        borderBottom: "3px solid var(--color-text)",
     };
 
     const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
@@ -141,7 +141,7 @@ export default function NavBar({ currentPath }: NavBarProps) {
                         <button
                             onClick={toggleMobileMenu}
                             onKeyDown={handleKeyDown}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-200/60 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-neutral-400"
                             aria-expanded={isMobileMenuVisible}
                             aria-controls="mobile-menu"
                             aria-label={isMobileMenuVisible ? "Close main menu" : "Open main menu"}

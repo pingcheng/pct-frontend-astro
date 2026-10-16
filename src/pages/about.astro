@@ -129,12 +129,12 @@ const breadcrumbItems = [
                             <Heading text="Ping Cheng" align="left" />
                         </div>
                         <h2
-                            class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4 animate-fade-in animate-delay-400"
+                            class="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-4 animate-fade-in animate-delay-400"
                         >
                             {roleDescription}
                         </h2>
                         <p
-                            class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 animate-fade-in animate-delay-500"
+                            class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 animate-fade-in animate-delay-500"
                         >
                             Experienced full-stack engineer specialising in
                             modern web technologies, cloud solutions, and
@@ -149,7 +149,7 @@ const breadcrumbItems = [
                                         href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="inline-flex items-center gap-2 px-3 py-1.5 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 rounded-md hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
                                         aria-label={link.ariaLabel}
                                     >
                                         <link.Icon size={14} />
@@ -173,16 +173,16 @@ const breadcrumbItems = [
                     {
                         skillCategories.map((category) => (
                             <div class="flex flex-col items-center text-center">
-                                <div class="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mb-2">
+                                <div class="w-10 h-10 bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center mb-2">
                                     <category.Icon
-                                        className="text-base text-gray-600 dark:text-gray-400"
+                                        className="text-base text-neutral-600 dark:text-neutral-400"
                                         aria-hidden="true"
                                     />
                                 </div>
-                                <h3 class="font-medium text-gray-900 dark:text-gray-100 text-sm mb-2">
+                                <h3 class="font-medium text-neutral-900 dark:text-neutral-100 text-sm mb-2">
                                     {category.title}
                                 </h3>
-                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-4 md:min-h-10">
+                                <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4 md:min-h-10">
                                     {category.description}
                                 </p>
                                 <ul class="flex flex-wrap gap-2 justify-center" role="list">
@@ -208,10 +208,10 @@ const breadcrumbItems = [
                 <div class="space-y-6">
                     {
                         workExperiences.map((companyItem) => (
-                            <div class="border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+                            <div class="border-l-2 border-neutral-200 dark:border-neutral-700 pl-4">
                                 <div class="mb-4">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                                        <h3 class="text-base font-semibold text-neutral-900 dark:text-neutral-100">
                                             {companyItem.company.name}
                                         </h3>
                                         {companyItem.company.linkedInUrl && (
@@ -222,7 +222,7 @@ const breadcrumbItems = [
                                                 }
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                                                class="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
                                                 aria-label={`${companyItem.company.name} LinkedIn profile`}
                                             >
                                                 <FaLinkedin
@@ -236,10 +236,10 @@ const breadcrumbItems = [
                                     <div class="space-y-3">
                                         {companyItem.positions.map((item) => (
                                             <div>
-                                                <h4 class="font-medium text-gray-800 dark:text-gray-200 text-sm mb-1">
+                                                <h4 class="font-medium text-neutral-800 dark:text-neutral-200 text-sm mb-1">
                                                     {item.position}
                                                 </h4>
-                                                <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                                                <div class="text-xs text-neutral-500 dark:text-neutral-400 mb-2">
                                                     {item.startDate} -{" "}
                                                     {item.endDate} ·{" "}
                                                     {getDurationString(
@@ -258,19 +258,19 @@ const breadcrumbItems = [
                                                                     );
                                                                 if (line.type === "bullet")
                                                                     return (
-                                                                        <div class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed ml-3">
+                                                                        <div class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed ml-3">
                                                                             •{" "}
                                                                             {line.text}
                                                                         </div>
                                                                     );
                                                                 if (line.type === "heading")
                                                                     return (
-                                                                        <div class="text-xs font-medium text-gray-700 dark:text-gray-300 mt-2 mb-1">
+                                                                        <div class="text-xs font-medium text-neutral-700 dark:text-neutral-300 mt-2 mb-1">
                                                                             {line.text}
                                                                         </div>
                                                                     );
                                                                 return (
-                                                                    <div class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                                                    <div class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                                                                         {line.text}
                                                                     </div>
                                                                 );

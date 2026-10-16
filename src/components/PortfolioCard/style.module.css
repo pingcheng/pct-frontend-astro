@@ -30,5 +30,5 @@
 }
 
 .imageFallback {
-  @apply w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 rounded;
+  @apply w-full h-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-neutral-500 dark:text-neutral-400 rounded;
 }

@@ -24,7 +24,7 @@
 
 .navItem:hover {
   color: var(--color-accent);
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .navItem:focus-visible {
@@ -36,7 +36,7 @@
 .navItem.active {
   color: var(--color-accent);
   font-weight: 600;
-  background: rgba(99, 102, 241, 0.16);
+  background: rgba(0, 0, 0, 0.08);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,12 +46,13 @@
 
   .navItem:hover {
     color: var(--color-accent);
-    background: rgba(99, 102, 241, 0.12);
+    background: rgba(255, 255, 255, 0.06);
   }
 
   .navItem.active {
     color: var(--color-accent);
-    background: rgba(99, 102, 241, 0.24);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
   }
 }
 
