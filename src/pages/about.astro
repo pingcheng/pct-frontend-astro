@@ -1,8 +1,6 @@
 ---
 import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
 import { Avatar } from "@/components/Avatar/Avatar";
-import Heading from "@/components/Heading/Heading.astro";
-import Chip from "@/components/Chip/Chip.astro";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
 import { profile, socialUrls } from "@/data/profile";
 import {
@@ -12,37 +10,26 @@ import {
 } from "@/data/skills";
 import { workExperiences } from "@/data/work-experience";
 import { URLS } from "@/constants/urls";
-import { getDurationString } from "@/utils/getDurationString";
 
-// React Icons
-import { FaLinkedin, FaGithub, FaRobot } from "react-icons/fa";
-import { MdEmail, MdHistory, MdOutlineScience } from "react-icons/md";
-
-const skillCategories = [
-    { ...mainFocus, Icon: FaRobot },
-    { ...earlierExperience, Icon: MdHistory },
-    { ...tinkeringInterests, Icon: MdOutlineScience },
-];
+import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { MdArrowOutward, MdEmail } from "react-icons/md";
 
 const links = [
     {
-        label: "github",
         url: socialUrls.github,
         text: "GitHub",
         ariaLabel: "Visit my GitHub profile",
         Icon: FaGithub,
     },
     {
-        label: "linkedin",
         url: socialUrls.linkedin,
         text: "LinkedIn",
         ariaLabel: "Visit my LinkedIn profile",
         Icon: FaLinkedin,
     },
     {
-        label: "email",
         url: `mailto:${profile.email}`,
-        text: profile.email,
+        text: "Email",
         ariaLabel: `Send email to ${profile.email}`,
         Icon: MdEmail,
     },
@@ -105,188 +92,568 @@ const breadcrumbItems = [
         }}
     />
 
-    <main class="min-h-screen bg-transparent py-8">
-        <div class="max-w-4xl mx-auto px-6">
-            {/* Hero Section */}
-            <section
-                class="card p-8 rounded-lg w-full mb-8 animate-fade-in-scale"
-            >
-                <div class="flex flex-col lg:flex-row items-center gap-8">
-                    <div
-                        class="flex-shrink-0 animate-fade-in animate-delay-200"
+    <main class="about-page">
+        <header class="about-intro" aria-labelledby="about-title">
+            <div class="intro-topline">
+                <p class="eyebrow">A little about me</p>
+                <p class="location">Melbourne, Australia</p>
+            </div>
+            <div class="intro-identity">
+                <div>
+                    <h1 id="about-title">{profile.fullName}</h1>
+                    <p class="role">{roleDescription}</p>
+                </div>
+                <div class="portrait">
+                    <Avatar
+                        width={104}
+                        height={104}
+                        alt="Ping Cheng profile photo"
+                        fallbackLabel="PC"
+                        className="about-avatar"
+                        client:load
+                    />
+                </div>
+            </div>
+            <p class="intro-text">
+                I build software and help shape the technical direction behind
+                it. These days, I’m focused on how coding agents change the way
+                we work.
+            </p>
+            <nav class="profile-links" aria-label="Find me online">
+                {links.map((link) => (
+                    <a
+                        href={link.url}
+                        target={
+                            link.url.startsWith("mailto:")
+                                ? undefined
+                                : "_blank"
+                        }
+                        rel={
+                            link.url.startsWith("mailto:")
+                                ? undefined
+                                : "noopener noreferrer"
+                        }
+                        aria-label={link.ariaLabel}
                     >
-                        <div class="shadow-lg" style="border-radius: 50%;">
-                            <Avatar
-                                width={120}
-                                height={120}
-                                alt="Ping Cheng profile photo"
-                                client:load
-                            />
-                        </div>
-                    </div>
-                    <div class="flex-1 text-center lg:text-left">
-                        <div class="mb-3 animate-fade-in animate-delay-300">
-                            <Heading text="Ping Cheng" align="left" />
-                        </div>
-                        <h2
-                            class="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-4 animate-fade-in animate-delay-400"
-                        >
-                            {roleDescription}
-                        </h2>
-                        <p
-                            class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 animate-fade-in animate-delay-500"
-                        >
-                            Experienced full-stack engineer specialising in
-                            modern web technologies, cloud solutions, and
-                            enterprise software development.
-                        </p>
-                        <div
-                            class="flex flex-wrap gap-3 justify-center lg:justify-start animate-fade-in animate-delay-600"
-                        >
-                            {
-                                links.map((link) => (
-                                    <a
-                                        href={link.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="inline-flex items-center gap-2 px-3 py-1.5 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 rounded-md hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
-                                        aria-label={link.ariaLabel}
-                                    >
-                                        <link.Icon size={14} />
-                                        <span class="text-xs">{link.text}</span>
-                                    </a>
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
-            </section>
+                        <link.Icon size={16} aria-hidden="true" />
+                        <span>{link.text}</span>
+                        <MdArrowOutward size={14} aria-hidden="true" />
+                    </a>
+                ))}
+            </nav>
+        </header>
 
-            {/* Skills Section */}
-            <section
-                class="card p-6 rounded-lg w-full mb-8 animate-fade-in animate-delay-700"
-            >
-                <div class="mb-6 animate-fade-in animate-delay-800">
-                    <Heading text="Focus & Interests" align="center" />
+        <section class="about-section" aria-labelledby="focus-title">
+            <div class="section-label">
+                <span class="section-number" aria-hidden="true">
+                    01
+                </span>
+                <h2 id="focus-title">Focus &amp; Interests</h2>
+            </div>
+            <div class="focus-content">
+                <div class="focus-item">
+                    <h3>Building with agents</h3>
+                    <p>
+                        I’m exploring agent harnesses, context engineering, and
+                        practical ways to build with coding agents. TypeScript,
+                        system design, and technical direction sit at the centre
+                        of that work.
+                    </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {
-                        skillCategories.map((category) => (
-                            <div class="flex flex-col items-center text-center">
-                                <div class="w-10 h-10 bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center mb-2">
-                                    <category.Icon
-                                        className="text-base text-neutral-600 dark:text-neutral-400"
+                <div class="focus-item">
+                    <h3>A full-stack foundation</h3>
+                    <p>
+                        My background spans web applications, cloud
+                        infrastructure, and delivery, working with React,
+                        Node.js, PHP, Java, and AWS. I’ve worked across
+                        early-stage products and enterprise systems.
+                    </p>
+                    <a class="text-link" href="/portfolio">
+                        Explore my projects
+                        <MdArrowOutward size={16} aria-hidden="true" />
+                    </a>
+                </div>
+                <div class="focus-item">
+                    <h3>Outside of work</h3>
+                    <p>
+                        I tinker with home automation, solar and battery
+                        systems, and personal tools. I also enjoy learning,
+                        games, and a good puzzle.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section" aria-labelledby="experience-title">
+            <div class="section-label">
+                <span class="section-number" aria-hidden="true">
+                    02
+                </span>
+                <h2 id="experience-title">Professional Experience</h2>
+            </div>
+            <div class="experience-list">
+                {workExperiences.map(({ company, positions }) => (
+                    <article class="company">
+                        <div class="company-heading">
+                            <h3>{company.name.replace(" - ", " · ")}</h3>
+                            {company.linkedInUrl && (
+                                <a
+                                    href={company.linkedInUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={`${company.name} LinkedIn profile`}
+                                >
+                                    <MdArrowOutward
+                                        size={17}
                                         aria-hidden="true"
                                     />
-                                </div>
-                                <h3 class="font-medium text-neutral-900 dark:text-neutral-100 text-sm mb-2">
-                                    {category.title}
-                                </h3>
-                                <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4 md:min-h-10">
-                                    {category.description}
-                                </p>
-                                <ul class="flex flex-wrap gap-2 justify-center" role="list">
-                                    {category.skills.map((skill) => (
-                                        <li class="flex">
-                                            <Chip>{skill}</Chip>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))
-                    }
-                </div>
-            </section>
-
-            {/* Experience Section */}
-            <section
-                class="card p-6 rounded-lg w-full animate-fade-in animate-delay-1300"
-            >
-                <div class="mb-6 animate-fade-in animate-delay-1400">
-                    <Heading text="Professional Experience" align="center" />
-                </div>
-                <div class="space-y-6">
-                    {
-                        workExperiences.map((companyItem) => (
-                            <div class="border-l-2 border-neutral-200 dark:border-neutral-700 pl-4">
-                                <div class="mb-4">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h3 class="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                                            {companyItem.company.name}
-                                        </h3>
-                                        {companyItem.company.linkedInUrl && (
-                                            <a
-                                                href={
-                                                    companyItem.company
-                                                        .linkedInUrl
-                                                }
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                class="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
-                                                aria-label={`${companyItem.company.name} LinkedIn profile`}
-                                            >
-                                                <FaLinkedin
-                                                    size={14}
-                                                    aria-hidden="true"
-                                                />
-                                            </a>
+                                </a>
+                            )}
+                        </div>
+                        <ul class="positions" role="list">
+                            {positions.map((position) => (
+                                <li
+                                    class:list={[
+                                        "position",
+                                        {
+                                            "position-current":
+                                                position.endDate === "Present",
+                                        },
+                                    ]}
+                                >
+                                    <span class="position-name">
+                                        {position.endDate === "Present" && (
+                                            <span
+                                                class="current-dot"
+                                                aria-hidden="true"
+                                            />
                                         )}
-                                    </div>
-
-                                    <div class="space-y-3">
-                                        {companyItem.positions.map((item) => (
-                                            <div>
-                                                <h4 class="font-medium text-neutral-800 dark:text-neutral-200 text-sm mb-1">
-                                                    {item.position}
-                                                </h4>
-                                                <div class="text-xs text-neutral-500 dark:text-neutral-400 mb-2">
-                                                    {item.startDate} -{" "}
-                                                    {item.endDate} ·{" "}
-                                                    {getDurationString(
-                                                        item.startDate,
-                                                        item.endDate
-                                                    )}
-                                                </div>
-                                                {(item.description?.length ?? 0) >
-                                                    0 && (
-                                                    <div class="space-y-1">
-                                                        {item.description?.map(
-                                                            (line) => {
-                                                                if (line.type === "break")
-                                                                    return (
-                                                                        <div class="h-1" />
-                                                                    );
-                                                                if (line.type === "bullet")
-                                                                    return (
-                                                                        <div class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed ml-3">
-                                                                            •{" "}
-                                                                            {line.text}
-                                                                        </div>
-                                                                    );
-                                                                if (line.type === "heading")
-                                                                    return (
-                                                                        <div class="text-xs font-medium text-neutral-700 dark:text-neutral-300 mt-2 mb-1">
-                                                                            {line.text}
-                                                                        </div>
-                                                                    );
-                                                                return (
-                                                                    <div class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                                                        {line.text}
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                    </div>
+                                        {position.position}
+                                    </span>
+                                    <span class="position-dates">
+                                        {position.startDate} –{" "}
+                                        {position.endDate}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                        {positions.some(
+                            (position) => position.description?.length,
+                        ) && (
+                            <details class="work-details">
+                                <summary>More about this work</summary>
+                                <div class="work-details-content">
+                                    {positions
+                                        .filter(
+                                            (position) =>
+                                                position.description?.length,
+                                        )
+                                        .map((position) => (
+                                            <div class="role-details">
+                                                <h4>{position.position}</h4>
+                                                {position.description?.map(
+                                                    (line) => {
+                                                        if (
+                                                            line.type ===
+                                                            "break"
+                                                        )
+                                                            return null;
+                                                        if (
+                                                            line.type ===
+                                                            "heading"
+                                                        )
+                                                            return (
+                                                                <p class="detail-heading">
+                                                                    {line.text}
+                                                                </p>
+                                                            );
+                                                        if (
+                                                            line.type ===
+                                                            "bullet"
+                                                        )
+                                                            return (
+                                                                <p class="detail-bullet">
+                                                                    {line.text}
+                                                                </p>
+                                                            );
+                                                        return (
+                                                            <p>{line.text}</p>
+                                                        );
+                                                    },
                                                 )}
                                             </div>
                                         ))}
-                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </section>
-        </div>
+                            </details>
+                        )}
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <section
+            class="about-section contact-section"
+            aria-labelledby="contact-title"
+        >
+            <div class="section-label">
+                <span class="section-number" aria-hidden="true">
+                    03
+                </span>
+                <h2 id="contact-title">Get in touch</h2>
+            </div>
+            <div class="contact-content">
+                <p>Let’s connect.</p>
+                <a class="contact-link" href={`mailto:${profile.email}`}>
+                    {profile.email}
+                    <MdArrowOutward size={20} aria-hidden="true" />
+                </a>
+            </div>
+        </section>
     </main>
 </FixedWidthLayout>
+
+<style>
+    .about-page {
+        --about-muted: var(--color-text-secondary);
+        --about-accent: var(--color-accent);
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 84px 0 56px;
+    }
+
+    .intro-topline,
+    .intro-identity,
+    .profile-links,
+    .profile-links a,
+    .company-heading,
+    .position,
+    .text-link,
+    .contact-link {
+        display: flex;
+        align-items: center;
+    }
+
+    .intro-topline,
+    .intro-identity {
+        justify-content: space-between;
+        gap: 24px;
+    }
+
+    .eyebrow,
+    .location,
+    .section-number {
+        font-size: 12px;
+        color: var(--about-muted);
+    }
+
+    .eyebrow {
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .intro-identity {
+        margin-top: 35px;
+    }
+
+    h1 {
+        font-size: clamp(44px, 6.5vw, 76px);
+        line-height: 1.1;
+        letter-spacing: -0.065em;
+        font-weight: 500;
+    }
+
+    .role {
+        margin-top: 16px;
+        font-size: 16px;
+        color: var(--about-muted);
+    }
+
+    .portrait {
+        flex-shrink: 0;
+        padding: 6px;
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+    }
+
+    .intro-text {
+        max-width: 620px;
+        margin-top: 32px;
+        font-size: clamp(19px, 2.4vw, 23px);
+        line-height: 1.65;
+        letter-spacing: -0.025em;
+        text-wrap: pretty;
+    }
+
+    .profile-links {
+        flex-wrap: wrap;
+        gap: 12px 28px;
+        margin-top: 24px;
+    }
+
+    .profile-links a {
+        gap: 8px;
+        min-height: 44px;
+        font-size: 13px;
+        color: var(--about-muted);
+    }
+
+    .about-intro {
+        padding-bottom: 56px;
+    }
+
+    .about-section {
+        display: grid;
+        grid-template-columns: 200px minmax(0, 1fr);
+        align-items: baseline;
+        gap: 48px;
+        padding: 44px 0;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .section-label {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+    }
+
+    .section-number {
+        font-variant-numeric: tabular-nums;
+    }
+
+    h2 {
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: -0.025em;
+    }
+
+    .focus-content {
+        display: grid;
+        gap: 28px;
+    }
+
+    .focus-item p {
+        margin-top: 8px;
+        color: var(--about-muted);
+        font-size: 15px;
+        line-height: 1.8;
+        text-wrap: pretty;
+    }
+
+    .text-link {
+        width: fit-content;
+        gap: 6px;
+        margin-top: 10px;
+        min-height: 44px;
+        font-size: 13px;
+        color: var(--about-accent);
+    }
+
+    .company + .company {
+        margin-top: 28px;
+        padding-top: 28px;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .company-heading {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .company-heading a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        color: var(--about-muted);
+    }
+
+    .positions {
+        display: grid;
+        gap: 12px;
+        list-style: none;
+    }
+
+    .position {
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px 20px;
+        color: var(--about-muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .position-current {
+        color: var(--color-text);
+    }
+
+    .position-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .current-dot {
+        width: 6px;
+        height: 6px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: var(--about-accent);
+    }
+
+    .position-dates {
+        flex-shrink: 0;
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        color: var(--about-muted);
+    }
+
+    .work-details {
+        margin-top: 12px;
+        color: var(--about-muted);
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    summary {
+        width: fit-content;
+        padding: 10px 0;
+        cursor: pointer;
+        text-underline-offset: 4px;
+    }
+
+    summary:hover {
+        color: var(--about-accent);
+    }
+
+    .work-details-content {
+        padding: 12px 0 0 16px;
+        border-left: 1px solid var(--color-border);
+    }
+
+    .role-details + .role-details {
+        margin-top: 20px;
+    }
+
+    .role-details h4,
+    .detail-heading {
+        font-weight: 500;
+        color: var(--color-text);
+    }
+
+    .role-details p {
+        margin-top: 8px;
+    }
+
+    .detail-bullet {
+        position: relative;
+        padding-left: 14px;
+    }
+
+    .detail-bullet::before {
+        content: "·";
+        position: absolute;
+        left: 0;
+    }
+
+    .contact-content > p {
+        margin-bottom: 12px;
+        color: var(--about-muted);
+        font-size: 15px;
+    }
+
+    .contact-link {
+        width: fit-content;
+        gap: 10px;
+        font-size: clamp(17px, 2.5vw, 24px);
+        min-height: 44px;
+        letter-spacing: -0.035em;
+        text-decoration: underline;
+        text-decoration-color: var(--color-border);
+        text-underline-offset: 7px;
+    }
+
+    a:hover {
+        color: var(--about-accent);
+    }
+
+    a:focus-visible,
+    summary:focus-visible {
+        outline: 2px solid var(--about-accent);
+        outline-offset: 5px;
+        border-radius: 2px;
+    }
+
+    @media (max-width: 700px) {
+        .about-page {
+            padding-top: 44px;
+            padding-bottom: 12px;
+        }
+
+        .intro-topline {
+            flex-wrap: wrap;
+            gap: 8px 20px;
+        }
+
+        .intro-identity {
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .portrait {
+            width: 82px;
+            height: 82px;
+            padding: 4px;
+        }
+
+        .portrait :global(.about-avatar),
+        .portrait :global(img),
+        .portrait :global([role="img"]) {
+            width: 72px !important;
+            height: 72px !important;
+        }
+
+        .role {
+            max-width: 230px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .intro-text {
+            margin-top: 24px;
+        }
+
+        .about-intro {
+            padding-bottom: 32px;
+        }
+
+        .about-section {
+            grid-template-columns: 1fr;
+            gap: 24px;
+            padding: 32px 0;
+        }
+
+        .position {
+            flex-wrap: wrap;
+            gap: 2px 16px;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .intro-identity {
+            align-items: flex-start;
+        }
+
+        h1 {
+            font-size: 39px;
+        }
+    }
+</style>
