@@ -71,7 +71,7 @@ test.describe('personal site browser smoke', () => {
 
     await expect(page.getByRole('heading', { name: /Ping Cheng/ })).toBeVisible();
     await expect(page.getByText('Principal Engineer at REA Group')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Github' })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
       'href',
       'https://github.com/pingcheng',
     );

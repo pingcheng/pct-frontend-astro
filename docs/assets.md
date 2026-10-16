@@ -1,6 +1,6 @@
 # Self-hosted asset inventory
 
-Imported on 13 October 2026. All 45 S3 portfolio images and the GitHub avatar were downloaded successfully. The three existing Daily English Worksheet images were also optimized. Existing friend avatars and site icons remain local in their original formats.
+Imported on 13 October 2026. All 45 S3 portfolio images and the GitHub avatar were downloaded successfully. The three existing Daily English Worksheet images were also optimised. Existing friend avatars and site icons remain local in their original formats.
 
 Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the avatar), without enlargement. Aspect ratios and screenshot alt text are preserved. Intrinsic dimensions are recorded in `src/data/image-dimensions.ts`. When replacing an image, update its dimensions and this inventory.
 
@@ -61,7 +61,7 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 The full Inter v4.1 variable WOFF2 file covers Latin, Latin Extended, Greek and Cyrillic text and weights 100–900; the site declares its used range, 300–900. No font preload is added without deployment performance evidence.
 
 - Font: https://raw.githubusercontent.com/rsms/inter/v4.1/docs/font-files/InterVariable.woff2
-- License: https://raw.githubusercontent.com/rsms/inter/v4.1/LICENSE.txt
+- Licence: https://raw.githubusercontent.com/rsms/inter/v4.1/LICENSE.txt
 - Local files: `public/fonts/InterVariable.woff2` and `public/fonts/LICENSE.txt` (SIL Open Font License 1.1; copyright 2016 The Inter Project Authors).
 
 ## External storage retirement
