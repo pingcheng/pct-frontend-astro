@@ -30,7 +30,7 @@ export function Avatar({ width, height, src, alt, fallbackLabel, className }: Av
                 />
             ) : (
                 <div
-                    className="bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 rounded-full animate-fade-in"
+                    className="bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-neutral-500 dark:text-neutral-400 rounded-full animate-fade-in"
                     style={{ width, height }}
                     role="img"
                     aria-label={alt || `${profile.fullName} profile photo (image unavailable)`}
