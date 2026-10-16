@@ -128,7 +128,7 @@ test.describe('personal site browser smoke', () => {
     await page.goto('/portfolio/empire-cbs');
 
     await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
-    await expect(page.getByRole('link', { name: '< Back' })).toHaveAttribute('href', '/portfolio');
+    await expect(page.getByRole('link', { name: 'Back to portfolio' })).toHaveAttribute('href', '/portfolio');
     await expect(page.getByText('Backend & DevOps Developer', { exact: true }).first()).toBeVisible();
     await expect(page.getByText('Private project', { exact: true }).first()).toBeVisible();
 
