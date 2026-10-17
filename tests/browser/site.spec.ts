@@ -64,37 +64,30 @@ test.afterEach(async ({ page }) => {
 });
 
 test.describe('personal site browser smoke', () => {
-  test('home page renders identity, navigation links, and hydrated typewriter text', async ({
+  test('home page renders identity, navigation links, and a stable personal introduction', async ({
     page,
   }) => {
     await page.goto('/');
 
     await expect(page.getByRole('heading', { name: /Ping Cheng/ })).toBeVisible();
-    await expect(page.getByText('Principal Engineer at REA Group')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
-      'href',
-      'https://github.com/pingcheng',
-    );
-    await expect(page.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
-      'href',
-      'https://www.linkedin.com/in/ping-cheng-5a47b484',
-    );
-    await expect(page.getByRole('link', { name: 'Portfolio' })).toHaveAttribute(
+    const menuButton = page.getByRole('button', { name: 'Open main menu' });
+    if (await menuButton.isVisible()) await menuButton.click();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true })).toHaveAttribute(
       'href',
       '/portfolio',
     );
-    await expect(page.getByRole('link', { name: 'About' })).toHaveAttribute(
+    await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About me', exact: true })).toHaveAttribute(
       'href',
       '/about',
     );
-    // The homepage cycles taglines via a typewriter (each line types out,
-    // pauses, then deletes before the next). 'Writing code' is the second
-    // line, so the assertion needs to wait for the first line's full
-    // type/pause/delete cycle (~6.7s) before it can appear. Allow a full
-    // cycle plus margin.
-    await expect(page.getByText('Writing code')).toBeVisible({
-      timeout: 15_000,
-    });
+    const closeMenuButton = page.getByRole('button', { name: 'Close main menu' });
+    if (await closeMenuButton.isVisible()) await closeMenuButton.click();
+    await expect(page.getByText('I like making things that are useful.')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'A little more about me' })).toHaveAttribute(
+      'href', '/about',
+    );
+    await expect(page.getByText('I’m a software engineer in Melbourne, exploring coding agents, building personal tools, and tinkering with everyday life.')).toBeVisible();
+    await expect(page.getByRole('img', { name: 'Ping Cheng profile photo', exact: true })).toBeVisible();
 
     await expectNoHorizontalOverflow(page);
   });
@@ -169,6 +162,18 @@ test.describe('personal site browser smoke', () => {
       'false',
     );
 
+    await expect(page.locator('#mobile-menu')).toHaveAttribute('inert', '');
+    await expect(menuButton).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('link', { name: 'Visit my GitHub profile' })).toBeFocused();
+
+    const mobileViewport = page.viewportSize();
+    await menuButton.click();
+    await page.setViewportSize({ width: 900, height: 850 });
+    await expect(page.locator('button[aria-controls="mobile-menu"]')).toHaveAttribute('aria-expanded', 'false');
+    if (mobileViewport) await page.setViewportSize(mobileViewport);
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+
     await expectNoHorizontalOverflow(page);
   });
 });
@@ -228,8 +233,56 @@ test('navigation works when the optional analytics loader fails', async ({ page 
   if (await page.locator('script[src^="https://www.googletagmanager.com/"]').count()) {
     await expect.poll(() => failedAnalytics.length).toBeGreaterThan(0);
   }
-  await page.getByRole('link', { name: 'Portfolio', exact: true }).first().click();
+  const menuButton = page.getByRole('button', { name: 'Open main menu' });
+  if (await menuButton.isVisible()) await menuButton.click();
+  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
   await page.getByRole('link', { name: /Empire CBS/ }).click();
   await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
+});
+
+
+test('home entrances run once and finish with readable content', async ({ page }) => {
+  await page.addInitScript(() => {
+    const motionWindow = window as Window & { studioMotionEvents: string[] };
+    motionWindow.studioMotionEvents = [];
+    for (const phase of ['animationstart', 'animationend']) {
+      document.addEventListener(phase, (event) => {
+        if (!(event.target instanceof Element)) return;
+        for (const group of ['hero-copy', 'studio-vignette']) {
+          if (event.target.classList.contains(group)) {
+            motionWindow.studioMotionEvents.push(`${group}:${phase}`);
+          }
+        }
+      });
+    }
+  });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect.poll(() => page.evaluate(() => (
+    window as Window & { studioMotionEvents: string[] }
+  ).studioMotionEvents)).toEqual(expect.arrayContaining([
+    'hero-copy:animationstart', 'hero-copy:animationend',
+    'studio-vignette:animationstart', 'studio-vignette:animationend',
+  ]));
+  expect(await page.evaluate(() => (
+    window as Window & { studioMotionEvents: string[] }
+  ).studioMotionEvents)).toHaveLength(4);
+  expect(await page.locator('main').evaluate((main) =>
+    main.checkVisibility({ checkOpacity: true }),
+  )).toBe(true);
+  await expectNoHorizontalOverflow(page);
+});
+
+test('reduced motion keeps home and inner-page content immediately readable', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const route of ['/', '/about']) {
+    await page.goto(route, { waitUntil: 'domcontentloaded' });
+    expect(await page.locator('main [class*="animate-"]').evaluateAll((groups) =>
+      groups.every((group) => group.checkVisibility({ checkOpacity: true })),
+    )).toBe(true);
+    expect(await page.evaluate(() => document.getAnimations().filter(
+      (animation) => animation.playState === 'running',
+    ).length)).toBe(0);
+    await expectNoHorizontalOverflow(page);
+  }
 });

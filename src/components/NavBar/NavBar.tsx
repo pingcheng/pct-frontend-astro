@@ -1,187 +1,118 @@
-import { useState, useRef, useEffect, type KeyboardEvent, forwardRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { profile } from "@/data/profile";
 import styles from "./style.module.css";
 
-type MenuItem = {
-    label: string;
-    path: string;
-    activePattern?: RegExp;
-};
-
-const menuItems: MenuItem[] = [
+const menuItems = [
     { label: "Home", path: "/" },
-    { label: "Portfolio", path: "/portfolio", activePattern: /\/portfolio.*/ },
+    { label: "Portfolio", path: "/portfolio" },
     { label: "About me", path: "/about" },
 ];
 
-function isActive(item: MenuItem, pathName: string): boolean {
-    const normalizedPath = pathName.endsWith('/') && pathName !== '/'
-        ? pathName.slice(0, -1)
-        : pathName;
-
-    if (item.activePattern) {
-        return item.activePattern.test(normalizedPath);
-    }
-    return normalizedPath === item.path;
+function isActive(item: (typeof menuItems)[number], path: string): boolean {
+    const normalized = path.replace(/\/$/, "") || "/";
+    return item.path === "/portfolio"
+        ? normalized === item.path || normalized.startsWith(`${item.path}/`)
+        : normalized === item.path;
 }
 
-function MenuIcon({ className = "" }: { className?: string }) {
-    return (
-        <svg
-            className={`block h-6 w-6 ${className}`}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-        >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-    );
-}
-
-function CloseIcon({ className = "" }: { className?: string }) {
-    return (
-        <svg
-            className={`block h-6 w-6 ${className}`}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-        >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-    );
-}
-
-type MobileMenuProps = {
-    menuItems: MenuItem[];
-    isVisible: boolean;
-    onItemClick: () => void;
-    currentPath: string;
-};
-
-const MobileMenu = forwardRef<HTMLDivElement, MobileMenuProps>(
-    ({ menuItems, isVisible, onItemClick, currentPath }, ref) => {
-        return (
-            <div
-                id="mobile-menu"
-                ref={ref}
-                className={`sm:hidden ${styles.mobileMenu} ${isVisible ? styles.expanded : ""}`}
-                aria-hidden={!isVisible}
-            >
-                <div className="px-4 pt-2 pb-3 space-y-1">
-                    {menuItems.map((item) => (
-                        <a
-                            key={item.path}
-                            href={item.path}
-                            className={`${styles.navItem} ${isActive(item, currentPath) ? styles["active"] : ""}`}
-                            onClick={onItemClick}
-                        >
-                            {item.label}
-                        </a>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-);
-
-MobileMenu.displayName = "MobileMenu";
-
-interface NavBarProps {
-    currentPath: string;
-}
-
-export default function NavBar({ currentPath }: NavBarProps) {
+export default function NavBar({ currentPath }: { currentPath: string }) {
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
-    const mobileMenuRef = useRef<HTMLDivElement>(null);
-
-    const logoStyles = {
-        borderTop: "3px solid var(--color-text)",
-        borderBottom: "3px solid var(--color-text)",
-    };
-
-    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            setIsMobileMenuVisible(!isMobileMenuVisible);
-        }
-    };
-
-    const toggleMobileMenu = () => setIsMobileMenuVisible(!isMobileMenuVisible);
-    const closeMobileMenu = () => setIsMobileMenuVisible(false);
+    const toggleRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        const menu = mobileMenuRef.current;
-        if (!menu) return;
-        if (isMobileMenuVisible) {
-            menu.style.maxHeight = menu.scrollHeight + "px";
-        } else {
-            menu.style.maxHeight = "0px";
-        }
-    }, [isMobileMenuVisible]);
-
-    useEffect(() => {
-        const handleEscape = (event: Event) => {
-            if (event instanceof KeyboardEvent && event.key === "Escape" && isMobileMenuVisible) {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && isMobileMenuVisible) {
                 setIsMobileMenuVisible(false);
+                toggleRef.current?.focus();
             }
         };
         document.addEventListener("keydown", handleEscape);
         return () => document.removeEventListener("keydown", handleEscape);
     }, [isMobileMenuVisible]);
 
+    useEffect(() => {
+        if (!window.matchMedia) return;
+        const desktop = window.matchMedia("(min-width: 641px)");
+        const closeOnDesktop = () => {
+            if (desktop.matches) setIsMobileMenuVisible(false);
+        };
+        desktop.addEventListener("change", closeOnDesktop);
+        return () => desktop.removeEventListener("change", closeOnDesktop);
+    }, []);
+
+    const renderLinks = () =>
+        menuItems.map((item) => (
+            <a
+                key={item.path}
+                href={item.path}
+                className={`${styles.navItem} ${isActive(item, currentPath) ? styles.active : ""}`}
+                aria-current={isActive(item, currentPath) ? "page" : undefined}
+                onClick={() => setIsMobileMenuVisible(false)}
+            >
+                {item.label}
+            </a>
+        ));
+
     return (
-        <>
-            <nav role="navigation" aria-label="Main navigation">
-                <div className="page-container relative flex items-center justify-between h-16">
-                    <div className="absolute inset-y-0 left-4 flex items-center sm:hidden">
-                        <button
-                            onClick={toggleMobileMenu}
-                            onKeyDown={handleKeyDown}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-200/60 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-neutral-400"
-                            aria-expanded={isMobileMenuVisible}
-                            aria-controls="mobile-menu"
-                            aria-label={isMobileMenuVisible ? "Close main menu" : "Open main menu"}
-                        >
-                            <MenuIcon className={isMobileMenuVisible ? "hidden" : "block"} />
-                            <CloseIcon className={isMobileMenuVisible ? "block" : "hidden"} />
-                        </button>
-                    </div>
-
-                    <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                        <div className="shrink-0 flex items-center">
-                            <div className="font-bold text-primary" style={logoStyles}>
-                                {profile.fullName}
-                            </div>
-
-                            <div className="hidden sm:block sm:ml-6">
-                                <div className="flex space-x-4">
-                                    {menuItems.map((item) => (
-                                        <a
-                                            key={item.path}
-                                            href={item.path}
-                                            className={`${styles.navItem} ${isActive(item, currentPath) ? styles["active"] : ""}`}
-                                        >
-                                            {item.label}
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+        <nav className={styles.navBarRoot} aria-label="Main navigation">
+            <div className={`page-container ${styles.navInner}`}>
+                <a
+                    className={styles.identity}
+                    href="/"
+                    aria-label={`${profile.fullName} home`}
+                >
+                    <svg
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path d="M0 5h5V0h15v5h5v15h-5v5H5v-5H0V5Zm5 0v15h15V5H5Zm4 4h7v3h-4v4H9V9Z" />
+                    </svg>
+                    <span>{profile.fullName}</span>
+                </a>
+                <div className={styles.desktopMenu}>{renderLinks()}</div>
+                <button
+                    ref={toggleRef}
+                    onClick={() => setIsMobileMenuVisible(!isMobileMenuVisible)}
+                    className={styles.menuToggle}
+                    aria-expanded={isMobileMenuVisible}
+                    aria-controls="mobile-menu"
+                    aria-label={
+                        isMobileMenuVisible
+                            ? "Close main menu"
+                            : "Open main menu"
+                    }
+                >
+                    <span>{isMobileMenuVisible ? "Close" : "Menu"}</span>
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        {isMobileMenuVisible ? (
+                            <path d="m3 2 5 5 5-5 1 1-5 5 5 5-1 1-5-5-5 5-1-1 5-5-5-5 1-1Z" />
+                        ) : (
+                            <path d="M1 3h14v2H1V3Zm0 8h14v2H1v-2Z" />
+                        )}
+                    </svg>
+                </button>
+            </div>
+            <div
+                id="mobile-menu"
+                className={`${styles.mobileMenu} ${isMobileMenuVisible ? styles.expanded : ""}`}
+                inert={!isMobileMenuVisible}
+                aria-hidden={!isMobileMenuVisible}
+            >
+                <div className={styles.mobileClip}>
+                    <div className={`page-container ${styles.mobileLinks}`}>
+                        {renderLinks()}
                     </div>
                 </div>
-
-                <MobileMenu
-                    ref={mobileMenuRef}
-                    menuItems={menuItems}
-                    isVisible={isMobileMenuVisible}
-                    onItemClick={closeMobileMenu}
-                    currentPath={currentPath}
-                />
-            </nav>
-        </>
+            </div>
+        </nav>
     );
 }

@@ -60,9 +60,11 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 >
                     <h2 id="development-title">Development</h2>
                     <ul class="work-list" role="list">
-                        {portfolio.roleDescription.map((line) => (
-                            <li>{line}</li>
-                        ))}
+                        {
+                            portfolio.roleDescription.map((line) => (
+                                <li>{line}</li>
+                            ))
+                        }
                     </ul>
                 </section>
             </div>
@@ -73,42 +75,48 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                         <dt>Role</dt>
                         <dd>{portfolio.projectRole}</dd>
                     </div>
-                    {portfolio.year && (
-                        <div>
-                            <dt>Year</dt>
-                            <dd>{portfolio.year.replace(/-/g, "–")}</dd>
-                        </div>
-                    )}
+                    {
+                        portfolio.year && (
+                            <div>
+                                <dt>Year</dt>
+                                <dd>{portfolio.year.replace(/-/g, "–")}</dd>
+                            </div>
+                        )
+                    }
                     <div>
                         <dt>Project</dt>
                         <dd>{portfolio.workplace}</dd>
                     </div>
-                    {portfolio.url && (
-                        <div>
-                            <dt>Website</dt>
-                            <dd>
-                                <a
-                                    class="site-link"
-                                    href={portfolio.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {new URL(portfolio.url).hostname}
-                                    <MdArrowOutward
-                                        size={15}
-                                        aria-hidden="true"
-                                    />
-                                </a>
-                            </dd>
-                        </div>
-                    )}
+                    {
+                        portfolio.url && (
+                            <div>
+                                <dt>Website</dt>
+                                <dd>
+                                    <a
+                                        class="site-link"
+                                        href={portfolio.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {new URL(portfolio.url).hostname}
+                                        <MdArrowOutward
+                                            size={15}
+                                            aria-hidden="true"
+                                        />
+                                    </a>
+                                </dd>
+                            </div>
+                        )
+                    }
                     <div>
                         <dt>Team</dt>
                         <dd>
                             <ul class="team-list" role="list">
-                                {portfolio.members.map((member) => (
-                                    <li>{member}</li>
-                                ))}
+                                {
+                                    portfolio.members.map((member) => (
+                                        <li>{member}</li>
+                                    ))
+                                }
                             </ul>
                         </dd>
                     </div>
@@ -127,26 +135,28 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 Screenshots
             </h2>
             <div class="screenshot-grid">
-                {screenshots.map((src, index) => (
-                    <a
-                        class="screenshot-link animate-fade-in"
-                        style={{
-                            animationDelay: `${Math.min(200 + index * 40, 400)}ms`,
-                        }}
-                        href={src}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Open screenshot ${index + 1} of ${portfolio.name} at full size`}
-                    >
-                        <img
-                            src={src}
-                            alt={`Screenshot ${index + 1} of ${portfolio.name}`}
-                            {...imageDimensions[src]}
-                            loading={index === 0 ? "eager" : "lazy"}
-                            decoding="async"
-                        />
-                    </a>
-                ))}
+                {
+                    screenshots.map((src, index) => (
+                        <a
+                            class="screenshot-link animate-fade-in"
+                            style={{
+                                "--entrance-delay": `${Math.min(160 + index * 80, 240)}ms`,
+                            }}
+                            href={src}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Open screenshot ${index + 1} of ${portfolio.name} at full size`}
+                        >
+                            <img
+                                src={src}
+                                alt={`Screenshot ${index + 1} of ${portfolio.name}`}
+                                {...imageDimensions[src]}
+                                loading={index === 0 ? "eager" : "lazy"}
+                                decoding="async"
+                            />
+                        </a>
+                    ))
+                }
             </div>
         </section>
 
@@ -158,19 +168,24 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 <MdArrowBack size={16} aria-hidden="true" />
                 All projects
             </a>
-            {nextProject && nextProject.slug !== portfolio.slug && (
-                <a class="next-project" href={`/portfolio/${nextProject.slug}`}>
-                    <span>Next: {nextProject.name}</span>
-                    <MdArrowOutward size={16} aria-hidden="true" />
-                </a>
-            )}
+            {
+                nextProject && nextProject.slug !== portfolio.slug && (
+                    <a
+                        class="next-project"
+                        href={`/portfolio/${nextProject.slug}`}
+                    >
+                        <span>Next: {nextProject.name}</span>
+                        <MdArrowOutward size={16} aria-hidden="true" />
+                    </a>
+                )
+            }
         </nav>
     </main>
 </FixedWidthLayout>
 
 <style>
     .project-page {
-        max-width: 920px;
+        max-width: 984px;
         margin: 0 auto;
         padding: 48px 0 40px;
     }
@@ -181,6 +196,12 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         display: flex;
         align-items: center;
         gap: 8px;
+    }
+
+    .back-link,
+    .project-navigation a[href="/portfolio"] {
+        --arrow-x: -2px;
+        --arrow-y: 0px;
     }
 
     .back-link {
@@ -211,8 +232,9 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
     }
 
     h1 {
-        font-size: clamp(30px, 4vw, 44px);
-        font-weight: 600;
+        font-family: var(--font-display);
+        font-size: clamp(36px, 4.5vw, 52px);
+        font-weight: 400;
         line-height: 1.2;
         letter-spacing: -0.04em;
         overflow-wrap: anywhere;
@@ -250,7 +272,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         padding-left: 18px;
         list-style: disc;
         color: var(--color-text-secondary);
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.8;
     }
 
@@ -268,10 +290,11 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         margin-bottom: 5px;
         color: var(--color-text-secondary);
         font-size: 12px;
+        font-family: var(--font-code);
     }
 
     dd {
-        font-size: 13px;
+        font-size: 14px;
         line-height: 1.7;
     }
 
@@ -325,6 +348,18 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         height: 100%;
         object-fit: cover;
         object-position: top;
+        transition: transform 220ms ease;
+    }
+
+    @media (hover: hover) {
+        .screenshot-link:hover img {
+            transform: scale(1.015);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .screenshot-link:hover img {
+            transform: none;
+        }
     }
 
     .project-navigation {

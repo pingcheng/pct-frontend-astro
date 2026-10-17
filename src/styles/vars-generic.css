@@ -1,22 +1,24 @@
-@import './vars-light.css';
-@import './vars-dark.css';
+@import "./vars-light.css";
+@import "./vars-dark.css";
 
 :root {
-  --color-bg: var(--color-bg-light);
-  --color-text: var(--color-text-light);
-  --color-text-secondary: var(--color-text-secondary-light);
-  --color-accent: var(--color-accent-light);
-  --color-card: var(--color-card-light);
-  --color-border: var(--color-border-light);
+    --color-moss: var(--color-moss-light);
+    --color-bg: var(--color-bg-light);
+    --color-text: var(--color-text-light);
+    --color-text-secondary: var(--color-text-secondary-light);
+    --color-accent: var(--color-accent-light);
+    --color-card: var(--color-card-light);
+    --color-border: var(--color-border-light);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: var(--color-bg-dark);
-    --color-text: var(--color-text-dark);
-    --color-text-secondary: var(--color-text-secondary-dark);
-    --color-accent: var(--color-accent-dark);
-    --color-card: var(--color-card-dark);
-    --color-border: var(--color-border-dark);
-  }
+    :root {
+        --color-moss: var(--color-moss-dark);
+        --color-bg: var(--color-bg-dark);
+        --color-text: var(--color-text-dark);
+        --color-text-secondary: var(--color-text-secondary-dark);
+        --color-accent: var(--color-accent-dark);
+        --color-card: var(--color-card-dark);
+        --color-border: var(--color-border-dark);
+    }
 }

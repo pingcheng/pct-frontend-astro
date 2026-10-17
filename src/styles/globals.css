@@ -1,231 +1,186 @@
-@import 'tailwindcss';
-@import '../styles/vars-generic.css';
+@import "tailwindcss";
+@import "../styles/vars-generic.css";
 
 @font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 300 900;
-  font-display: swap;
-  src: url('/fonts/InterVariable.woff2') format('woff2');
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 300 900;
+    font-display: swap;
+    src: url("/fonts/InterVariable.woff2") format("woff2");
 }
 
 @theme {
-  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
-  --background-image-gradient-conic: conic-gradient(
-    from 180deg at 50% 50%,
-    var(--tw-gradient-stops)
-  );
-
-  --font-code: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+    --font-code: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-border);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-border);
+    }
 }
 
-/*
- * Standardized container utilities for consistent spacing throughout the app
- */
 @utility page-container {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 2rem;
-  padding-right: 2rem;
+    width: 100%;
+    max-width: 1080px;
+    margin-inline: auto;
+    padding-inline: 48px;
 }
 
-@media (max-width: 1024px) {
-  .page-container {
-    max-width: 100%;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+:root {
+    --font-display: Georgia, "Times New Roman", serif;
 }
 
-@media (max-width: 640px) {
-  .page-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-body {
-  color: var(--color-text);
-  background: var(--color-bg);
-  font-family: 'Inter', system-ui, sans-serif;
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-/* Smooth scrolling */
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
+}
+body {
+    color: var(--color-text);
+    background: var(--color-bg);
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+::selection {
+    color: var(--color-bg);
+    background: var(--color-accent);
+}
+a,
+button,
+summary {
+    transition:
+        color 160ms ease,
+        background-color 160ms ease,
+        text-decoration-color 180ms ease;
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 5px;
+    color: var(--color-accent);
+}
+a:hover {
+    color: var(--color-accent);
+}
+button,
+summary {
+    cursor: pointer;
+}
+img {
+    max-width: 100%;
+}
+.text-primary {
+    color: var(--color-text);
 }
 
-/* Default transitions for interactive elements */
-a, button {
-  transition: all 0.2s ease-in-out;
+/* One short entrance per content group; the underlying page stays visible. */
+@keyframes studio-enter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-
-/* Fade in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Animation utility classes */
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-.animate-fade-in-scale {
-  animation: fadeInScale 0.4s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.5s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.5s ease-out forwards;
-}
-
-/* Staggered animation delays */
-.animate-delay-100 { animation-delay: 0.1s; }
-.animate-delay-200 { animation-delay: 0.2s; }
-.animate-delay-300 { animation-delay: 0.3s; }
-.animate-delay-400 { animation-delay: 0.4s; }
-.animate-delay-500 { animation-delay: 0.5s; }
-.animate-delay-600 { animation-delay: 0.6s; }
-.animate-delay-700 { animation-delay: 0.7s; }
-.animate-delay-800 { animation-delay: 0.8s; }
-.animate-delay-900 { animation-delay: 0.9s; }
-.animate-delay-1000 { animation-delay: 1s; }
-.animate-delay-1100 { animation-delay: 1.1s; }
-.animate-delay-1200 { animation-delay: 1.2s; }
-.animate-delay-1300 { animation-delay: 1.3s; }
-.animate-delay-1400 { animation-delay: 1.4s; }
-
-/* Initial state for animated elements */
 .animate-fade-in,
 .animate-fade-in-scale,
 .animate-slide-in-left,
 .animate-slide-in-right {
-  opacity: 0;
-}
-
-/* Respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .animate-fade-in,
-  .animate-fade-in-scale,
-  .animate-slide-in-left,
-  .animate-slide-in-right {
-    animation: none;
     opacity: 1;
-    transform: none;
-  }
-  
-  .socialLink:hover {
-    transform: none;
-  }
-  
-  .card:hover {
-    transform: none;
-  }
-  
-  .portfolioCard:hover {
-    transform: none;
-  }
+    animation: studio-enter 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--entrance-delay, 0ms);
+}
+.animate-delay-100 {
+    --entrance-delay: 80ms;
+}
+.animate-delay-200 {
+    --entrance-delay: 160ms;
+}
+.animate-delay-300 {
+    --entrance-delay: 240ms;
 }
 
+/* Move the arrow, keeping the link and keyboard focus target still. */
+.studio-link > [aria-hidden="true"],
+a > svg[aria-hidden="true"]:last-child {
+    transition:
+        transform 180ms ease,
+        color 180ms ease;
+}
+@media (hover: hover) {
+    .studio-link:hover > [aria-hidden="true"],
+    a:hover > svg[aria-hidden="true"]:last-child {
+        transform: translate(var(--arrow-x, 2px), var(--arrow-y, -2px));
+    }
+}
+
+.studio-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-accent);
+    font-family: var(--font-code);
+    font-size: 12px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+.studio-eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    background: currentColor;
+}
+.studio-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-border);
+    text-underline-offset: 6px;
+}
+.studio-link:hover {
+    text-decoration-color: currentColor;
+}
 .card {
-  background: var(--color-card);
-  border-radius: 1rem;
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.04);
-  border: 1px solid var(--color-border);
-  transition: all 0.3s ease-in-out;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
 }
-
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+    background: var(--color-card);
 }
-
-@media (prefers-color-scheme: dark) {
-  .card {
-    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.16);
-  }
-  
-  .card:hover {
-    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.24);
-  }
-}
-
-/* Standardized section class for consistent spacing */
 .section {
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+    padding-block: 48px;
 }
 
-@media (max-width: 640px) {
-  .section {
-    padding: 1.5rem 0;
-    margin-bottom: 1.5rem;
-  }
+@media (max-width: 700px) {
+    .page-container {
+        padding-inline: 24px;
+    }
 }
-
-.text-primary {
-  color: var(--color-text);
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    .studio-link:hover > [aria-hidden="true"],
+    a:hover > svg[aria-hidden="true"]:last-child {
+        transform: none !important;
+    }
 }

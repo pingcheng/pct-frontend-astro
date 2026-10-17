@@ -1,12 +1,60 @@
 ---
-import FixedWidthLayout from '@/layouts/FixedWidthLayout.astro';
-import Heading from '@/components/Heading/Heading.astro';
+import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
 ---
 
 <FixedWidthLayout title="Page not found | Ping Cheng">
-  <section class="section text-center">
-    <Heading text="Page not found" align="center" />
-    <p class="mt-4">The page you’re looking for doesn’t exist.</p>
-    <a href="/" class="inline-block mt-4 underline">Back to home</a>
-  </section>
+    <main class="not-found animate-fade-in">
+        <p class="studio-eyebrow">404 / A small detour</p>
+        <h1>Page not found</h1>
+        <p>The page you’re looking for doesn’t exist.</p>
+        <a href="/" class="studio-link"
+            ><span aria-hidden="true">←</span> Back to home</a
+        >
+        <svg
+            width="80"
+            height="64"
+            viewBox="0 0 80 64"
+            fill="currentColor"
+            aria-hidden="true"
+            shape-rendering="crispEdges"
+        >
+            <path
+                d="M8 24h8v-8h8V8h8V0h16v8h8v8h8v8h8v8h-8v32H16V32H8v-8Zm16 4v28h12V40h12v16h8V28L40 12 24 28Z"
+            ></path>
+        </svg>
+    </main>
 </FixedWidthLayout>
+<style>
+    .not-found {
+        position: relative;
+        padding: 100px 0 120px;
+        min-height: 65vh;
+    }
+    h1 {
+        margin-top: 30px;
+        font-family: var(--font-display);
+        font-size: clamp(46px, 7vw, 76px);
+        line-height: 1.1;
+        letter-spacing: -0.055em;
+    }
+    h1 + p {
+        margin-top: 24px;
+        font-size: 18px;
+        color: var(--color-text-secondary);
+    }
+    a {
+        --arrow-x: -2px;
+        --arrow-y: 0px;
+        margin-top: 20px;
+    }
+    svg {
+        margin-top: 48px;
+        color: var(--color-moss);
+        opacity: 0.65;
+    }
+    @media (max-width: 700px) {
+        .not-found {
+            padding-block: 56px;
+        }
+    }
+</style>

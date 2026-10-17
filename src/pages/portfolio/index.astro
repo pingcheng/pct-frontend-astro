@@ -26,7 +26,7 @@ const yearRange = projectYears.length
     <main class="portfolio-page">
         <header class="portfolio-intro animate-fade-in">
             <div class="intro-topline">
-                <p class="eyebrow">Selected work</p>
+                <p class="eyebrow studio-eyebrow">Selected work</p>
                 {yearRange && <p class="year-range">{yearRange}</p>}
             </div>
             <h1>Portfolio</h1>
@@ -44,65 +44,73 @@ const yearRange = projectYears.length
                 </span>
             </div>
             <div class="project-grid">
-                {Portfolios.map((project, index) => (
-                    <article
-                        class:list={[
-                            "project",
-                            "animate-fade-in",
-                            { "project-featured": index === 0 },
-                        ]}
-                        style={{
-                            animationDelay: `${Math.min(120 + index * 50, 350)}ms`,
-                        }}
-                    >
-                        <a
-                            class="project-link"
-                            href={`/portfolio/${project.slug}`}
-                            aria-labelledby={`project-${project.slug}`}
+                {
+                    Portfolios.map((project, index) => (
+                        <article
+                            class:list={[
+                                "project",
+                                "animate-fade-in",
+                                { "project-featured": index === 0 },
+                            ]}
+                            style={{
+                                "--entrance-delay": `${Math.min(80 + index * 80, 240)}ms`,
+                            }}
                         >
-                            <div class="project-image">
-                                <img
-                                    src={project.coverImage}
-                                    alt={`Cover image for ${project.name}`}
-                                    {...imageDimensions[project.coverImage]}
-                                    loading={index === 0 ? "eager" : "lazy"}
-                                    decoding="async"
-                                />
-                            </div>
-                            <div class="project-content">
-                                {index === 0 && (
-                                    <p class="eyebrow featured-label">
-                                        Latest project
-                                    </p>
-                                )}
-                                <div class="project-meta">
-                                    <span>{project.projectRole}</span>
-                                    {project.year && (
-                                        <span class="project-year">
-                                            {project.year.replace(/-/g, "–")}
-                                        </span>
-                                    )}
-                                </div>
-                                <div class="project-title">
-                                    <h2 id={`project-${project.slug}`}>
-                                        {project.name}
-                                    </h2>
-                                    <MdArrowOutward
-                                        size={22}
-                                        aria-hidden="true"
+                            <a
+                                class="project-link"
+                                href={`/portfolio/${project.slug}`}
+                                aria-labelledby={`project-${project.slug}`}
+                            >
+                                <div class="project-image">
+                                    <img
+                                        src={project.coverImage}
+                                        alt={`Cover image for ${project.name}`}
+                                        {...imageDimensions[project.coverImage]}
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        decoding="async"
                                     />
                                 </div>
-                                <p class="project-description">
-                                    {project.shortDescription}
-                                </p>
-                                <span class="view-project" aria-hidden="true">
-                                    View project
-                                    <MdArrowOutward size={16} />
-                                </span>
-                            </div>
-                        </a>
-                    </article>
-                ))}
+                                <div class="project-content">
+                                    {index === 0 && (
+                                        <p class="eyebrow studio-eyebrow featured-label">
+                                            Latest project
+                                        </p>
+                                    )}
+                                    <div class="project-meta">
+                                        <span>{project.projectRole}</span>
+                                        {project.year && (
+                                            <span class="project-year">
+                                                {project.year.replace(
+                                                    /-/g,
+                                                    "–",
+                                                )}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div class="project-title">
+                                        <h2 id={`project-${project.slug}`}>
+                                            {project.name}
+                                        </h2>
+                                        <MdArrowOutward
+                                            size={22}
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                    <p class="project-description">
+                                        {project.shortDescription}
+                                    </p>
+                                    <span
+                                        class="view-project"
+                                        aria-hidden="true"
+                                    >
+                                        View project
+                                        <MdArrowOutward size={16} />
+                                    </span>
+                                </div>
+                            </a>
+                        </article>
+                    ))
+                }
             </div>
         </section>
 
@@ -124,9 +132,9 @@ const yearRange = projectYears.length
 
 <style>
     .portfolio-page {
-        max-width: 920px;
+        max-width: 984px;
         margin: 0 auto;
-        padding: 84px 0 56px;
+        padding: 64px 0 48px;
     }
 
     .intro-topline,
@@ -145,6 +153,7 @@ const yearRange = projectYears.length
     .collection-heading,
     .project-meta {
         font-size: 12px;
+        font-family: var(--font-code);
         color: var(--color-text-secondary);
     }
 
@@ -163,10 +172,11 @@ const yearRange = projectYears.length
 
     h1 {
         margin-top: 35px;
-        font-size: clamp(44px, 6.5vw, 76px);
+        font-family: var(--font-display);
+        font-size: clamp(48px, 6.5vw, 76px);
         line-height: 1.1;
-        letter-spacing: -0.065em;
-        font-weight: 500;
+        letter-spacing: -0.055em;
+        font-weight: 400;
     }
 
     .intro-text {
@@ -217,7 +227,7 @@ const yearRange = projectYears.length
         width: 100%;
         height: 100%;
         object-fit: contain;
-        transition: transform 0.25s ease;
+        transition: transform 220ms ease;
     }
 
     .project-content {
@@ -255,7 +265,7 @@ const yearRange = projectYears.length
     .project-description {
         margin-top: 10px;
         color: var(--color-text-secondary);
-        font-size: 15px;
+        font-size: 16px;
         line-height: 1.8;
         text-wrap: pretty;
     }
@@ -318,13 +328,18 @@ const yearRange = projectYears.length
         display: block;
     }
 
-    .project-link:hover .project-image img {
-        transform: scale(1.015);
+    .view-project :global(svg) {
+        transition: transform 180ms ease;
     }
-
-    .project-link:hover .project-title :global(svg) {
-        color: var(--color-text);
-        transform: translate(2px, -2px);
+    @media (hover: hover) {
+        .project-link:hover .project-image img {
+            transform: scale(1.015);
+        }
+        .project-link:hover .project-title :global(svg),
+        .project-link:hover .view-project :global(svg) {
+            color: var(--color-accent);
+            transform: translate(2px, -2px);
+        }
     }
 
     .project-link:hover .view-project,
@@ -415,12 +430,14 @@ const yearRange = projectYears.length
 
     @media (prefers-reduced-motion: reduce) {
         .project-image img,
-        .project-title :global(svg) {
+        .project-title :global(svg),
+        .view-project :global(svg) {
             transition: none;
         }
 
         .project-link:hover .project-image img,
-        .project-link:hover .project-title :global(svg) {
+        .project-link:hover .project-title :global(svg),
+        .project-link:hover .view-project :global(svg) {
             transform: none;
         }
     }

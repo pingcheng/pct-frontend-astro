@@ -1,148 +1,263 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
+import StudioScene from "@/components/StudioScene/StudioScene.astro";
 import { Avatar } from "@/components/Avatar/Avatar";
-import { CyclingTypewriterEffect } from "@/components/TypewriterEffect/CyclingTypewriterEffect";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
-import SocialLink from "@/components/SocialLink/SocialLink.astro";
 import { profile, socialUrls } from "@/data/profile";
 import { URLS } from "@/constants/urls";
-
-// React Icons
-import { FiGithub, FiSmile } from "react-icons/fi";
-import { IoLogoLinkedin } from "react-icons/io5";
-import { BsCollectionFill } from "react-icons/bs";
-
-const linkDelays = ["animate-delay-500", "animate-delay-600", "animate-delay-700", "animate-delay-800"];
-
-const links = [
-	{ href: socialUrls.github, label: "GitHub", Icon: FiGithub },
-	{ href: socialUrls.linkedin, label: "LinkedIn", Icon: IoLogoLinkedin },
-	{ href: "/portfolio", label: "Portfolio", Icon: BsCollectionFill },
-	{ href: "/about", label: "About", Icon: FiSmile },
-];
 
 const roleDescription = `${profile.currentRole} at ${profile.company}`;
 ---
 
-<BaseLayout
-	title="Ping Cheng"
-	description={`Ping Cheng - ${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
-	keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Node,TypeScript,PHP,Java,Linux,REA Group,PropTrack,Web Development,Digital Solutions"
-	ogTitle="Ping Cheng"
-	ogDescription={`${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
-	ogUrl="https://www.pingchengtech.com"
-	ogType="profile"
-	twitterCard="summary"
-	twitterTitle="Ping Cheng"
-	twitterDescription={`${roleDescription}. Software engineer in Melbourne.`}
+<FixedWidthLayout
+    title="Ping Cheng"
+    description={`Ping Cheng - ${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
+    keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Node,TypeScript,PHP,Java,Linux,REA Group,PropTrack,Web Development,Digital Solutions"
+    ogTitle="Ping Cheng"
+    ogDescription={`${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
+    ogUrl="https://www.pingchengtech.com"
+    ogType="profile"
+    twitterCard="summary"
+    twitterTitle="Ping Cheng"
+    twitterDescription={`${roleDescription}. Software engineer in Melbourne.`}
 >
-	<StructuredData
-		type="person"
-		person={{
-			name: profile.fullName,
-			jobTitle: profile.currentRole,
-			url: URLS.WEBSITE.BASE,
-			image: URLS.ASSETS.APPLE_ICON,
-			sameAs: [socialUrls.github, socialUrls.linkedin],
-			worksFor: { name: profile.company, url: URLS.COMPANY.REA_GROUP },
-			knowsAbout: [
-				"Node.js",
-				"TypeScript",
-				"JavaScript",
-				"PHP",
-				"Java",
-				"Linux",
-				"React",
-				"Vue.js",
-				"AWS",
-				"Docker",
-				"MySQL",
-				"Redis",
-			],
-			address: {
-				addressLocality: "Melbourne",
-				addressRegion: "Victoria",
-				addressCountry: "Australia",
-			},
-		}}
-	/>
-	<StructuredData
-		type="website"
-		website={{
-			name: "Ping Cheng Tech",
-			url: URLS.WEBSITE.BASE,
-			description:
-				`Personal website of Ping Cheng, ${roleDescription}`,
-			author: { name: profile.fullName, url: URLS.WEBSITE.BASE },
-		}}
-	/>
+    <StructuredData
+        type="person"
+        person={{
+            name: profile.fullName,
+            jobTitle: profile.currentRole,
+            url: URLS.WEBSITE.BASE,
+            image: URLS.ASSETS.APPLE_ICON,
+            sameAs: [socialUrls.github, socialUrls.linkedin],
+            worksFor: { name: profile.company, url: URLS.COMPANY.REA_GROUP },
+            knowsAbout: [
+                "Node.js",
+                "TypeScript",
+                "JavaScript",
+                "PHP",
+                "Java",
+                "Linux",
+                "React",
+                "Vue.js",
+                "AWS",
+                "Docker",
+                "MySQL",
+                "Redis",
+            ],
+            address: {
+                addressLocality: "Melbourne",
+                addressRegion: "Victoria",
+                addressCountry: "Australia",
+            },
+        }}
+    />
+    <StructuredData
+        type="website"
+        website={{
+            name: "Ping Cheng Tech",
+            url: URLS.WEBSITE.BASE,
+            description: `Personal website of Ping Cheng, ${roleDescription}`,
+            author: { name: profile.fullName, url: URLS.WEBSITE.BASE },
+        }}
+    />
 
-	<main
-		class="h-screen flex flex-col items-center justify-center mx-auto gap-8 page-container"
-	>
-		{/* Avatar */}
-		<section class="animate-fade-in-scale">
-			<Avatar width={192} height={192} client:load />
-		</section>
-
-		{/* Description */}
-		<section class="description text-neutral-500 animate-fade-in animate-delay-200">
-			<h1>
-				Hey, I&apos;m <span class="text-primary"
-					>{profile.fullName}</span
-				>.
-			</h1>
-			<p>
-				<span class="text-primary">{profile.currentRole}</span> at {profile.company},
-				building products and solving problems.
-			</p>
-			<p class="min-h-[1.5rem]">
-				<CyclingTypewriterEffect
-					texts={[
-						"🍳 Cooking up something",
-						"⌨️ Writing code",
-						"🔧 Breaking things, then fixing them",
-						"📚 Learning new things",
-						"🛠️ Just here to build",
-					]}
-					typeSpeed={80}
-					deleteSpeed={40}
-					pauseTime={2000}
-					delay={1000}
-					className="text-primary font-medium"
-					client:visible
-				/>
-			</p>
-			<p>
-				Embrace change. Build <span class="text-primary">agentically</span>.
-			</p>
-		</section>
-
-		{/* Social links */}
-		<nav
-			class="flex flex-wrap content-around text-lg justify-center animate-fade-in animate-delay-400"
-			aria-label="Social links and navigation"
-		>
-			{
-				links.map(({ href, label, Icon }, index) => (
-					<div class={`animate-fade-in ${linkDelays[index]}`}>
-						<SocialLink href={href} label={label}>
-							<Icon />
-						</SocialLink>
-					</div>
-				))
-			}
-		</nav>
-	</main>
-</BaseLayout>
+    <main class="home-page">
+        <section class="home-hero" aria-labelledby="home-title">
+            <div class="hero-copy animate-fade-in">
+                <p class="studio-eyebrow">A personal corner of the internet</p>
+                <h1 id="home-title">
+                    <span>Hey, I’m</span>
+                    {profile.fullName}<span class="name-period">.</span>
+                </h1>
+                <p class="hero-intro">
+                    I like making things that are useful.<br
+                        class="desktop-break"
+                    /> And figuring things out along the way.
+                </p>
+                <p class="hero-description">
+                    I’m a software engineer in Melbourne, exploring coding
+                    agents, building personal tools, and tinkering with everyday
+                    life.
+                </p>
+                <a href="/about" class="studio-link"
+                    >A little more about me <span aria-hidden="true">↗</span></a
+                >
+            </div>
+            <div
+                class="studio-vignette animate-fade-in"
+                style="--entrance-delay: 100ms"
+            >
+                <div class="portrait-note">
+                    <Avatar width={72} height={72} client:load />
+                    <div>
+                        <span class="note-greeting">Hello from</span><span
+                            class="note-location">Melbourne, Australia</span
+                        >
+                    </div>
+                </div>
+                <div class="scene-frame"><StudioScene /></div>
+                <p class="scene-caption">
+                    <span aria-hidden="true">+</span> A little space to think &amp;
+                    build
+                </p>
+            </div>
+        </section>
+    </main>
+</FixedWidthLayout>
 
 <style>
-	@reference "../styles/globals.css";
-
-	.description {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-		font-family: var(--font-code);
-	}
+    .home-page {
+        padding-top: 76px;
+    }
+    .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 60px;
+        padding-bottom: 76px;
+    }
+    h1 {
+        margin-top: 25px;
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(60px, 7.3vw, 88px);
+        letter-spacing: -0.065em;
+        line-height: 1.05;
+    }
+    h1 > span:first-child {
+        display: block;
+        margin-bottom: 8px;
+        font-family: "Inter", sans-serif;
+        font-size: 26px;
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        line-height: 1.4;
+    }
+    .name-period {
+        color: var(--color-accent);
+    }
+    .hero-intro {
+        margin-top: 28px;
+        font-size: 20px;
+        line-height: 1.6;
+        letter-spacing: -0.025em;
+    }
+    .hero-description {
+        max-width: 49ch;
+        margin-top: 17px;
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--color-text-secondary);
+    }
+    .hero-copy > a {
+        margin-top: 20px;
+    }
+    .studio-vignette {
+        padding-top: 34px;
+    }
+    .portrait-note {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 0 0 18px 22px;
+    }
+    .portrait-note :global(img) {
+        border: 1px solid var(--color-border);
+    }
+    .note-greeting,
+    .note-location {
+        display: block;
+        font-size: 12px;
+    }
+    .note-greeting {
+        color: var(--color-text-secondary);
+    }
+    .note-location {
+        margin-top: 2px;
+        font-weight: 500;
+    }
+    .scene-frame {
+        padding: 18px 10px 14px;
+        background: var(--color-card);
+        clip-path: polygon(
+            8px 0,
+            calc(100% - 8px) 0,
+            calc(100% - 8px) 8px,
+            100% 8px,
+            100% calc(100% - 8px),
+            calc(100% - 8px) calc(100% - 8px),
+            calc(100% - 8px) 100%,
+            8px 100%,
+            8px calc(100% - 8px),
+            0 calc(100% - 8px),
+            0 8px,
+            8px 8px
+        );
+    }
+    .scene-caption {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 14px;
+        color: var(--color-text-secondary);
+        font-family: var(--font-code);
+        font-size: 10px;
+    }
+    .scene-caption span {
+        color: var(--color-moss);
+        font-size: 16px;
+    }
+    @media (max-width: 900px) {
+        .home-hero {
+            gap: 32px;
+        }
+        .hero-intro {
+            font-size: 18px;
+        }
+        .desktop-break {
+            display: none;
+        }
+        .portrait-note {
+            margin-left: 0;
+            gap: 10px;
+        }
+        .note-location {
+            font-size: 11px;
+        }
+    }
+    @media (max-width: 700px) {
+        .home-page {
+            padding-top: 42px;
+        }
+        .home-hero {
+            grid-template-columns: 1fr;
+            gap: 32px;
+            padding-bottom: 40px;
+        }
+        h1 {
+            font-size: clamp(60px, 12vw, 78px);
+        }
+        h1 > span:first-child {
+            font-size: 23px;
+        }
+        .hero-intro {
+            font-size: 20px;
+        }
+        .studio-vignette {
+            max-width: 350px;
+            width: 100%;
+            justify-self: center;
+            padding-top: 0;
+        }
+        .portrait-note {
+            margin-left: 12px;
+        }
+        .note-location {
+            font-size: 12px;
+        }
+        .scene-frame {
+            padding-inline: 20px;
+        }
+    }
 </style>
