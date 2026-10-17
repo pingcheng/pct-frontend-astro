@@ -124,21 +124,28 @@
             fill="var(--scene-claude)"
             d="M54 112h32v10h6v8h-6v14h-4v-10h-4v10h-4v-10h-8v10h-4v-10h-4v10h-4v-14h-6v-8h6z"
         ></path>
-        <path fill="var(--scene-eyes)" d="M58 116h4v4h-4zM78 116h4v4h-4z"
-        ></path>
+        <path
+            class="scene-eyes scene-eyes-claude"
+            fill="var(--scene-eyes)"
+            d="M58 116h4v4h-4zM78 116h4v4h-4z"></path>
     </g>
-    <!-- GPT: the broad green blob, with raised eye bumps and white eye surrounds. -->
+    <!-- Dots: the broad green blob, with raised eye bumps and white eye surrounds. -->
     <path
         fill="var(--scene-gpt)"
         d="M210 92h6v2h4v-2h6v4h2v4h2v6h-2v2h-20v-2h-2v-6h2v-4h2z"></path>
-    <path fill="var(--scene-face)" d="M210 94h6v6h-6zM220 94h6v6h-6z"></path>
-    <path fill="var(--scene-eyes)" d="M213 96h3v3h-3zM223 96h3v3h-3z"></path>
+    <g class="scene-eyes scene-eyes-dots">
+        <path fill="var(--scene-face)" d="M210 94h6v6h-6zM220 94h6v6h-6z"
+        ></path>
+        <path fill="var(--scene-eyes)" d="M213 96h3v3h-3zM223 96h3v3h-3z"
+        ></path>
+    </g>
 
     <!-- Grok: a simple black blob, looking up and right with two tilted white eyes. -->
     <path
         fill="var(--scene-grok)"
         d="M238 88h8v2h4v4h2v8h-2v4h-4v2h-8v-2h-4v-4h-2v-8h2v-4h4z"></path>
     <path
+        class="scene-eyes scene-eyes-grok"
         fill="var(--scene-face)"
         d="M240 94h2v2h1v4h-2v-2h-1zM246 92h2v2h1v4h-2v-2h-1z"></path>
 
@@ -185,6 +192,10 @@
     .scene-steam {
         opacity: 0;
     }
+    .scene-eyes {
+        transform-box: fill-box;
+        transform-origin: center;
+    }
     /* Small, stepped movements keep the original pixel-art character. */
     @media (prefers-reduced-motion: no-preference) {
         .scene-cloud {
@@ -213,6 +224,29 @@
         }
         .scene-build-success {
             animation: build-success 8s step-end infinite;
+        }
+        .scene-eyes {
+            animation: keyring-blink 5.6s steps(2, end) infinite;
+        }
+        .scene-eyes-dots {
+            animation-duration: 7.1s;
+            animation-delay: -2.4s;
+        }
+        .scene-eyes-grok {
+            animation-duration: 6.3s;
+            animation-delay: -4.1s;
+        }
+    }
+    /* Quick, staggered blinks; each doll keeps its own idle rhythm. */
+    @keyframes keyring-blink {
+        0%,
+        94%,
+        100% {
+            transform: scaleY(1);
+        }
+        96%,
+        98% {
+            transform: scaleY(0.15);
         }
     }
     /* All stages share one clock, holding the completed code before restarting. */
