@@ -10,7 +10,10 @@
     <!-- Afternoon light and a little plant on the windowsill. -->
     <path fill="var(--scene-frame)" d="M22 16h68v4h4v76H18V20h4z"></path>
     <path fill="var(--scene-sky)" d="M24 22h64v68H24z"></path>
-    <path fill="var(--scene-cloud)" d="M32 38h8v-4h12v4h8v4H32z"></path>
+    <path
+        class="scene-cloud"
+        fill="var(--scene-cloud)"
+        d="M32 38h8v-4h12v4h8v4H32z"></path>
     <path fill="var(--scene-sun)" d="M68 28h12v4h4v12h-4v4H68v-4h-4V32h4z"
     ></path>
     <path
@@ -37,6 +40,13 @@
         fill="var(--scene-clay)"
         d="M238 30h12v14h-12zM250 32h6v8h-6v-2h2v-4h-2z"></path>
     <path fill="var(--scene-paper)" d="M240 30h8v2h-8z"></path>
+    <g fill="var(--scene-frame)">
+        <path class="scene-steam" d="M240 24h2v-4h-2v-4h2v4h2v4h-2v4h-2z"
+        ></path>
+        <path
+            class="scene-steam scene-steam-late"
+            d="M246 24h2v-4h-2v-4h2v4h2v4h-2v4h-2z"></path>
+    </g>
 
     <!-- One clear work surface, with the Mac mini tucked below the monitor. -->
     <path fill="var(--scene-desktop)" d="M20 136h248v8H20z"></path>
@@ -45,10 +55,46 @@
             fill="var(--scene-ink)"
             d="M100 74h60v40h-60zM126 114h8v14h-8zM116 128h28v4h-28z"></path>
         <path fill="var(--scene-screen)" d="M104 78h52v32h-52z"></path>
-        <path
-            fill="var(--scene-moss)"
-            d="M114 88h8v4h-4v8h4v4h-8V88Zm24 0h8v16h-8v-4h4v-8h-4z"></path>
-        <path fill="var(--scene-clay)" d="M128 94h4v4h-4z"></path>
+        <!-- A tiny coding agent: prompt, streamed code, then a successful build. -->
+        <g class="scene-editor">
+            <path fill="var(--scene-clay)" d="M107 80h2v2h-2z"></path>
+            <path fill="var(--scene-gold)" d="M111 80h2v2h-2z"></path>
+            <path fill="var(--scene-moss)" d="M115 80h2v2h-2z"></path>
+            <path fill="var(--scene-frame)" d="M107 84h46v1h-46z"></path>
+            <path
+                fill="var(--scene-clay)"
+                d="M109 87h2v2h2v2h-2v2h-2v-2h-2v-2h2z"></path>
+            <g fill="none" stroke-width="2" stroke-dasharray="1">
+                <path
+                    class="scene-prompt"
+                    pathLength="1"
+                    stroke="var(--scene-ink)"
+                    d="M117 90h8m2 0h14"></path>
+                <path
+                    class="scene-code scene-code-first"
+                    pathLength="1"
+                    stroke="var(--scene-moss)"
+                    d="M109 96h6m2 0h12m2 0h8"></path>
+                <path
+                    class="scene-code scene-code-second"
+                    pathLength="1"
+                    stroke="var(--scene-clay)"
+                    d="M113 100h10m2 0h6m2 0h12"></path>
+                <path
+                    class="scene-code scene-code-third"
+                    pathLength="1"
+                    stroke="var(--scene-moss)"
+                    d="M113 104h6m2 0h14"></path>
+            </g>
+            <path
+                class="scene-cursor"
+                fill="var(--scene-clay)"
+                d="M144 88h2v4h-2z"></path>
+            <path
+                class="scene-build-success"
+                fill="var(--scene-moss)"
+                d="M143 104h2v2h2v-2h2v-2h2v4h-2v2h-4v-2h-2z"></path>
+        </g>
         <path fill="var(--scene-aluminium-top)" d="M114 132h32v4h-32z"></path>
         <path fill="var(--scene-aluminium)" d="M114 136h32v4h-32z"></path>
         <path fill="var(--scene-port)" d="M118 136h4v2h-4zM126 136h4v2h-4z"
@@ -78,21 +124,28 @@
             fill="var(--scene-claude)"
             d="M54 112h32v10h6v8h-6v14h-4v-10h-4v10h-4v-10h-8v10h-4v-10h-4v10h-4v-14h-6v-8h6z"
         ></path>
-        <path fill="var(--scene-eyes)" d="M58 116h4v4h-4zM78 116h4v4h-4z"
-        ></path>
+        <path
+            class="scene-eyes scene-eyes-claude"
+            fill="var(--scene-eyes)"
+            d="M58 116h4v4h-4zM78 116h4v4h-4z"></path>
     </g>
-    <!-- GPT: the broad green blob, with raised eye bumps and white eye surrounds. -->
+    <!-- Dots: the broad green blob, with raised eye bumps and white eye surrounds. -->
     <path
         fill="var(--scene-gpt)"
         d="M210 92h6v2h4v-2h6v4h2v4h2v6h-2v2h-20v-2h-2v-6h2v-4h2z"></path>
-    <path fill="var(--scene-face)" d="M210 94h6v6h-6zM220 94h6v6h-6z"></path>
-    <path fill="var(--scene-eyes)" d="M213 96h3v3h-3zM223 96h3v3h-3z"></path>
+    <g class="scene-eyes scene-eyes-dots">
+        <path fill="var(--scene-face)" d="M210 94h6v6h-6zM220 94h6v6h-6z"
+        ></path>
+        <path fill="var(--scene-eyes)" d="M213 96h3v3h-3zM223 96h3v3h-3z"
+        ></path>
+    </g>
 
     <!-- Grok: a simple black blob, looking up and right with two tilted white eyes. -->
     <path
         fill="var(--scene-grok)"
         d="M238 88h8v2h4v4h2v8h-2v4h-4v2h-8v-2h-4v-4h-2v-8h2v-4h4z"></path>
     <path
+        class="scene-eyes scene-eyes-grok"
         fill="var(--scene-face)"
         d="M240 94h2v2h1v4h-2v-2h-1zM246 92h2v2h1v4h-2v-2h-1z"></path>
 
@@ -135,6 +188,154 @@
         display: block;
         width: 100%;
         height: auto;
+    }
+    .scene-steam {
+        opacity: 0;
+    }
+    .scene-eyes {
+        transform-box: fill-box;
+        transform-origin: center;
+    }
+    /* Small, stepped movements keep the original pixel-art character. */
+    @media (prefers-reduced-motion: no-preference) {
+        .scene-cloud {
+            animation: cloud-drift 12s steps(6, end) infinite alternate;
+        }
+        .scene-steam {
+            animation: steam-rise 4s steps(6, end) infinite;
+        }
+        .scene-steam-late {
+            animation-delay: -2s;
+        }
+        .scene-cursor {
+            animation: cursor-blink 1.6s step-end infinite;
+        }
+        .scene-prompt {
+            animation: prompt-type 8s steps(10, end) infinite;
+        }
+        .scene-code-first {
+            animation: code-first 8s steps(12, end) infinite;
+        }
+        .scene-code-second {
+            animation: code-second 8s steps(12, end) infinite;
+        }
+        .scene-code-third {
+            animation: code-third 8s steps(10, end) infinite;
+        }
+        .scene-build-success {
+            animation: build-success 8s step-end infinite;
+        }
+        .scene-eyes {
+            animation: keyring-blink 5.6s steps(2, end) infinite;
+        }
+        .scene-eyes-dots {
+            animation-duration: 7.1s;
+            animation-delay: -2.4s;
+        }
+        .scene-eyes-grok {
+            animation-duration: 6.3s;
+            animation-delay: -4.1s;
+        }
+    }
+    /* Quick, staggered blinks; each doll keeps its own idle rhythm. */
+    @keyframes keyring-blink {
+        0%,
+        94%,
+        100% {
+            transform: scaleY(1);
+        }
+        96%,
+        98% {
+            transform: scaleY(0.15);
+        }
+    }
+    /* All stages share one clock, holding the completed code before restarting. */
+    @keyframes prompt-type {
+        0%,
+        5%,
+        100% {
+            stroke-dashoffset: 1;
+        }
+        20%,
+        95% {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes code-first {
+        0%,
+        25%,
+        100% {
+            stroke-dashoffset: 1;
+        }
+        40%,
+        95% {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes code-second {
+        0%,
+        40%,
+        100% {
+            stroke-dashoffset: 1;
+        }
+        55%,
+        95% {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes code-third {
+        0%,
+        55%,
+        100% {
+            stroke-dashoffset: 1;
+        }
+        70%,
+        95% {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes build-success {
+        0%,
+        100% {
+            opacity: 0;
+        }
+        75%,
+        95% {
+            opacity: 1;
+        }
+    }
+    @keyframes cloud-drift {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(6px);
+        }
+    }
+    @keyframes steam-rise {
+        0% {
+            opacity: 0;
+            transform: translate(0, 2px);
+        }
+        25% {
+            opacity: 0.45;
+        }
+        75% {
+            opacity: 0.25;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(2px, -8px);
+        }
+    }
+    @keyframes cursor-blink {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
     }
     @media (prefers-color-scheme: dark) {
         .studio-scene {
