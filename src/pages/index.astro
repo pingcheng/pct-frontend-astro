@@ -80,7 +80,8 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
                     life.
                 </p>
                 <a href="/about" class="studio-link"
-                    >A little more about me <span aria-hidden="true">↗</span></a
+                    ><span class="hero-link-label">A little more about me</span>
+                    <span aria-hidden="true">↗</span></a
                 >
             </div>
             <div
@@ -151,6 +152,11 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
     }
     .hero-copy > a {
         margin-top: 20px;
+        text-decoration-line: none;
+    }
+    .hero-link-label {
+        text-decoration: underline;
+        text-decoration-color: inherit;
     }
     .studio-vignette {
         padding-top: 34px;
