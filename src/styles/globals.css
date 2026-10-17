@@ -54,13 +54,15 @@ button,
 summary {
     transition:
         color 160ms ease,
-        background-color 160ms ease;
+        background-color 160ms ease,
+        text-decoration-color 180ms ease;
 }
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 5px;
+    color: var(--color-accent);
 }
 a:hover {
     color: var(--color-accent);
@@ -76,12 +78,47 @@ img {
     color: var(--color-text);
 }
 
-/* An unhurried page: content is immediately available, without entrance effects. */
+/* One short entrance per content group; the underlying page stays visible. */
+@keyframes studio-enter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .animate-fade-in,
 .animate-fade-in-scale,
 .animate-slide-in-left,
 .animate-slide-in-right {
     opacity: 1;
+    animation: studio-enter 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--entrance-delay, 0ms);
+}
+.animate-delay-100 {
+    --entrance-delay: 80ms;
+}
+.animate-delay-200 {
+    --entrance-delay: 160ms;
+}
+.animate-delay-300 {
+    --entrance-delay: 240ms;
+}
+
+/* Move the arrow, keeping the link and keyboard focus target still. */
+.studio-link > [aria-hidden="true"],
+a > svg[aria-hidden="true"]:last-child {
+    transition:
+        transform 180ms ease,
+        color 180ms ease;
+}
+@media (hover: hover) {
+    .studio-link:hover > [aria-hidden="true"],
+    a:hover > svg[aria-hidden="true"]:last-child {
+        transform: translate(var(--arrow-x, 2px), var(--arrow-y, -2px));
+    }
 }
 
 .studio-eyebrow {
@@ -141,5 +178,9 @@ img {
     *::after {
         animation: none !important;
         transition: none !important;
+    }
+    .studio-link:hover > [aria-hidden="true"],
+    a:hover > svg[aria-hidden="true"]:last-child {
+        transform: none !important;
     }
 }

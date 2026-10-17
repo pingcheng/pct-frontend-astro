@@ -162,6 +162,18 @@ test.describe('personal site browser smoke', () => {
       'false',
     );
 
+    await expect(page.locator('#mobile-menu')).toHaveAttribute('inert', '');
+    await expect(menuButton).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('link', { name: 'Visit my GitHub profile' })).toBeFocused();
+
+    const mobileViewport = page.viewportSize();
+    await menuButton.click();
+    await page.setViewportSize({ width: 900, height: 850 });
+    await expect(page.locator('button[aria-controls="mobile-menu"]')).toHaveAttribute('aria-expanded', 'false');
+    if (mobileViewport) await page.setViewportSize(mobileViewport);
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+
     await expectNoHorizontalOverflow(page);
   });
 });
@@ -227,4 +239,50 @@ test('navigation works when the optional analytics loader fails', async ({ page 
   await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
   await page.getByRole('link', { name: /Empire CBS/ }).click();
   await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
+});
+
+
+test('home entrances run once and finish with readable content', async ({ page }) => {
+  await page.addInitScript(() => {
+    const motionWindow = window as Window & { studioMotionEvents: string[] };
+    motionWindow.studioMotionEvents = [];
+    for (const phase of ['animationstart', 'animationend']) {
+      document.addEventListener(phase, (event) => {
+        if (!(event.target instanceof Element)) return;
+        for (const group of ['hero-copy', 'studio-vignette']) {
+          if (event.target.classList.contains(group)) {
+            motionWindow.studioMotionEvents.push(`${group}:${phase}`);
+          }
+        }
+      });
+    }
+  });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect.poll(() => page.evaluate(() => (
+    window as Window & { studioMotionEvents: string[] }
+  ).studioMotionEvents)).toEqual(expect.arrayContaining([
+    'hero-copy:animationstart', 'hero-copy:animationend',
+    'studio-vignette:animationstart', 'studio-vignette:animationend',
+  ]));
+  expect(await page.evaluate(() => (
+    window as Window & { studioMotionEvents: string[] }
+  ).studioMotionEvents)).toHaveLength(4);
+  expect(await page.locator('main').evaluate((main) =>
+    main.checkVisibility({ checkOpacity: true }),
+  )).toBe(true);
+  await expectNoHorizontalOverflow(page);
+});
+
+test('reduced motion keeps home and inner-page content immediately readable', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const route of ['/', '/about']) {
+    await page.goto(route, { waitUntil: 'domcontentloaded' });
+    expect(await page.locator('main [class*="animate-"]').evaluateAll((groups) =>
+      groups.every((group) => group.checkVisibility({ checkOpacity: true })),
+    )).toBe(true);
+    expect(await page.evaluate(() => document.getAnimations().filter(
+      (animation) => animation.playState === 'running',
+    ).length)).toBe(0);
+    await expectNoHorizontalOverflow(page);
+  }
 });

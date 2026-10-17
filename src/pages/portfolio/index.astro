@@ -53,7 +53,7 @@ const yearRange = projectYears.length
                                 { "project-featured": index === 0 },
                             ]}
                             style={{
-                                animationDelay: `${Math.min(120 + index * 50, 350)}ms`,
+                                "--entrance-delay": `${Math.min(80 + index * 80, 240)}ms`,
                             }}
                         >
                             <a
@@ -227,7 +227,7 @@ const yearRange = projectYears.length
         width: 100%;
         height: 100%;
         object-fit: contain;
-        transition: transform 0.25s ease;
+        transition: transform 220ms ease;
     }
 
     .project-content {
@@ -328,13 +328,18 @@ const yearRange = projectYears.length
         display: block;
     }
 
-    .project-link:hover .project-image img {
-        transform: scale(1.015);
+    .view-project :global(svg) {
+        transition: transform 180ms ease;
     }
-
-    .project-link:hover .project-title :global(svg) {
-        color: var(--color-text);
-        transform: translate(2px, -2px);
+    @media (hover: hover) {
+        .project-link:hover .project-image img {
+            transform: scale(1.015);
+        }
+        .project-link:hover .project-title :global(svg),
+        .project-link:hover .view-project :global(svg) {
+            color: var(--color-accent);
+            transform: translate(2px, -2px);
+        }
     }
 
     .project-link:hover .view-project,
@@ -425,12 +430,14 @@ const yearRange = projectYears.length
 
     @media (prefers-reduced-motion: reduce) {
         .project-image img,
-        .project-title :global(svg) {
+        .project-title :global(svg),
+        .view-project :global(svg) {
             transition: none;
         }
 
         .project-link:hover .project-image img,
-        .project-link:hover .project-title :global(svg) {
+        .project-link:hover .project-title :global(svg),
+        .project-link:hover .view-project :global(svg) {
             transform: none;
         }
     }

@@ -140,7 +140,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                         <a
                             class="screenshot-link animate-fade-in"
                             style={{
-                                animationDelay: `${Math.min(200 + index * 40, 400)}ms`,
+                                "--entrance-delay": `${Math.min(160 + index * 80, 240)}ms`,
                             }}
                             href={src}
                             target="_blank"
@@ -196,6 +196,12 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         display: flex;
         align-items: center;
         gap: 8px;
+    }
+
+    .back-link,
+    .project-navigation a[href="/portfolio"] {
+        --arrow-x: -2px;
+        --arrow-y: 0px;
     }
 
     .back-link {
@@ -342,6 +348,18 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         height: 100%;
         object-fit: cover;
         object-position: top;
+        transition: transform 220ms ease;
+    }
+
+    @media (hover: hover) {
+        .screenshot-link:hover img {
+            transform: scale(1.015);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .screenshot-link:hover img {
+            transform: none;
+        }
     }
 
     .project-navigation {

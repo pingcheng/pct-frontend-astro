@@ -33,4 +33,17 @@ import { profile } from "@/data/profile";
         gap: 12px;
         min-height: 44px;
     }
+    a > span {
+        transition: transform 180ms ease;
+    }
+    @media (hover: hover) {
+        a:hover > span {
+            transform: translate(2px, -2px);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        a:hover > span {
+            transform: none;
+        }
+    }
 </style>

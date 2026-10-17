@@ -30,6 +30,16 @@ export default function NavBar({ currentPath }: { currentPath: string }) {
         return () => document.removeEventListener("keydown", handleEscape);
     }, [isMobileMenuVisible]);
 
+    useEffect(() => {
+        if (!window.matchMedia) return;
+        const desktop = window.matchMedia("(min-width: 641px)");
+        const closeOnDesktop = () => {
+            if (desktop.matches) setIsMobileMenuVisible(false);
+        };
+        desktop.addEventListener("change", closeOnDesktop);
+        return () => desktop.removeEventListener("change", closeOnDesktop);
+    }, []);
+
     const renderLinks = () =>
         menuItems.map((item) => (
             <a
@@ -93,12 +103,14 @@ export default function NavBar({ currentPath }: { currentPath: string }) {
             </div>
             <div
                 id="mobile-menu"
-                className={styles.mobileMenu}
-                hidden={!isMobileMenuVisible}
+                className={`${styles.mobileMenu} ${isMobileMenuVisible ? styles.expanded : ""}`}
+                inert={!isMobileMenuVisible}
                 aria-hidden={!isMobileMenuVisible}
             >
-                <div className={`page-container ${styles.mobileLinks}`}>
-                    {renderLinks()}
+                <div className={styles.mobileClip}>
+                    <div className={`page-container ${styles.mobileLinks}`}>
+                        {renderLinks()}
+                    </div>
                 </div>
             </div>
         </nav>

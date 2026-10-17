@@ -63,7 +63,7 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
 
     <main class="home-page">
         <section class="home-hero" aria-labelledby="home-title">
-            <div class="hero-copy">
+            <div class="hero-copy animate-fade-in">
                 <p class="studio-eyebrow">A personal corner of the internet</p>
                 <h1 id="home-title">
                     <span>Hey, I’m</span>
@@ -83,7 +83,10 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
                     >A little more about me <span aria-hidden="true">↗</span></a
                 >
             </div>
-            <div class="studio-vignette">
+            <div
+                class="studio-vignette animate-fade-in"
+                style="--entrance-delay: 100ms"
+            >
                 <div class="portrait-note">
                     <Avatar width={72} height={72} client:load />
                     <div>

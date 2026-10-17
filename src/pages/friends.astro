@@ -25,12 +25,12 @@ const breadcrumbItems = [
     <StructuredData type="breadcrumb" breadcrumbItems={breadcrumbItems} />
 
     <main class="friends-page">
-        <header>
+        <header class="animate-fade-in">
             <p class="studio-eyebrow">Good company</p>
             <h1>Friends</h1>
             <p class="intro-text">Personal websites of people I know.</p>
         </header>
-        <div class="friend-grid">
+        <div class="friend-grid animate-fade-in animate-delay-100">
             {Friends.map((friend) => <FriendCard friend={friend} />)}
         </div>
     </main>

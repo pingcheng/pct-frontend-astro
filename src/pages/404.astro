@@ -3,7 +3,7 @@ import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
 ---
 
 <FixedWidthLayout title="Page not found | Ping Cheng">
-    <main class="not-found">
+    <main class="not-found animate-fade-in">
         <p class="studio-eyebrow">404 / A small detour</p>
         <h1>Page not found</h1>
         <p>The page you’re looking for doesn’t exist.</p>
@@ -43,6 +43,8 @@ import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
         color: var(--color-text-secondary);
     }
     a {
+        --arrow-x: -2px;
+        --arrow-y: 0px;
         margin-top: 20px;
     }
     svg {
