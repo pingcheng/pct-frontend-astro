@@ -40,19 +40,22 @@
 
     <!-- One clear work surface, with the Mac mini tucked below the monitor. -->
     <path fill="var(--scene-desktop)" d="M20 136h248v8H20z"></path>
-    <path
-        fill="var(--scene-ink)"
-        d="M100 74h60v40h-60zM126 114h8v14h-8zM116 128h28v4h-28z"></path>
-    <path fill="var(--scene-screen)" d="M104 78h52v32h-52z"></path>
-    <path
-        fill="var(--scene-moss)"
-        d="M114 88h8v4h-4v8h4v4h-8V88Zm24 0h8v16h-8v-4h4v-8h-4z"></path>
-    <path fill="var(--scene-clay)" d="M128 94h4v4h-4z"></path>
-    <path fill="var(--scene-aluminium-top)" d="M114 132h32v4h-32z"></path>
-    <path fill="var(--scene-aluminium)" d="M114 136h32v4h-32z"></path>
-    <path fill="var(--scene-port)" d="M118 136h4v2h-4zM126 136h4v2h-4z"></path>
-    <path fill="var(--scene-status)" d="M140 136h2v2h-2z"></path>
-    <path fill="var(--scene-frame)" d="M108 142h44v2h-44z"></path>
+    <g transform="translate(10 0)">
+        <path
+            fill="var(--scene-ink)"
+            d="M100 74h60v40h-60zM126 114h8v14h-8zM116 128h28v4h-28z"></path>
+        <path fill="var(--scene-screen)" d="M104 78h52v32h-52z"></path>
+        <path
+            fill="var(--scene-moss)"
+            d="M114 88h8v4h-4v8h4v4h-8V88Zm24 0h8v16h-8v-4h4v-8h-4z"></path>
+        <path fill="var(--scene-clay)" d="M128 94h4v4h-4z"></path>
+        <path fill="var(--scene-aluminium-top)" d="M114 132h32v4h-32z"></path>
+        <path fill="var(--scene-aluminium)" d="M114 136h32v4h-32z"></path>
+        <path fill="var(--scene-port)" d="M118 136h4v2h-4zM126 136h4v2h-4z"
+        ></path>
+        <path fill="var(--scene-status)" d="M140 136h2v2h-2z"></path>
+        <path fill="var(--scene-frame)" d="M108 142h44v2h-44z"></path>
+    </g>
 
     <!-- Three separate wall hooks, each with its own ring and short chain. -->
     <path
@@ -68,7 +71,7 @@
     ></path>
     <path
         fill="var(--scene-aluminium)"
-        d="M194 82h2v6h-2zM216 82h2v10h-2zM240 82h2v7h-2z"></path>
+        d="M194 82h2v6h-2zM216 82h2v12h-2zM240 82h2v7h-2z"></path>
     <g transform="translate(160 32) scale(.5)">
         <!-- Claude's wide blocky body, square eyes, side arms and four dangling legs. -->
         <path
@@ -78,30 +81,20 @@
         <path fill="var(--scene-eyes)" d="M58 116h4v4h-4zM78 116h4v4h-4z"
         ></path>
     </g>
-    <g transform="translate(124 37) scale(.5)">
-        <!-- GPT: a sage robot with a little interlocking tuft and a friendly face. -->
-        <path fill="var(--scene-gpt-crest)" d="M182 110h8v4h4v6h-4v-6h-4v6h-4z"
-        ></path>
-        <path
-            fill="var(--scene-gpt)"
-            d="M180 118h16v4h4v6h4v6h-4v4h-4v6h-6v-4h-4v4h-6v-6h-4v-4h-4v-6h4v-6h4z"
-        ></path>
-        <path
-            fill="var(--scene-eyes)"
-            d="M182 124h4v4h-4zM192 124h4v4h-4zM186 132h6v2h-6z"></path>
-    </g>
-    <g transform="translate(122 32) scale(.5)">
-        <!-- Grok: a cheeky charcoal creature with a small orbital tail. -->
-        <path
-            fill="var(--scene-orbit)"
-            d="M248 112h8v4h4v12h-4v4h-6v-4h6v-12h-8z"></path>
-        <path
-            fill="var(--scene-grok)"
-            d="M230 114h14v4h6v18h-6v8h-6v-4h-4v4h-6v-8h-4v-18h6z"></path>
-        <path
-            fill="var(--scene-face)"
-            d="M228 124h6v4h-6zM240 122h6v4h-6zM234 132h6v2h-6z"></path>
-    </g>
+    <!-- GPT: the broad green blob, with raised eye bumps and white eye surrounds. -->
+    <path
+        fill="var(--scene-gpt)"
+        d="M210 92h6v2h4v-2h6v4h2v4h2v6h-2v2h-20v-2h-2v-6h2v-4h2z"></path>
+    <path fill="var(--scene-face)" d="M210 94h6v6h-6zM220 94h6v6h-6z"></path>
+    <path fill="var(--scene-eyes)" d="M213 96h3v3h-3zM223 96h3v3h-3z"></path>
+
+    <!-- Grok: a simple black blob, looking up and right with two tilted white eyes. -->
+    <path
+        fill="var(--scene-grok)"
+        d="M238 88h8v2h4v4h2v8h-2v4h-4v2h-8v-2h-4v-4h-2v-8h2v-4h4z"></path>
+    <path
+        fill="var(--scene-face)"
+        d="M240 94h2v2h1v4h-2v-2h-1zM246 92h2v2h1v4h-2v-2h-1z"></path>
 
     <!-- A simple desk and a stool tucked underneath. -->
     <path
@@ -111,7 +104,7 @@
     ></path>
     <path
         fill="var(--scene-moss)"
-        d="M110 164h40v6h-40zM116 170h4v14h-4zM140 170h4v14h-4z"></path>
+        d="M120 164h40v6h-40zM126 170h4v14h-4zM150 170h4v14h-4z"></path>
 </svg>
 <style>
     .studio-scene {
@@ -135,10 +128,8 @@
         --scene-aluminium: #a5ada7;
         --scene-port: #48534e;
         --scene-status: #f6f6dc;
-        --scene-gpt: #8caa92;
-        --scene-gpt-crest: #5c7b68;
-        --scene-grok: #41423b;
-        --scene-orbit: #9d9e8a;
+        --scene-gpt: #bbd586;
+        --scene-grok: #252824;
         --scene-eyes: #292a24;
         --scene-face: #fbf2dd;
         display: block;
@@ -158,9 +149,7 @@
             --scene-screen: #3b4338;
             --scene-desktop: #6f604b;
             --scene-shadow: #484337;
-            --scene-gpt-crest: #b0c4a9;
-            --scene-grok: #34362f;
-            --scene-orbit: #c5c8b1;
+            --scene-grok: #191d19;
         }
     }
 </style>
