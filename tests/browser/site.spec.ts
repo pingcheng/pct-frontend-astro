@@ -70,15 +70,6 @@ test.describe('personal site browser smoke', () => {
     await page.goto('/');
 
     await expect(page.getByRole('heading', { name: /Ping Cheng/ })).toBeVisible();
-    await expect(page.getByText('Principal Engineer at REA Group')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
-      'href',
-      'https://github.com/pingcheng',
-    );
-    await expect(page.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
-      'href',
-      'https://www.linkedin.com/in/ping-cheng-5a47b484',
-    );
     const menuButton = page.getByRole('button', { name: 'Open main menu' });
     if (await menuButton.isVisible()) await menuButton.click();
     await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true })).toHaveAttribute(
@@ -92,10 +83,11 @@ test.describe('personal site browser smoke', () => {
     const closeMenuButton = page.getByRole('button', { name: 'Close main menu' });
     if (await closeMenuButton.isVisible()) await closeMenuButton.click();
     await expect(page.getByText('I like making things that are useful.')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'A few things I’ve built' })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Daily English Worksheet/ })).toHaveAttribute(
-      'href', '/portfolio/daily-english-worksheet',
+    await expect(page.getByRole('link', { name: 'A little more about me' })).toHaveAttribute(
+      'href', '/about',
     );
+    await expect(page.getByText('I’m a software engineer in Melbourne, exploring coding agents, building personal tools, and tinkering with everyday life.')).toBeVisible();
+    await expect(page.getByRole('img', { name: 'Ping Cheng profile photo', exact: true })).toBeVisible();
 
     await expectNoHorizontalOverflow(page);
   });
