@@ -41,6 +41,14 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 Back to portfolio
             </a>
             <h1>{portfolio.name}</h1>
+            <img
+                class="project-cover"
+                src={portfolio.coverImage}
+                alt={`Cover image for ${portfolio.name}`}
+                {...imageDimensions[portfolio.coverImage]}
+                loading="eager"
+                decoding="async"
+            />
         </header>
 
         <div class="project-summary animate-fade-in animate-delay-100">
@@ -182,8 +190,27 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         color: var(--color-text-secondary);
     }
 
+    .project-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 96px;
+        align-items: center;
+        gap: 20px 32px;
+    }
+
+    .back-link {
+        grid-column: 1 / -1;
+    }
+
+    .project-cover {
+        width: 96px;
+        height: 128px;
+        object-fit: contain;
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        background: var(--color-card);
+    }
+
     h1 {
-        margin-top: 20px;
         font-size: clamp(30px, 4vw, 44px);
         font-weight: 600;
         line-height: 1.2;
@@ -337,6 +364,16 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         .project-page {
             padding-top: 24px;
             padding-bottom: 16px;
+        }
+
+        .project-header {
+            grid-template-columns: minmax(0, 1fr) 72px;
+            gap: 16px;
+        }
+
+        .project-cover {
+            width: 72px;
+            height: 96px;
         }
 
         .project-summary {
