@@ -2,18 +2,35 @@
 import { profile } from "@/data/profile";
 ---
 
-<footer class="text-center mb-4 text-neutral-400 pt-4 pb-4">
-    <p>
-        Hand and AI crafted with{" "}
-        <span class="text-red-400">❤</span>{" "}
-        by {profile.fullName}
-    </p>
-    <p class="mt-1 text-sm">
-        <a
-            href="/friends"
-            class="underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600 hover:text-neutral-600 dark:hover:text-neutral-300"
-        >
-            Friends
-        </a>
-    </p>
+<footer class="page-container">
+    <div class="footer-inner">
+        <p>
+            Hand and AI crafted with <span class="heart">❤</span> by {
+                profile.fullName
+            }
+        </p>
+        <a href="/friends">Friends <span aria-hidden="true">↗</span></a>
+    </div>
 </footer>
+<style>
+    .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px 32px;
+        flex-wrap: wrap;
+        padding: 26px 0 32px;
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+        font-size: 12px;
+    }
+    .heart {
+        color: var(--color-accent);
+    }
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 44px;
+    }
+</style>

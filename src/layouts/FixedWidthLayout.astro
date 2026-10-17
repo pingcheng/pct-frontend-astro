@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
 
 <BaseLayout {...props}>
     <NavBar currentPath={currentPath} client:load />
-    <div class="page-container pt-2">
+    <div class="page-container">
         <slot />
     </div>
     <Footer />

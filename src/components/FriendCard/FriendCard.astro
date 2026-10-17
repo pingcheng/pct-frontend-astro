@@ -21,7 +21,7 @@ const initials = friend.name
     href={friend.url}
     target="_blank"
     rel="noopener noreferrer"
-    class="card flex items-center gap-4 p-5 h-full"
+    class="friend-link flex items-center gap-4 h-full"
     aria-label={`Visit ${friend.name}'s website`}
 >
     {
@@ -47,12 +47,12 @@ const initials = friend.name
     }
 
     <div class="flex flex-col min-w-0 flex-1 gap-0.5">
-        <span class="font-semibold text-[15px] text-primary truncate">
+        <span class="font-medium text-base text-primary">
             {friend.name}
         </span>
         {
             friend.description && (
-                <span class="text-sm line-clamp-2 friend-description">
+                <span class="text-base friend-description">
                     {friend.description}
                 </span>
             )
@@ -79,6 +79,16 @@ const initials = friend.name
 </a>
 
 <style>
+    .friend-link {
+        padding-block: 28px;
+        border-bottom: 1px solid var(--color-border);
+    }
+    .friend-link:hover {
+        color: var(--color-accent);
+    }
+    .friend-domain {
+        overflow-wrap: anywhere;
+    }
     .friend-avatar-fallback {
         width: 48px;
         height: 48px;
@@ -112,11 +122,11 @@ const initials = friend.name
             color 0.2s ease-in-out;
     }
 
-    a.card:hover .friend-domain {
+    a.friend-link:hover .friend-domain {
         text-decoration-color: var(--color-text);
     }
 
-    a.card:hover .friend-external-icon {
+    a.friend-link:hover .friend-external-icon {
         color: var(--color-text);
         transform: translate(2px, -2px);
     }

@@ -64,7 +64,7 @@ test.afterEach(async ({ page }) => {
 });
 
 test.describe('personal site browser smoke', () => {
-  test('home page renders identity, navigation links, and hydrated typewriter text', async ({
+  test('home page renders identity, navigation links, and a stable personal introduction', async ({
     page,
   }) => {
     await page.goto('/');
@@ -79,22 +79,23 @@ test.describe('personal site browser smoke', () => {
       'href',
       'https://www.linkedin.com/in/ping-cheng-5a47b484',
     );
-    await expect(page.getByRole('link', { name: 'Portfolio' })).toHaveAttribute(
+    const menuButton = page.getByRole('button', { name: 'Open main menu' });
+    if (await menuButton.isVisible()) await menuButton.click();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true })).toHaveAttribute(
       'href',
       '/portfolio',
     );
-    await expect(page.getByRole('link', { name: 'About' })).toHaveAttribute(
+    await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About me', exact: true })).toHaveAttribute(
       'href',
       '/about',
     );
-    // The homepage cycles taglines via a typewriter (each line types out,
-    // pauses, then deletes before the next). 'Writing code' is the second
-    // line, so the assertion needs to wait for the first line's full
-    // type/pause/delete cycle (~6.7s) before it can appear. Allow a full
-    // cycle plus margin.
-    await expect(page.getByText('Writing code')).toBeVisible({
-      timeout: 15_000,
-    });
+    const closeMenuButton = page.getByRole('button', { name: 'Close main menu' });
+    if (await closeMenuButton.isVisible()) await closeMenuButton.click();
+    await expect(page.getByText('I like making things that are useful.')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'A few things I’ve built' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Daily English Worksheet/ })).toHaveAttribute(
+      'href', '/portfolio/daily-english-worksheet',
+    );
 
     await expectNoHorizontalOverflow(page);
   });
@@ -228,7 +229,9 @@ test('navigation works when the optional analytics loader fails', async ({ page 
   if (await page.locator('script[src^="https://www.googletagmanager.com/"]').count()) {
     await expect.poll(() => failedAnalytics.length).toBeGreaterThan(0);
   }
-  await page.getByRole('link', { name: 'Portfolio', exact: true }).first().click();
+  const menuButton = page.getByRole('button', { name: 'Open main menu' });
+  if (await menuButton.isVisible()) await menuButton.click();
+  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
   await page.getByRole('link', { name: /Empire CBS/ }).click();
   await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();

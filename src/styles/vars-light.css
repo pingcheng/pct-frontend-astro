@@ -1,8 +1,9 @@
 :root {
-  --color-bg-light: #fafafa;
-  --color-text-light: #171717;
-  --color-text-secondary-light: #737373;
-  --color-accent-light: #171717;
-  --color-card-light: #fff;
-  --color-border-light: #e5e5e5;
+    --color-bg-light: #f7f3eb;
+    --color-text-light: #302c27;
+    --color-text-secondary-light: #70675d;
+    --color-accent-light: #a34d35;
+    --color-card-light: #eee8dc;
+    --color-border-light: #d9d0c2;
+    --color-moss-light: #576349;
 }

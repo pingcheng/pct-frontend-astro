@@ -1,19 +1,9 @@
 ---
 import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
-import Heading from "@/components/Heading/Heading.astro";
 import FriendCard from "@/components/FriendCard/FriendCard.astro";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
 import { Friends } from "@/data/friends";
 import { URLS } from "@/constants/urls";
-
-const friendDelays = [
-    "animate-delay-200",
-    "animate-delay-300",
-    "animate-delay-400",
-    "animate-delay-500",
-    "animate-delay-600",
-    "animate-delay-700",
-];
 
 const breadcrumbItems = [
     { name: "Home", url: URLS.WEBSITE.BASE },
@@ -34,28 +24,49 @@ const breadcrumbItems = [
 >
     <StructuredData type="breadcrumb" breadcrumbItems={breadcrumbItems} />
 
-    <div class="py-4">
-        <div class="animate-fade-in">
-            <Heading text="Friends" align="center" />
+    <main class="friends-page">
+        <header>
+            <p class="studio-eyebrow">Good company</p>
+            <h1>Friends</h1>
+            <p class="intro-text">Personal websites of people I know.</p>
+        </header>
+        <div class="friend-grid">
+            {Friends.map((friend) => <FriendCard friend={friend} />)}
         </div>
-
-        <p
-            class="animate-fade-in animate-delay-100 text-center text-sm md:text-base mt-2"
-            style="color: var(--color-text-secondary);"
-        >
-            Personal websites of people I know.
-        </p>
-
-        <div class="mt-8 flex flex-row flex-wrap gap-6 justify-center">
-            {
-                Friends.map((friend, index) => (
-                    <div
-                        class={`animate-fade-in-scale w-full md:w-[28rem] ${friendDelays[index] ?? ""}`}
-                    >
-                        <FriendCard friend={friend} />
-                    </div>
-                ))
-            }
-        </div>
-    </div>
+    </main>
 </FixedWidthLayout>
+
+<style>
+    .friends-page {
+        padding: 64px 0 64px;
+        min-height: 65vh;
+    }
+    h1 {
+        margin-top: 28px;
+        font-family: var(--font-display);
+        font-size: clamp(48px, 6.5vw, 76px);
+        line-height: 1.1;
+        letter-spacing: -0.055em;
+    }
+    .intro-text {
+        margin-top: 24px;
+        font-size: 20px;
+        line-height: 1.7;
+    }
+    .friend-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 40px;
+        margin-top: 48px;
+        border-top: 1px solid var(--color-border);
+    }
+    @media (max-width: 700px) {
+        .friends-page {
+            padding-top: 44px;
+        }
+        .friend-grid {
+            grid-template-columns: 1fr;
+            margin-top: 32px;
+        }
+    }
+</style>

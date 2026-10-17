@@ -1,74 +1,89 @@
-@reference "../../styles/globals.css";
-
 .navBarRoot {
-  background: var(--color-card-light);
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
-  border-bottom: 1px solid var(--color-border-light);
-  transition: background 0.3s, border 0.3s;
+    padding-top: 18px;
 }
-
-@media (prefers-color-scheme: dark) {
-  .navBarRoot {
-    background: var(--color-card-dark);
-    border-bottom: 1px solid var(--color-border-dark);
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
-  }
+.navInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 78px;
 }
-
-.navItem {
-  @apply block px-3 py-2 rounded-md text-base font-medium transition duration-300;
-  color: var(--color-text-light);
-  background: transparent;
-  position: relative;
-}
-
-.navItem:hover {
-  color: var(--color-accent);
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.navItem:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-
-.navItem.active {
-  color: var(--color-accent);
-  font-weight: 600;
-  background: rgba(0, 0, 0, 0.08);
-}
-
-@media (prefers-color-scheme: dark) {
-  .navItem {
-    color: var(--color-text-dark);
-  }
-
-  .navItem:hover {
-    color: var(--color-accent);
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .navItem.active {
-    color: var(--color-accent);
+.identity {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
     font-weight: 600;
-    background: rgba(255, 255, 255, 0.12);
-  }
+    letter-spacing: -0.035em;
 }
-
+.identity svg {
+    color: var(--color-accent);
+}
+.desktopMenu {
+    display: flex;
+    gap: 28px;
+}
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    min-height: 44px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
+.navItem::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background: transparent;
+}
+.navItem:hover,
+.navItem.active {
+    color: var(--color-text);
+}
+.navItem.active::before {
+    background: var(--color-accent);
+}
+.navItem:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+.menuToggle {
+    display: none;
+}
+.mobileMenu[hidden] {
+    display: none;
+}
 .mobileMenu {
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, visibility 0s linear 0.3s;
+    border-block: 1px solid var(--color-border);
 }
-
-.mobileMenu.expanded {
-  /* max-height is set dynamically via JS */
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+.mobileLinks {
+    display: grid;
+    padding-block: 12px;
+}
+@media (min-width: 641px) {
+    .mobileMenu {
+        display: none;
+    }
+}
+@media (max-width: 640px) {
+    .navBarRoot {
+        padding-top: 4px;
+    }
+    .navInner {
+        min-height: 76px;
+    }
+    .desktopMenu {
+        display: none;
+    }
+    .menuToggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 8px 0 8px 12px;
+        color: var(--color-text);
+        font-size: 13px;
+    }
 }
