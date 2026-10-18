@@ -26,6 +26,10 @@ export const Portfolios: Portfolio[] = [
       "/images/portfolio/daily-english-worksheet-today.webp",
       "/images/portfolio/daily-english-worksheet-history.webp",
     ],
+    screenshotCaptions: [
+      "Today’s worksheet — reading, vocabulary, and writing practice in one printable activity.",
+      "The archive — browse previous worksheets and choose a difficulty level.",
+    ],
     year: "2026",
   },
   {

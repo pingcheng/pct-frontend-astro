@@ -7,6 +7,7 @@
     justify-content: space-between;
     gap: 24px;
     min-height: 78px;
+    border-bottom: 1px solid var(--color-border);
 }
 .identity {
     display: inline-flex;
@@ -30,7 +31,8 @@
     position: relative;
     min-height: 44px;
     color: var(--color-text-secondary);
-    font-size: 13px;
+    font-size: 12px;
+    font-family: var(--font-code);
 }
 .navItem::before {
     content: "";
@@ -102,7 +104,8 @@
         min-height: 44px;
         padding: 8px 0 8px 12px;
         color: var(--color-text);
-        font-size: 13px;
+        font-size: 12px;
+        font-family: var(--font-code);
     }
 }
 

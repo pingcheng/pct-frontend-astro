@@ -25,7 +25,7 @@
 
 @utility page-container {
     width: 100%;
-    max-width: 1080px;
+    max-width: 1160px;
     margin-inline: auto;
     padding-inline: 48px;
 }
@@ -184,4 +184,27 @@ a > svg[aria-hidden="true"]:last-child {
     a:hover > svg[aria-hidden="true"]:last-child {
         transform: none !important;
     }
+}
+
+/* Shared editorial rhythm across the index and reading pages. */
+:root {
+    --page-space: clamp(44px, 7vw, 88px);
+    --reading-width: 66ch;
+}
+h1,
+h2,
+h3 {
+    text-wrap: balance;
+}
+h2[id],
+h3[id] {
+    scroll-margin-top: 32px;
+}
+.editorial-label {
+    font-family: var(--font-code);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
 }
