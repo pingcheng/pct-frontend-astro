@@ -10,5 +10,6 @@ export type Portfolio = {
   roleDescription: string[];
   members: string[];
   screenshots: string[];
+  screenshotCaptions?: string[];
   year: string | null;
 };

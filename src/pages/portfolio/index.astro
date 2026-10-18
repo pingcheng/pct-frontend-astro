@@ -71,6 +71,10 @@ const yearRange = projectYears.length
                                     />
                                 </div>
                                 <div class="project-content">
+                                    <span class="project-number editorial-label">
+                                        Project{" "}
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
                                     {index === 0 && (
                                         <p class="eyebrow studio-eyebrow featured-label">
                                             Latest project
@@ -132,11 +136,8 @@ const yearRange = projectYears.length
 
 <style>
     .portfolio-page {
-        max-width: 984px;
-        margin: 0 auto;
-        padding: 64px 0 48px;
+        padding: var(--page-space) 0 48px;
     }
-
     .intro-topline,
     .collection-heading,
     .project-meta,
@@ -147,298 +148,167 @@ const yearRange = projectYears.length
         justify-content: space-between;
         gap: 16px;
     }
-
-    .eyebrow,
     .year-range,
     .collection-heading,
     .project-meta {
-        font-size: 12px;
         font-family: var(--font-code);
+        font-size: 11px;
         color: var(--color-text-secondary);
     }
-
-    .eyebrow {
-        font-weight: 500;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-    }
-
     .year-range,
-    .project-year,
-    .collection-heading > span {
-        font-variant-numeric: tabular-nums;
+    .project-year {
         white-space: nowrap;
     }
-
     h1 {
-        margin-top: 35px;
+        margin-top: 28px;
         font-family: var(--font-display);
         font-size: clamp(48px, 6.5vw, 76px);
+        font-weight: 400;
         line-height: 1.1;
         letter-spacing: -0.055em;
-        font-weight: 400;
     }
-
     .intro-text {
-        max-width: 620px;
+        max-width: 44ch;
         margin-top: 24px;
         font-size: clamp(19px, 2.4vw, 23px);
         line-height: 1.65;
         letter-spacing: -0.025em;
-        text-wrap: pretty;
     }
-
     .portfolio-intro {
-        padding-bottom: 56px;
+        padding-bottom: 64px;
     }
-
     .collection-heading {
-        padding: 20px 0 28px;
-        border-top: 1px solid var(--color-border);
-        line-height: 1.6;
+        padding: 20px 0;
+        border-block: 1px solid var(--color-border);
     }
-
-    .project-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 40px 24px;
-    }
-
-    .project {
-        min-width: 0;
-    }
-
     .project-link {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        border-radius: 3px;
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 48px;
+        padding: 36px 0;
+        border-bottom: 1px solid var(--color-border);
+        align-items: center;
     }
-
     .project-image {
-        flex-shrink: 0;
-        overflow: hidden;
-        aspect-ratio: 3 / 4;
-        border: 1px solid var(--color-border);
         background: var(--color-card);
+        border: 1px solid var(--color-border);
     }
-
     .project-image img {
         width: 100%;
-        height: 100%;
+        aspect-ratio: 3 / 4;
         object-fit: contain;
-        transition: transform 220ms ease;
     }
-
     .project-content {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        padding-top: 20px;
+        min-width: 0;
     }
-
+    .project-number {
+        display: block;
+        margin-bottom: 18px;
+    }
+    .featured-label {
+        margin-bottom: 16px;
+        font-size: 10px;
+    }
     .project-meta {
-        gap: 8px 16px;
-        line-height: 1.6;
+        flex-wrap: wrap;
+        gap: 8px;
     }
-
     .project-title {
         align-items: center;
-        margin-top: 10px;
+        margin-top: 12px;
     }
-
     .project-title h2 {
-        font-size: 22px;
-        font-weight: 500;
-        line-height: 1.3;
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(28px, 3vw, 38px);
         letter-spacing: -0.035em;
+        line-height: 1.2;
     }
-
     .project-title :global(svg) {
         flex-shrink: 0;
-        color: var(--color-text-secondary);
-        transition:
-            transform 0.2s ease,
-            color 0.2s ease;
+        color: var(--color-accent);
     }
-
     .project-description {
-        margin-top: 10px;
+        max-width: 58ch;
+        margin-top: 14px;
         color: var(--color-text-secondary);
-        font-size: 16px;
         line-height: 1.8;
-        text-wrap: pretty;
     }
-
-    .view-project,
+    .view-project {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        margin-top: 12px;
+        font-size: 12px;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+        text-decoration-color: var(--color-border);
+    }
+    .view-project :global(svg) {
+        display: none;
+    }
+    .project-link:hover .view-project {
+        text-decoration-color: currentColor;
+    }
+    .project-featured .project-link {
+        grid-template-columns: 260px minmax(0, 1fr);
+        padding-block: 40px;
+    }
+    .portfolio-outro {
+        padding-top: 40px;
+        align-items: center;
+    }
+    .portfolio-outro h2 {
+        font-size: 17px;
+        font-weight: 500;
+    }
+    .portfolio-outro p {
+        margin-top: 8px;
+        color: var(--color-text-secondary);
+        font-size: 14px;
+    }
     .portfolio-outro a {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
         min-height: 44px;
         font-size: 13px;
-    }
-
-    .view-project {
-        margin-top: auto;
-        padding-top: 12px;
-        text-decoration: underline;
-        text-decoration-color: var(--color-border);
-        text-underline-offset: 5px;
-    }
-
-    .view-project :global(svg) {
-        display: none;
-    }
-
-    .project-featured {
-        grid-column: 1 / -1;
-        padding-bottom: 40px;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .project-featured .project-link {
-        display: grid;
-        grid-template-columns: 300px minmax(0, 1fr);
-        align-items: center;
-        gap: 40px;
-    }
-
-    .project-featured .project-content {
-        padding-top: 0;
-    }
-
-    .featured-label {
-        margin-bottom: 24px;
-    }
-
-    .project-featured .project-meta {
-        flex-wrap: wrap;
-    }
-
-    .project-featured .project-title h2 {
-        font-size: clamp(26px, 3vw, 32px);
-    }
-
-    .project-featured .project-title :global(svg) {
-        display: none;
-    }
-
-    .project-featured .view-project :global(svg) {
-        display: block;
-    }
-
-    .view-project :global(svg) {
-        transition: transform 180ms ease;
-    }
-    @media (hover: hover) {
-        .project-link:hover .project-image img {
-            transform: scale(1.015);
-        }
-        .project-link:hover .project-title :global(svg),
-        .project-link:hover .view-project :global(svg) {
-            color: var(--color-accent);
-            transform: translate(2px, -2px);
-        }
-    }
-
-    .project-link:hover .view-project,
-    .portfolio-outro a:hover {
-        text-decoration-color: currentColor;
-    }
-
-    a:focus-visible {
-        outline: 2px solid var(--color-accent);
-        outline-offset: 7px;
-    }
-
-    .portfolio-outro {
-        align-items: center;
-        margin-top: 48px;
-        padding: 32px 0;
-        border-top: 1px solid var(--color-border);
-    }
-
-    .portfolio-outro h2 {
-        font-size: 16px;
-        font-weight: 500;
-        letter-spacing: -0.025em;
-    }
-
-    .portfolio-outro p {
-        margin-top: 8px;
-        font-size: 14px;
-        color: var(--color-text-secondary);
-        line-height: 1.7;
-    }
-
-    .portfolio-outro a {
         flex-shrink: 0;
-        text-decoration: underline;
-        text-decoration-color: var(--color-border);
-        text-underline-offset: 5px;
     }
-
-    @media (min-width: 701px) and (max-width: 900px) {
-        .project-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-    }
-
     @media (max-width: 700px) {
-        .portfolio-page {
-            padding-top: 44px;
-            padding-bottom: 12px;
-        }
-
-        h1 {
-            margin-top: 28px;
-        }
-
         .portfolio-intro {
-            padding-bottom: 32px;
+            padding-bottom: 36px;
         }
-
-        .project-grid {
-            grid-template-columns: 1fr;
-            gap: 32px;
-        }
-
+        .project-link,
         .project-featured .project-link {
-            grid-template-columns: 1fr;
+            grid-template-columns: 88px minmax(0, 1fr);
+            align-items: start;
             gap: 20px;
+            padding-block: 28px;
         }
-
-        .project-featured {
-            padding-bottom: 24px;
+        .project-title h2 {
+            font-size: 25px;
         }
-
+        .project-number {
+            margin-bottom: 10px;
+        }
+        .project-meta {
+            font-size: 10px;
+        }
+        .project-description {
+            font-size: 14px;
+        }
         .featured-label {
-            margin-bottom: 12px;
+            font-size: 9px;
+            letter-spacing: 0.04em;
         }
-
-        .project-featured .project-title h2 {
-            font-size: 26px;
+        .collection-heading {
+            flex-wrap: wrap;
+            gap: 8px;
         }
-
         .portfolio-outro {
             flex-wrap: wrap;
-            margin-top: 32px;
-            gap: 12px;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .project-image img,
-        .project-title :global(svg),
-        .view-project :global(svg) {
-            transition: none;
-        }
-
-        .project-link:hover .project-image img,
-        .project-link:hover .project-title :global(svg),
-        .project-link:hover .view-project :global(svg) {
-            transform: none;
         }
     }
 </style>
