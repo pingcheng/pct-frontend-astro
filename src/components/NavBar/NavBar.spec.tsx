@@ -28,11 +28,34 @@ describe("NavBar", () => {
     it("keeps portfolio active for nested portfolio routes", () => {
         render(<NavBar currentPath="/portfolio/empire-cbs/" />);
 
-        const portfolioLinks = screen.getAllByRole("link", { name: "Portfolio" });
+        const portfolioLinks = screen.getAllByRole("link", {
+            name: "Portfolio",
+        });
 
         for (const link of portfolioLinks) {
             expect(link.className).toContain("active");
         }
+    });
+
+    it.each(["/blog", "/blog/a-small-space-for-useful-ideas/"])(
+        "keeps Blog active at %s",
+        (currentPath) => {
+            render(<NavBar currentPath={currentPath} />);
+            expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute(
+                "aria-current",
+                "page",
+            );
+            expect(
+                screen.getByRole("link", { name: "Home" }),
+            ).not.toHaveAttribute("aria-current");
+        },
+    );
+
+    it("does not mark Blog active for a similarly named route", () => {
+        render(<NavBar currentPath="/blogger" />);
+        expect(screen.getByRole("link", { name: "Blog" })).not.toHaveAttribute(
+            "aria-current",
+        );
     });
 
     it("toggles the mobile menu from the menu button", () => {
@@ -63,9 +86,12 @@ describe("NavBar", () => {
 
         fireEvent.click(toggleButton);
 
-        const portfolioLink = within(mobileMenu as HTMLElement).getByRole("link", {
-            name: "Portfolio",
-        });
+        const portfolioLink = within(mobileMenu as HTMLElement).getByRole(
+            "link",
+            {
+                name: "Portfolio",
+            },
+        );
 
         portfolioLink.addEventListener("click", (event) => {
             event.preventDefault();
@@ -75,10 +101,7 @@ describe("NavBar", () => {
 
         expect(toggleButton).toHaveAttribute("aria-expanded", "false");
         expect(toggleButton).toHaveAttribute("aria-label", "Open main menu");
-        expect(mobileMenu).toHaveAttribute(
-            "aria-hidden",
-            "true",
-        );
+        expect(mobileMenu).toHaveAttribute("aria-hidden", "true");
     });
 
     it("has focus-visible styles defined for nav items", () => {
