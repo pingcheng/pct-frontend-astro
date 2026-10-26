@@ -17,12 +17,14 @@ const posts = Object.values(
         Date.parse(b.frontmatter.publishedAt) -
         Date.parse(a.frontmatter.publishedAt),
 );
+const canonical = new URL("/blog/", Astro.site).href;
 ---
 
 <FixedWidthLayout
     title="Blog | Ping Cheng"
     description="Notes on software, useful tools, and the details that make them work."
-    ogUrl="https://www.pingchengtech.com/blog"
+    canonicalUrl={canonical}
+    ogUrl={canonical}
 >
     <main class="blog-page">
         <header class="blog-intro animate-fade-in">
@@ -64,7 +66,7 @@ const posts = Object.values(
                             </span>
                         </div>
                         <h2>
-                            <a href={post.url}>
+                            <a href={post.url?.replace(/\/*$/, "/")}>
                                 {post.frontmatter.title}
                                 <MdArrowOutward size={24} aria-hidden="true" />
                             </a>

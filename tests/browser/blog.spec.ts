@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const slug = "/blog/reviewing-tailscale-at-home";
+const slug = "/blog/reviewing-tailscale-at-home/";
 
 test("Blog navigation leads to a readable article and back", async ({
     page,
@@ -10,17 +10,25 @@ test("Blog navigation leads to a readable article and back", async ({
     await page.goto("/");
     const toggle = page.getByRole("button", { name: "Open main menu" });
     if (await toggle.isVisible()) await toggle.click();
-    await page
+    const blogLink = page
         .getByRole("navigation", { name: "Main navigation" })
-        .getByRole("link", { name: "Blog", exact: true })
-        .click();
+        .getByRole("link", { name: "Blog", exact: true });
+    await expect(blogLink).toHaveAttribute("href", "/blog/");
+    await blogLink.click();
+    await expect(page).toHaveURL(/\/blog\/$/);
     await expect(
         page.getByRole("heading", { name: "Blog", exact: true }),
     ).toBeVisible();
-    await page
-        .getByRole("link", { name: "Reviewing Tailscale at home" })
-        .click();
-    await expect(page).toHaveURL(new RegExp(`${slug}/?$`));
+    if (await toggle.isVisible()) await toggle.click();
+    await expect(blogLink).toHaveAttribute("aria-current", "page");
+    if (await page.getByRole("button", { name: "Close main menu" }).isVisible())
+        await page.keyboard.press("Escape");
+    const articleLink = page.getByRole("link", {
+        name: "Reviewing Tailscale at home",
+    });
+    await expect(articleLink).toHaveAttribute("href", slug);
+    await articleLink.click();
+    await expect(page).toHaveURL(new RegExp(`${slug}$`));
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
         "Reviewing Tailscale at home",
     );
@@ -66,7 +74,10 @@ test("Blog navigation leads to a readable article and back", async ({
     await expect(activeBlog).toHaveAttribute("aria-current", "page");
     if (await page.getByRole("button", { name: "Close main menu" }).isVisible())
         await page.keyboard.press("Escape");
-    await page.getByRole("link", { name: "Back to blog" }).click();
+    const backLink = page.getByRole("link", { name: "Back to blog" });
+    await expect(backLink).toHaveAttribute("href", "/blog/");
+    await backLink.click();
+    await expect(page).toHaveURL(/\/blog\/$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Blog");
     expect(errors).toEqual([]);
 });
@@ -76,8 +87,16 @@ for (const colorScheme of ["light", "dark"] as const) {
         page,
     }) => {
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-        for (const route of ["/blog", slug]) {
-            await page.goto(route);
+        for (const route of ["/blog/", slug]) {
+            await page.goto(`${route}?source=seo-check#content`);
+            const canonical = `https://www.pingchengtech.com${route}`;
+            await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+                "href",
+                canonical,
+            );
+            await expect(
+                page.locator('meta[property="og:url"]'),
+            ).toHaveAttribute("content", canonical);
             await expect(page.locator("main")).toBeVisible();
             const sizes = await page.evaluate(() => ({
                 width: document.documentElement.clientWidth,
