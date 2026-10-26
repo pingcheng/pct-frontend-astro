@@ -5,15 +5,16 @@ import styles from "./style.module.css";
 const menuItems = [
     { label: "Home", path: "/" },
     { label: "Portfolio", path: "/portfolio" },
-    { label: "Blog", path: "/blog" },
+    { label: "Blog", path: "/blog/" },
     { label: "About me", path: "/about" },
 ];
 
 function isActive(item: (typeof menuItems)[number], path: string): boolean {
-    const normalized = path.replace(/\/$/, "") || "/";
-    return item.path !== "/"
-        ? normalized === item.path || normalized.startsWith(`${item.path}/`)
-        : normalized === item.path;
+    const normalized = path.replace(/\/+$/, "") || "/";
+    const itemPath = item.path.replace(/\/+$/, "") || "/";
+    return itemPath !== "/"
+        ? normalized === itemPath || normalized.startsWith(`${itemPath}/`)
+        : normalized === itemPath;
 }
 
 export default function NavBar({ currentPath }: { currentPath: string }) {

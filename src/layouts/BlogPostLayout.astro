@@ -11,18 +11,21 @@ import { MdArrowBack, MdArrowOutward } from "react-icons/md";
 
 type Props = MarkdownLayoutProps<BlogFrontmatter>;
 const { frontmatter: post, rawContent } = Astro.props;
-const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
-    .href;
+const canonical = new URL(
+    `${Astro.url.pathname.replace(/\/+$/, "")}/`,
+    Astro.site,
+).href;
 ---
 
 <FixedWidthLayout
     title={`${post.title} | Ping Cheng`}
     description={post.description}
+    canonicalUrl={canonical}
     ogUrl={canonical}
     ogType="article"
 >
     <main class="article-page">
-        <a class="back-link" href="/blog">
+        <a class="back-link" href="/blog/">
             <MdArrowBack size={16} aria-hidden="true" />
             Back to blog
         </a>
@@ -47,7 +50,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
         </article>
         <footer class="article-footer">
             <p>Thanks for reading.</p>
-            <a class="studio-link" href="/blog">
+            <a class="studio-link" href="/blog/">
                 All blog posts <MdArrowOutward size={16} aria-hidden="true" />
             </a>
         </footer>

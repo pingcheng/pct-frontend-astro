@@ -17,7 +17,7 @@ describe("Blog static output", () => {
     it("lists the approved article with publication and reading metadata", () => {
         load("blog/index.html");
         expect(document.querySelector("h1")?.textContent).toBe("Blog");
-        const link = document.querySelector(`main h2 a[href='/blog/${slug}']`);
+        const link = document.querySelector(`main h2 a[href='/blog/${slug}/']`);
         expect(link?.textContent).toContain("Reviewing Tailscale at home");
         expect(document.querySelector("time")?.getAttribute("datetime")).toBe(
             "2026-10-26",
@@ -39,7 +39,7 @@ describe("Blog static output", () => {
         expect(document.title).toBe("Reviewing Tailscale at home | Ping Cheng");
         expect(
             document.querySelector("link[rel=canonical]")?.getAttribute("href"),
-        ).toBe(`https://www.pingchengtech.com/blog/${slug}`);
+        ).toBe(`https://www.pingchengtech.com/blog/${slug}/`);
         expect(
             document
                 .querySelector('meta[property="og:type"]')
@@ -127,9 +127,46 @@ describe("Blog static output", () => {
             /sample|draft|v0\.10|author review|editorial status/i,
         );
         expect(
-            document.querySelector('main a[href="/blog"]')?.textContent,
+            document.querySelector('main a[href="/blog/"]')?.textContent,
         ).toContain("Back to blog");
+        expect(document.querySelectorAll('main a[href="/blog/"]')).toHaveLength(
+            2,
+        );
     });
+    it.each(["blog", `blog/${slug}`])(
+        "%s canonical and Open Graph URL match one exact sitemap location",
+        (route) => {
+            load(`${route}/index.html`);
+            const expected = `https://www.pingchengtech.com/${route}/`;
+            const canonicals = document.querySelectorAll(
+                'link[rel="canonical"]',
+            );
+            const ogUrls = document.querySelectorAll('meta[property="og:url"]');
+            expect(canonicals).toHaveLength(1);
+            expect(ogUrls).toHaveLength(1);
+            expect(canonicals[0].getAttribute("href")).toBe(expected);
+            expect(ogUrls[0].getAttribute("content")).toBe(expected);
+
+            const sitemap = new DOMParser().parseFromString(
+                fs.readFileSync(path.join(dist, "sitemap-0.xml"), "utf8"),
+                "application/xml",
+            );
+            expect(sitemap.querySelector("parsererror")).toBeNull();
+            const locations = Array.from(
+                sitemap.querySelectorAll("url > loc"),
+            ).map((loc) => loc.textContent);
+            expect(locations.filter((url) => url === expected)).toHaveLength(1);
+            expect(locations).not.toContain(expected.slice(0, -1));
+            for (const link of document.querySelectorAll(
+                'nav a[href="/blog/"]',
+            )) {
+                expect(link.getAttribute("aria-current")).toBe("page");
+            }
+            expect(
+                document.querySelectorAll('nav a[href="/blog/"]'),
+            ).toHaveLength(2);
+        },
+    );
     it("includes both blog routes in the sitemap and builds no unknown post", () => {
         const sitemap = fs.readFileSync(
             path.join(dist, "sitemap-0.xml"),

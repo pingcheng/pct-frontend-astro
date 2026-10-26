@@ -37,19 +37,46 @@ describe("NavBar", () => {
         }
     });
 
-    it.each(["/blog", "/blog/a-small-space-for-useful-ideas/"])(
-        "keeps Blog active at %s",
-        (currentPath) => {
-            render(<NavBar currentPath={currentPath} />);
-            expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute(
-                "aria-current",
-                "page",
-            );
-            expect(
-                screen.getByRole("link", { name: "Home" }),
-            ).not.toHaveAttribute("aria-current");
-        },
-    );
+    it.each([
+        "/blog",
+        "/blog/",
+        "/blog/reviewing-tailscale-at-home",
+        "/blog/reviewing-tailscale-at-home/",
+    ])("keeps Blog active at %s", (currentPath) => {
+        render(<NavBar currentPath={currentPath} />);
+        expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute(
+            "aria-current",
+            "page",
+        );
+        expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute(
+            "href",
+            "/blog/",
+        );
+        expect(screen.getByRole("link", { name: "Home" })).not.toHaveAttribute(
+            "aria-current",
+        );
+    });
+
+    it.each([
+        ["/", "Home", "/"],
+        ["/about", "About me", "/about"],
+        ["/about/", "About me", "/about"],
+        ["/portfolio", "Portfolio", "/portfolio"],
+        ["/portfolio/", "Portfolio", "/portfolio"],
+        ["/portfolio/empire-cbs/", "Portfolio", "/portfolio"],
+        ["/blog/", "Blog", "/blog/"],
+        ["/blog/reviewing-tailscale-at-home/", "Blog", "/blog/"],
+    ])("selects only %s in both menus", (currentPath, label, href) => {
+        render(<NavBar currentPath={currentPath} />);
+        fireEvent.click(screen.getByRole("button", { name: "Open main menu" }));
+
+        const activeLinks = screen.getAllByRole("link", { current: "page" });
+        expect(activeLinks).toHaveLength(2);
+        for (const link of activeLinks) {
+            expect(link).toHaveTextContent(label);
+            expect(link).toHaveAttribute("href", href);
+        }
+    });
 
     it("does not mark Blog active for a similarly named route", () => {
         render(<NavBar currentPath="/blogger" />);
