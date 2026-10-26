@@ -56,12 +56,12 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
 
 <style>
     .article-page {
-        max-width: 760px;
+        max-width: 44rem;
         margin-inline: auto;
         padding: var(--page-space) 0 48px;
     }
     .back-link {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         gap: 10px;
         min-height: 44px;
@@ -102,8 +102,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
         font-size: 11px;
     }
     .article-body {
-        max-width: var(--reading-width);
-        margin: 40px auto 0;
+        margin-top: 40px;
         overflow-wrap: anywhere;
         font-size: 17px;
         line-height: 1.9;
