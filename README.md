@@ -200,3 +200,13 @@ References: [build configuration](https://developers.cloudflare.com/pages/config
 [custom domains](https://developers.cloudflare.com/pages/configuration/custom-domains/),
 [redirects](https://developers.cloudflare.com/pages/configuration/redirects/), and
 [serving pages](https://developers.cloudflare.com/pages/configuration/serving-pages/).
+
+## Blog
+
+Blog entries are Markdown pages in `src/pages/blog/`. To add a post, copy the
+frontmatter structure from `a-small-space-for-useful-ideas.md`, choose a unique
+filename (which becomes the URL), and write the body in Markdown. Keep the
+`layout` path, supply a title, description, quoted ISO date (`publishedAt`) and
+topic, and remove `sample: true` for a real article. The index discovers posts
+automatically and sorts them newest first. Reading time is estimated at 200
+words per minute. The example article is clearly labelled as a sample.

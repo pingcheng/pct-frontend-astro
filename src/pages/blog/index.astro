@@ -1,0 +1,224 @@
+---
+import type { MarkdownInstance } from "astro";
+import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
+import {
+    formatPostDate,
+    readingMinutes,
+    type BlogFrontmatter,
+} from "@/utils/blog";
+import { MdArrowOutward } from "react-icons/md";
+
+const posts = Object.values(
+    import.meta.glob<MarkdownInstance<BlogFrontmatter>>("./*.md", {
+        eager: true,
+    }),
+).sort(
+    (a, b) =>
+        Date.parse(b.frontmatter.publishedAt) -
+        Date.parse(a.frontmatter.publishedAt),
+);
+---
+
+<FixedWidthLayout
+    title="Blog | Ping Cheng"
+    description="Notes on software, useful tools, and the details that make them work."
+    ogUrl="https://www.pingchengtech.com/blog"
+>
+    <main class="blog-page">
+        <header class="blog-intro animate-fade-in">
+            <p class="studio-eyebrow">Notes &amp; ideas</p>
+            <h1>Blog</h1>
+            <p class="intro-text">A place for things worth writing down.</p>
+            <p class="intro-detail">
+                Notes on software, useful tools, and the details that make them
+                work.
+            </p>
+        </header>
+        <section aria-label="Blog posts">
+            <div class="collection-heading">
+                <p>From the notebook</p>
+                <span>
+                    {String(posts.length).padStart(2, "0")}{" "}
+                    {posts.length === 1 ? "entry" : "entries"}
+                </span>
+            </div>
+            {posts.map((post, index) => (
+                <article
+                    class="post-entry animate-fade-in"
+                    style={{
+                        "--entrance-delay": `${Math.min(index * 80, 240)}ms`,
+                    }}
+                >
+                    <div class="post-date">
+                        <span class="editorial-label">
+                            Entry {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <time datetime={post.frontmatter.publishedAt}>
+                            {formatPostDate(post.frontmatter.publishedAt)}
+                        </time>
+                    </div>
+                    <div class="post-copy">
+                        <div class="post-labels">
+                            <span class="editorial-label">
+                                {post.frontmatter.topic}
+                            </span>
+                            {post.frontmatter.sample && (
+                                <span class="sample-label">Sample post</span>
+                            )}
+                        </div>
+                        <h2>
+                            <a href={post.url}>
+                                {post.frontmatter.title}
+                                <MdArrowOutward size={24} aria-hidden="true" />
+                            </a>
+                        </h2>
+                        <p>{post.frontmatter.description}</p>
+                        <span class="reading-time">
+                            {readingMinutes(post.rawContent())} min read
+                        </span>
+                    </div>
+                </article>
+            ))}
+        </section>
+        <aside class="blog-note">
+            <p>A small collection, with room to grow.</p>
+            <a class="studio-link" href="/about">
+                The person behind the notes{" "}
+                <MdArrowOutward size={16} aria-hidden="true" />
+            </a>
+        </aside>
+    </main>
+</FixedWidthLayout>
+
+<style>
+    .blog-page {
+        padding: var(--page-space) 0 48px;
+    }
+    .blog-intro {
+        padding-bottom: 64px;
+    }
+    h1 {
+        margin-top: 28px;
+        font-family: var(--font-display);
+        font-size: clamp(48px, 6.5vw, 76px);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.055em;
+    }
+    .intro-text {
+        margin-top: 24px;
+        font-family: var(--font-display);
+        font-size: clamp(24px, 3.5vw, 34px);
+        line-height: 1.4;
+        letter-spacing: -0.025em;
+    }
+    .intro-detail {
+        max-width: 52ch;
+        margin-top: 16px;
+        color: var(--color-text-secondary);
+    }
+    .collection-heading {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 20px 0;
+        border-block: 1px solid var(--color-border);
+        font-family: var(--font-code);
+        font-size: 11px;
+        color: var(--color-text-secondary);
+    }
+    .post-entry {
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 48px;
+        padding: 44px 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+    .post-date {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding-top: 4px;
+    }
+    .post-date time,
+    .reading-time {
+        font-family: var(--font-code);
+        color: var(--color-text-secondary);
+        font-size: 11px;
+    }
+    .post-labels {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+    .sample-label {
+        padding: 2px 8px;
+        border: 1px solid var(--color-border);
+        font-family: var(--font-code);
+        color: var(--color-accent);
+        font-size: 10px;
+    }
+    h2 {
+        margin-top: 18px;
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(30px, 4vw, 44px);
+        line-height: 1.2;
+        letter-spacing: -0.035em;
+    }
+    h2 a {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 20px;
+    }
+    h2 :global(svg) {
+        flex-shrink: 0;
+        color: var(--color-accent);
+    }
+    .post-copy {
+        min-width: 0;
+    }
+    .post-copy > p {
+        max-width: 58ch;
+        margin-top: 18px;
+        color: var(--color-text-secondary);
+        line-height: 1.85;
+    }
+    .reading-time {
+        display: block;
+        margin-top: 22px;
+    }
+    .blog-note {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px 24px;
+        padding-top: 32px;
+    }
+    .blog-note p {
+        font-size: 13px;
+        color: var(--color-text-secondary);
+    }
+    @media (max-width: 700px) {
+        .blog-intro {
+            padding-bottom: 36px;
+        }
+        .post-entry {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 22px;
+            padding-block: 28px;
+        }
+        .post-date {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        h2 a {
+            gap: 14px;
+        }
+    }
+</style>

@@ -5,12 +5,13 @@ import styles from "./style.module.css";
 const menuItems = [
     { label: "Home", path: "/" },
     { label: "Portfolio", path: "/portfolio" },
+    { label: "Blog", path: "/blog" },
     { label: "About me", path: "/about" },
 ];
 
 function isActive(item: (typeof menuItems)[number], path: string): boolean {
     const normalized = path.replace(/\/$/, "") || "/";
-    return item.path === "/portfolio"
+    return item.path !== "/"
         ? normalized === item.path || normalized.startsWith(`${item.path}/`)
         : normalized === item.path;
 }
