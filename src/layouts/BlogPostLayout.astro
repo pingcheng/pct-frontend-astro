@@ -30,9 +30,6 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
             <header class="article-header animate-fade-in">
                 <div class="article-topline">
                     <p class="studio-eyebrow">{post.topic}</p>
-                    {post.sample && (
-                        <span class="sample-label">Sample post</span>
-                    )}
                 </div>
                 <h1 id="article-title">{post.title}</h1>
                 <p class="standfirst">{post.description}</p>
@@ -44,12 +41,6 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
                     <span>{readingMinutes(rawContent())} min read</span>
                 </div>
             </header>
-            {post.sample && (
-                <aside class="sample-notice" aria-label="About this sample">
-                    An example entry to preview the blog’s layout and
-                    typography.
-                </aside>
-            )}
             <div class="article-body">
                 <slot />
             </div>
@@ -84,13 +75,6 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
         align-items: center;
         gap: 16px;
     }
-    .sample-label {
-        padding: 2px 8px;
-        border: 1px solid var(--color-border);
-        font-family: var(--font-code);
-        color: var(--color-accent);
-        font-size: 10px;
-    }
     h1 {
         margin-top: 24px;
         font-family: var(--font-display);
@@ -116,14 +100,6 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, ""), Astro.site)
         color: var(--color-text-secondary);
         font-family: var(--font-code);
         font-size: 11px;
-    }
-    .sample-notice {
-        margin-top: 28px;
-        padding: 14px 18px;
-        border-left: 2px solid var(--color-accent);
-        background: var(--color-card);
-        color: var(--color-text-secondary);
-        font-size: 13px;
     }
     .article-body {
         max-width: var(--reading-width);

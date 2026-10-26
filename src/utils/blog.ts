@@ -3,7 +3,6 @@ export interface BlogFrontmatter {
     description: string;
     publishedAt: string;
     topic: string;
-    sample?: boolean;
 }
 
 export function formatPostDate(value: string): string {

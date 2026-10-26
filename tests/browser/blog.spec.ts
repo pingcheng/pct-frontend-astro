@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-const slug = "/blog/a-small-space-for-useful-ideas";
+const slug = "/blog/reviewing-tailscale-at-home";
 
-test("Blog navigation leads to a readable sample and back", async ({
+test("Blog navigation leads to a readable article and back", async ({
     page,
 }) => {
     const errors: string[] = [];
@@ -18,17 +18,35 @@ test("Blog navigation leads to a readable sample and back", async ({
         page.getByRole("heading", { name: "Blog", exact: true }),
     ).toBeVisible();
     await page
-        .getByRole("link", { name: "A small space for useful ideas" })
+        .getByRole("link", { name: "Reviewing Tailscale at home" })
         .click();
     await expect(page).toHaveURL(new RegExp(`${slug}/?$`));
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-        "A small space for useful ideas",
+        "Reviewing Tailscale at home",
     );
+    await expect(page.locator(".article-body p")).toHaveCount(7);
+    await expect(page.locator(".sample-label, .sample-notice")).toHaveCount(0);
+    await expect(page.locator(".article-body")).toContainText(
+        "made sure Tailscale SSH was off on every device.",
+    );
+    const sourceLink = page.getByRole("link", {
+        name: "Tailnet Lock",
+        exact: true,
+    });
+    await sourceLink.focus();
+    await expect(sourceLink).toBeFocused();
+    await expect(sourceLink).toHaveAttribute(
+        "href",
+        "https://tailscale.com/docs/features/tailnet-lock",
+    );
+    await page.keyboard.press("Tab");
     await expect(
-        page.getByRole("complementary", { name: "About this sample" }),
-    ).toBeVisible();
-    await expect(page.locator("pre code")).toContainText("nextReadingList");
-    await expect(page.locator("blockquote")).toContainText("clearer question");
+        page.getByRole("link", { name: "PHP", exact: true }),
+    ).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(
+        page.getByRole("link", { name: "Node.js/Brotli", exact: true }),
+    ).toBeFocused();
     const activeBlog = page
         .getByRole("navigation", { name: "Main navigation" })
         .getByRole("link", { name: "Blog", exact: true });
@@ -58,10 +76,12 @@ for (const colorScheme of ["light", "dark"] as const) {
     });
 }
 
-test("unknown blog slug returns 404", async ({ page }) => {
-    const response = await page.goto("/blog/not-a-post");
-    expect(response?.status()).toBe(404);
-    await expect(
-        page.getByRole("heading", { name: "Page not found" }),
-    ).toBeVisible();
-});
+for (const missing of ["not-a-post", "a-small-space-for-useful-ideas"]) {
+    test(`missing blog slug ${missing} returns 404`, async ({ page }) => {
+        const response = await page.goto(`/blog/${missing}`);
+        expect(response?.status()).toBe(404);
+        await expect(
+            page.getByRole("heading", { name: "Page not found" }),
+        ).toBeVisible();
+    });
+}

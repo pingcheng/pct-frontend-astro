@@ -62,9 +62,6 @@ const posts = Object.values(
                             <span class="editorial-label">
                                 {post.frontmatter.topic}
                             </span>
-                            {post.frontmatter.sample && (
-                                <span class="sample-label">Sample post</span>
-                            )}
                         </div>
                         <h2>
                             <a href={post.url}>
@@ -151,13 +148,6 @@ const posts = Object.values(
         flex-wrap: wrap;
         gap: 12px;
         align-items: center;
-    }
-    .sample-label {
-        padding: 2px 8px;
-        border: 1px solid var(--color-border);
-        font-family: var(--font-code);
-        color: var(--color-accent);
-        font-size: 10px;
     }
     h2 {
         margin-top: 18px;
