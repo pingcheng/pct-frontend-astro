@@ -185,8 +185,9 @@ with a maximum width of 1600 pixels and no enlargement. Screenshot dimensions,
 aspect ratios, alt text and lazy loading are preserved. Existing friend avatars
 and site icons remain local. Social previews use absolute production URLs.
 
-Inter v4.1 is served from `public/fonts/InterVariable.woff2`, using weights
-300–900, `font-display: swap`, and a system fallback. Its SIL Open Font License
+Inter v4.1 is served as a preloaded Latin subset from
+`public/fonts/InterVariable-latin.woff2`, using weights 300–900,
+`font-display: swap`, and a metric-matched Arial fallback. Its SIL Open Font License
 and attribution are included in `public/fonts/LICENSE.txt`. Vercel Analytics,
 Speed Insights and Google Fonts requests have been removed; optional GA remains.
 

@@ -1,7 +1,7 @@
 ---
 import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
 import StudioScene from "@/components/StudioScene/StudioScene.astro";
-import { Avatar } from "@/components/Avatar/Avatar";
+import Avatar from "@/components/Avatar/Avatar.astro";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
 import { profile, socialUrls } from "@/data/profile";
 import { URLS } from "@/constants/urls";
@@ -89,7 +89,7 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
                 style="--entrance-delay: 100ms"
             >
                 <div class="portrait-note">
-                    <Avatar width={72} height={72} client:load />
+                    <Avatar width={72} height={72} transitionName="profile-avatar" />
                     <div>
                         <span class="note-greeting">Hello from</span><span
                             class="note-location">Melbourne, Australia</span

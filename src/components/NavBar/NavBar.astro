@@ -1,0 +1,165 @@
+---
+import { profile } from "@/data/profile";
+import styles from "./style.module.css";
+
+interface Props {
+    currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const menuItems = [
+    { label: "Home", path: "/" },
+    { label: "Portfolio", path: "/portfolio" },
+    { label: "About me", path: "/about" },
+];
+
+function isActive(itemPath: string, path: string): boolean {
+    const normalized = path.replace(/\/$/, "") || "/";
+    return itemPath === "/portfolio"
+        ? normalized === itemPath || normalized.startsWith(`${itemPath}/`)
+        : normalized === itemPath;
+}
+
+const links = menuItems.map((item) => ({
+    ...item,
+    active: isActive(item.path, currentPath),
+}));
+---
+
+<nav
+    class={styles.navBarRoot}
+    aria-label="Main navigation"
+    data-navbar
+    transition:name="site-nav"
+    transition:animate="none"
+>
+    <div class={`page-container ${styles.navInner}`}>
+        <a
+            class={styles.identity}
+            href="/"
+            aria-label={`${profile.fullName} home`}
+        >
+            <svg
+                width="25"
+                height="25"
+                viewBox="0 0 25 25"
+                fill="currentColor"
+                aria-hidden="true"
+            >
+                <path
+                    d="M0 5h5V0h15v5h5v15h-5v5H5v-5H0V5Zm5 0v15h15V5H5Zm4 4h7v3h-4v4H9V9Z"
+                ></path>
+            </svg>
+            <span>{profile.fullName}</span>
+        </a>
+        <div class={styles.desktopMenu}>
+            {
+                links.map((item) => (
+                    <a
+                        href={item.path}
+                        class:list={[styles.navItem, { [styles.active]: item.active }]}
+                        aria-current={item.active ? "page" : undefined}
+                    >
+                        {item.label}
+                    </a>
+                ))
+            }
+        </div>
+        <button
+            type="button"
+            class={styles.menuToggle}
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Open main menu"
+            data-menu-toggle
+        >
+            <span>Menu</span>
+            <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                aria-hidden="true"
+            >
+                <path class={styles.iconOpen} d="M1 3h14v2H1V3Zm0 8h14v2H1v-2Z"
+                ></path>
+                <path
+                    class={styles.iconClose}
+                    d="m3 2 5 5 5-5 1 1-5 5 5 5-1 1-5-5-5 5-1-1 5-5-5-5 1-1Z"
+                ></path>
+            </svg>
+        </button>
+    </div>
+    <div
+        id="mobile-menu"
+        class={styles.mobileMenu}
+        inert
+        aria-hidden="true"
+        data-mobile-menu
+    >
+        <div class={styles.mobileClip}>
+            <div class={`page-container ${styles.mobileLinks}`}>
+                {
+                    links.map((item) => (
+                        <a
+                            href={item.path}
+                            class:list={[styles.navItem, { [styles.active]: item.active }]}
+                            aria-current={item.active ? "page" : undefined}
+                        >
+                            {item.label}
+                        </a>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // The nav is re-rendered on every page, so wire it up after each navigation.
+    let cleanup: AbortController | undefined;
+
+    function setupNavBar() {
+        cleanup?.abort();
+        cleanup = new AbortController();
+        const { signal } = cleanup;
+
+        const nav = document.querySelector<HTMLElement>("[data-navbar]");
+        const toggle = nav?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+        const menu = nav?.querySelector<HTMLElement>("[data-mobile-menu]");
+        if (!nav || !toggle || !menu) return;
+
+        const label = toggle.querySelector("span");
+        const setOpen = (open: boolean) => {
+            toggle.setAttribute("aria-expanded", String(open));
+            toggle.setAttribute("aria-label", open ? "Close main menu" : "Open main menu");
+            if (label) label.textContent = open ? "Close" : "Menu";
+            menu.inert = !open;
+            menu.setAttribute("aria-hidden", String(!open));
+            nav.toggleAttribute("data-open", open);
+        };
+        const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+
+        toggle.addEventListener("click", () => setOpen(!isOpen()), { signal });
+        menu.addEventListener("click", (event) => {
+            if ((event.target as Element).closest("a")) setOpen(false);
+        }, { signal });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && isOpen()) {
+                setOpen(false);
+                toggle.focus();
+            }
+        }, { signal });
+        document.addEventListener("click", (event) => {
+            if (isOpen() && !nav.contains(event.target as Node)) setOpen(false);
+        }, { signal });
+
+        const desktop = window.matchMedia("(min-width: 641px)");
+        desktop.addEventListener("change", () => {
+            if (desktop.matches) setOpen(false);
+        }, { signal });
+    }
+
+    document.addEventListener("astro:page-load", setupNavBar);
+</script>

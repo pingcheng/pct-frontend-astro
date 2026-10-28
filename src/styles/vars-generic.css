@@ -9,6 +9,11 @@
     --color-accent: var(--color-accent-light);
     --color-card: var(--color-card-light);
     --color-border: var(--color-border-light);
+
+    /* One easing and two durations for every hover, disclosure and menu. */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 180ms;
+    --dur-medium: 280ms;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -40,7 +40,13 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 <MdArrowBack size={16} aria-hidden="true" />
                 Back to portfolio
             </a>
-            <h1>{portfolio.name}</h1>
+            <h1
+                style={{
+                    "view-transition-name": `project-title-${portfolio.slug}`,
+                }}
+            >
+                {portfolio.name}
+            </h1>
             <p class="project-description">{portfolio.longDescription}</p>
         </header>
 
