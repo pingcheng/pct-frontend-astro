@@ -178,6 +178,31 @@ test.describe('personal site browser smoke', () => {
   });
 });
 
+test('mobile menu works before slow images finish loading', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile navigation is only rendered on mobile viewports.');
+
+  // Hold the avatar so the window load event can't fire yet.
+  let releaseAvatar = () => {};
+  const avatarHeld = new Promise<void>((resolve) => (releaseAvatar = resolve));
+  await page.route('**/images/avatar.webp', async (route) => {
+    await avatarHeld;
+    await route.continue();
+  });
+
+  await page.goto('/about', { waitUntil: 'domcontentloaded' });
+  expect(await page.evaluate(() => document.readyState)).not.toBe('complete');
+
+  await page.getByRole('button', { name: 'Open main menu' }).click();
+  await expect(page.getByRole('button', { name: 'Close main menu' })).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Portfolio' })).toBeVisible();
+
+  // The later page-load setup must not break or reset the open menu.
+  releaseAvatar();
+  await page.waitForLoadState('load');
+  await expect(page.getByRole('button', { name: 'Close main menu' })).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Open main menu' })).toHaveAttribute('aria-expanded', 'false');
+});
 
 test('local Inter loads and every portfolio image decodes', async ({ page }) => {
   await page.goto('/');

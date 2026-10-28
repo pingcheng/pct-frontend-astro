@@ -105,18 +105,20 @@ const links = menuItems.map((item) => ({
 </nav>
 
 <script>
-    // The nav is re-rendered on every page, so wire it up after each navigation.
+    // The nav is re-rendered on every page, so wire up each new copy once.
     let cleanup: AbortController | undefined;
+    let wiredNav: HTMLElement | undefined;
 
     function setupNavBar() {
-        cleanup?.abort();
-        cleanup = new AbortController();
-        const { signal } = cleanup;
-
         const nav = document.querySelector<HTMLElement>("[data-navbar]");
         const toggle = nav?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
         const menu = nav?.querySelector<HTMLElement>("[data-mobile-menu]");
-        if (!nav || !toggle || !menu) return;
+        if (!nav || !toggle || !menu || nav === wiredNav) return;
+
+        cleanup?.abort();
+        cleanup = new AbortController();
+        const { signal } = cleanup;
+        wiredNav = nav;
 
         const label = toggle.querySelector("span");
         const setOpen = (open: boolean) => {
@@ -149,5 +151,8 @@ const links = menuItems.map((item) => ({
         }, { signal });
     }
 
+    // On a first visit Astro fires page-load only after window load (every image),
+    // so wire up now; page-load still covers later client-side navigations.
+    setupNavBar();
     document.addEventListener("astro:page-load", setupNavBar);
 </script>
