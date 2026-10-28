@@ -6,7 +6,20 @@
     font-style: normal;
     font-weight: 300 900;
     font-display: swap;
-    src: url("/fonts/InterVariable.woff2") format("woff2");
+    src: url("/fonts/InterVariable-latin.woff2") format("woff2");
+    unicode-range:
+        U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+        U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2190-2199,
+        U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Arial resized to Inter's metrics, so text doesn't reflow when Inter arrives. */
+@font-face {
+    font-family: "Inter Fallback";
+    src: local("Arial"), local("ArialMT");
+    ascent-override: 90.44%;
+    descent-override: 22.52%;
+    line-gap-override: 0%;
+    size-adjust: 107.12%;
 }
 
 @theme {
@@ -32,16 +45,16 @@
 
 :root {
     --font-display: Georgia, "Times New Roman", serif;
+    interpolate-size: allow-keywords;
 }
 
 html {
     scrollbar-gutter: stable;
-    scroll-behavior: smooth;
 }
 body {
     color: var(--color-text);
     background: var(--color-bg);
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Inter", "Inter Fallback", system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
@@ -54,9 +67,9 @@ a,
 button,
 summary {
     transition:
-        color 160ms ease,
-        background-color 160ms ease,
-        text-decoration-color 180ms ease;
+        color var(--dur-fast) var(--ease-out),
+        background-color var(--dur-fast) var(--ease-out),
+        text-decoration-color var(--dur-fast) var(--ease-out);
 }
 a:focus-visible,
 button:focus-visible,
@@ -79,11 +92,24 @@ img {
     color: var(--color-text);
 }
 
-/* One short entrance per content group; the underlying page stays visible. */
+/* Page-to-page transition: the old page fades, the new one settles in. */
+@keyframes page-out {
+    to {
+        opacity: 0;
+    }
+}
+@keyframes page-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
+
+/* One short entrance per content group on the first visit only. */
 @keyframes studio-enter {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(6px);
     }
     to {
         opacity: 1;
@@ -95,31 +121,52 @@ img {
 .animate-slide-in-left,
 .animate-slide-in-right {
     opacity: 1;
-    animation: studio-enter 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: studio-enter 420ms var(--ease-out) both;
     animation-delay: var(--entrance-delay, 0ms);
 }
 .animate-delay-100 {
-    --entrance-delay: 80ms;
+    --entrance-delay: 60ms;
 }
 .animate-delay-200 {
-    --entrance-delay: 160ms;
+    --entrance-delay: 120ms;
 }
 .animate-delay-300 {
-    --entrance-delay: 240ms;
+    --entrance-delay: 180ms;
+}
+/* After a client-side navigation the page transition already handles motion. */
+html[data-navigated] :is(
+        .animate-fade-in,
+        .animate-fade-in-scale,
+        .animate-slide-in-left,
+        .animate-slide-in-right
+    ) {
+    animation: none;
 }
 
 /* Move the arrow, keeping the link and keyboard focus target still. */
 .studio-link > [aria-hidden="true"],
 a > svg[aria-hidden="true"]:last-child {
     transition:
-        transform 180ms ease,
-        color 180ms ease;
+        transform var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out);
 }
 @media (hover: hover) {
     .studio-link:hover > [aria-hidden="true"],
     a:hover > svg[aria-hidden="true"]:last-child {
         transform: translate(var(--arrow-x, 2px), var(--arrow-y, -2px));
     }
+}
+
+/* Disclosures slide open where supported; elsewhere they open instantly. */
+details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+        block-size var(--dur-medium) var(--ease-out),
+        content-visibility var(--dur-medium) allow-discrete;
+}
+details[open]::details-content {
+    block-size: auto;
 }
 
 .studio-eyebrow {
@@ -171,14 +218,20 @@ a > svg[aria-hidden="true"]:last-child {
     }
 }
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
     *,
     *::before,
     *::after {
         animation: none !important;
         transition: none !important;
+    }
+    /* Kept separate: an unsupported pseudo-element would void the rule above. */
+    ::details-content {
+        transition: none !important;
+    }
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
     }
     .studio-link:hover > [aria-hidden="true"],
     a:hover > svg[aria-hidden="true"]:last-child {

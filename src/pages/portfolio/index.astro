@@ -92,7 +92,12 @@ const yearRange = projectYears.length
                                         )}
                                     </div>
                                     <div class="project-title">
-                                        <h2 id={`project-${project.slug}`}>
+                                        <h2
+                                            id={`project-${project.slug}`}
+                                            style={{
+                                                "view-transition-name": `project-title-${project.slug}`,
+                                            }}
+                                        >
                                             {project.name}
                                         </h2>
                                         <MdArrowOutward
@@ -192,6 +197,23 @@ const yearRange = projectYears.length
     .project-image {
         background: var(--color-card);
         border: 1px solid var(--color-border);
+        transition:
+            transform var(--dur-medium) var(--ease-out),
+            box-shadow var(--dur-medium) var(--ease-out),
+            border-color var(--dur-fast) var(--ease-out);
+    }
+    .project-title :global(svg) {
+        transition: transform var(--dur-fast) var(--ease-out);
+    }
+    @media (hover: hover) {
+        .project-link:hover .project-image {
+            transform: translateY(-4px);
+            border-color: var(--color-text-secondary);
+            box-shadow: 0 14px 24px -18px rgb(0 0 0 / 0.5);
+        }
+        .project-link:hover .project-title :global(svg) {
+            transform: translate(2px, -2px);
+        }
     }
     .project-image img {
         width: 100%;

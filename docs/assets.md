@@ -58,11 +58,17 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 
 ## Inter
 
-The full Inter v4.1 variable WOFF2 file covers Latin, Latin Extended, Greek and Cyrillic text and weights 100–900; the site declares its used range, 300–900. No font preload is added without deployment performance evidence.
+The site serves a Latin-only subset of the Inter v4.1 variable font (weights and optical size axes kept), cut from the full file with fonttools: 352 KiB → 66 KiB. It covers Basic Latin, Latin-1, general punctuation and arrows; anything else (CJK, ❤) falls back to system fonts. The site declares weights 300–900 and preloads the file. A metric-matched Arial fallback ("Inter Fallback") keeps text from reflowing while Inter loads.
+
+To regenerate it:
+
+```bash
+uvx --from 'fonttools[woff]' pyftsubset InterVariable.woff2 --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212,U+2215,U+FEFF,U+FFFD" --layout-features='kern,liga,calt,tnum,ss01,cv11' --flavor=woff2 --output-file=InterVariable-latin.woff2
+```
 
 - Font: https://raw.githubusercontent.com/rsms/inter/v4.1/docs/font-files/InterVariable.woff2
 - Licence: https://raw.githubusercontent.com/rsms/inter/v4.1/LICENSE.txt
-- Local files: `public/fonts/InterVariable.woff2` and `public/fonts/LICENSE.txt` (SIL Open Font License 1.1; copyright 2016 The Inter Project Authors).
+- Local files: `public/fonts/InterVariable-latin.woff2` and `public/fonts/LICENSE.txt` (SIL Open Font License 1.1; copyright 2016 The Inter Project Authors).
 
 ## External storage retirement
 

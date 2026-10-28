@@ -1,6 +1,6 @@
 ---
 import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
-import { Avatar } from "@/components/Avatar/Avatar";
+import Avatar from "@/components/Avatar/Avatar.astro";
 import StructuredData from "@/components/StructuredData/StructuredData.astro";
 import { profile, socialUrls } from "@/data/profile";
 import {
@@ -112,8 +112,8 @@ const breadcrumbItems = [
                         height={104}
                         alt="Ping Cheng profile photo"
                         fallbackLabel="PC"
-                        className="about-avatar"
-                        client:load
+                        class="about-avatar"
+                        transitionName="profile-avatar"
                     />
                 </div>
             </div>

@@ -1,5 +1,5 @@
 ---
-import { Avatar } from "@/components/Avatar/Avatar";
+import Avatar from "@/components/Avatar/Avatar.astro";
 import type { Friend } from "@/models/Friend/Friend";
 
 interface Props {
@@ -33,7 +33,6 @@ const initials = friend.name
                 width={48}
                 height={48}
                 class="shrink-0"
-                client:visible
             />
         ) : (
             <div
@@ -115,14 +114,14 @@ const initials = friend.name
         text-decoration-color: var(--color-text-secondary);
         text-decoration-thickness: 1px;
         text-underline-offset: 3px;
-        transition: text-decoration-color 0.2s ease-in-out;
+        transition: text-decoration-color var(--dur-fast) var(--ease-out);
     }
 
     .friend-external-icon {
         color: var(--color-text-secondary);
         transition:
-            transform 0.2s ease-in-out,
-            color 0.2s ease-in-out;
+            transform var(--dur-fast) var(--ease-out),
+            color var(--dur-fast) var(--ease-out);
     }
 
     a.friend-link:hover .friend-domain {

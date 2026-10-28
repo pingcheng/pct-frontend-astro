@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import NavBar from "@/components/NavBar/NavBar";
+import NavBar from "@/components/NavBar/NavBar.astro";
 import Footer from "@/components/Footer/Footer.astro";
 import type { SEOProps } from "@/models/SEOProps";
 
@@ -11,7 +11,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <BaseLayout {...props}>
-    <NavBar currentPath={currentPath} client:load />
+    <NavBar currentPath={currentPath} />
     <div class="page-container">
         <slot />
     </div>

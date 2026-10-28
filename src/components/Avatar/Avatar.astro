@@ -1,0 +1,78 @@
+---
+import { profile } from "@/data/profile";
+
+interface Props {
+    width: number;
+    height: number;
+    src?: string;
+    alt?: string;
+    fallbackLabel?: string;
+    class?: string;
+    transitionName?: string;
+}
+
+const {
+    width,
+    height,
+    src = profile.avatarUrl,
+    alt = `${profile.fullName} profile photo`,
+    fallbackLabel,
+    class: className,
+    transitionName,
+} = Astro.props;
+
+const initials = profile.fullName
+    .split(/\s+/)
+    .map((word) => word.charAt(0))
+    .join("")
+    .toUpperCase();
+---
+
+<!-- The label sits behind the photo, so a failed image still shows something useful. -->
+<span
+    class:list={["avatar", className]}
+    style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        "--avatar-size": `${width}px`,
+        "view-transition-name": transitionName,
+    }}
+    role="img"
+    aria-label={alt}
+>
+    <span class="avatar-fallback" aria-hidden="true">{fallbackLabel ?? initials}</span>
+    <img
+        src={src}
+        alt=""
+        width={width}
+        height={height}
+        decoding="async"
+        onerror="this.remove()"
+    />
+</span>
+
+<style>
+    .avatar {
+        position: relative;
+        display: inline-grid;
+        place-items: center;
+        flex-shrink: 0;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 50%;
+        background: var(--color-card);
+        color: var(--color-text-secondary);
+    }
+    .avatar-fallback {
+        font-size: calc(var(--avatar-size) / 2.8);
+        line-height: 1;
+    }
+    img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
