@@ -1,25 +1,13 @@
 ---
 import { profile } from "@/data/profile";
 import styles from "./style.module.css";
+import { isActive, menuItems } from "./menu";
 
 interface Props {
     currentPath: string;
 }
 
 const { currentPath } = Astro.props;
-
-const menuItems = [
-    { label: "Home", path: "/" },
-    { label: "Portfolio", path: "/portfolio" },
-    { label: "About me", path: "/about" },
-];
-
-function isActive(itemPath: string, path: string): boolean {
-    const normalized = path.replace(/\/$/, "") || "/";
-    return itemPath === "/portfolio"
-        ? normalized === itemPath || normalized.startsWith(`${itemPath}/`)
-        : normalized === itemPath;
-}
 
 const links = menuItems.map((item) => ({
     ...item,
