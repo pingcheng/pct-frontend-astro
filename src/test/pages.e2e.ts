@@ -139,9 +139,6 @@ describe('Static Pages Content', () => {
         const breadcrumbData = structuredData.find(
             (item) => item?.['@type'] === 'BreadcrumbList',
         );
-        const serviceData = structuredData.find(
-            (item) => item?.['@type'] === 'ProfessionalService',
-        );
 
         expect(personData).toMatchObject({
             '@type': 'Person',
@@ -162,12 +159,9 @@ describe('Static Pages Content', () => {
             }),
         ]);
 
-        expect(serviceData).toMatchObject({
-            '@type': 'ProfessionalService',
-            name: 'Software Development Services',
-            areaServed: 'Melbourne, Australia',
-            serviceType: 'Software Development',
-        });
+        expect(
+            structuredData.some((item) => item?.['@type'] === 'ProfessionalService'),
+        ).toBe(false);
     });
 
     it('should render the Portfolio list page correctly', () => {
@@ -212,7 +206,7 @@ describe('Static Pages Content', () => {
     it('should include friends page SEO metadata and structured data', () => {
         loadHtml('friends/index.html');
 
-        expect(document.title).toBe('Friends | Ping Cheng - Personal Websites I Recommend');
+        expect(document.title).toBe('Friends | Ping Cheng');
         expect(getMetaContent('meta[property="og:url"]')).toBe(
             'https://www.pingchengtech.com/friends',
         );

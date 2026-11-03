@@ -2,33 +2,21 @@
 import FixedWidthLayout from "@/layouts/FixedWidthLayout.astro";
 import { Portfolios } from "@/data/portfolios";
 import { imageDimensions } from "@/data/image-dimensions";
-import { MdArrowOutward } from "react-icons/md";
-
-const projectYears = Portfolios.flatMap(
-    (project) => project.year?.match(/\d{4}/g)?.map(Number) ?? [],
-);
-const yearRange = projectYears.length
-    ? `${Math.min(...projectYears)}–${Math.max(...projectYears)}`
-    : undefined;
+import { MdArrowForward } from "react-icons/md";
 ---
 
 <FixedWidthLayout
-    title="Portfolio | Ping Cheng - Software Development Projects"
-    description="Explore Ping Cheng's portfolio showcasing modern web applications, full-stack projects, and software solutions using Node.js, TypeScript, React, and cloud technologies."
-    keywords="Ping Cheng Portfolio,Software Development Projects,Web Applications,Full Stack Developer,Node.js Projects,TypeScript Applications,React Projects,Cloud Solutions,Enterprise Software,Melbourne Developer"
-    ogTitle="Portfolio | Ping Cheng - Software Development Projects"
-    ogDescription="Discover innovative software solutions and web applications developed by Ping Cheng. Showcasing expertise in modern technologies and full-stack development."
+    title="Portfolio | Ping Cheng"
+    description="Things I’ve built, from everyday tools to platforms for learning and work."
+    ogTitle="Portfolio | Ping Cheng"
+    ogDescription="Things I’ve built, from everyday tools to platforms for learning and work."
     ogUrl="https://www.pingchengtech.com/portfolio"
     twitterCard="summary_large_image"
-    twitterTitle="Portfolio | Ping Cheng - Software Development Projects"
-    twitterDescription="Discover innovative software solutions and web applications developed by Ping Cheng."
+    twitterTitle="Portfolio | Ping Cheng"
+    twitterDescription="Things I’ve built, from everyday tools to platforms for learning and work."
 >
     <main class="portfolio-page">
         <header class="portfolio-intro animate-fade-in">
-            <div class="intro-topline">
-                <p class="eyebrow studio-eyebrow">Selected work</p>
-                {yearRange && <p class="year-range">{yearRange}</p>}
-            </div>
             <h1>Portfolio</h1>
             <p class="intro-text">
                 A selection of things I’ve built, from everyday tools to
@@ -36,13 +24,7 @@ const yearRange = projectYears.length
             </p>
         </header>
 
-        <section aria-label="Projects">
-            <div class="collection-heading animate-fade-in animate-delay-100">
-                <p>Independent projects &amp; collaborations</p>
-                <span>
-                    {Portfolios.length.toString().padStart(2, "0")} projects
-                </span>
-            </div>
+        <section class="project-list" aria-label="Projects">
             <div class="project-grid">
                 {
                     Portfolios.map((project, index) => (
@@ -71,15 +53,6 @@ const yearRange = projectYears.length
                                     />
                                 </div>
                                 <div class="project-content">
-                                    <span class="project-number editorial-label">
-                                        Project{" "}
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    {index === 0 && (
-                                        <p class="eyebrow studio-eyebrow featured-label">
-                                            Latest project
-                                        </p>
-                                    )}
                                     <div class="project-meta">
                                         <span>{project.projectRole}</span>
                                         {project.year && (
@@ -100,7 +73,7 @@ const yearRange = projectYears.length
                                         >
                                             {project.name}
                                         </h2>
-                                        <MdArrowOutward
+                                        <MdArrowForward
                                             size={22}
                                             aria-hidden="true"
                                         />
@@ -108,13 +81,6 @@ const yearRange = projectYears.length
                                     <p class="project-description">
                                         {project.shortDescription}
                                     </p>
-                                    <span
-                                        class="view-project"
-                                        aria-hidden="true"
-                                    >
-                                        View project
-                                        <MdArrowOutward size={16} />
-                                    </span>
                                 </div>
                             </a>
                         </article>
@@ -122,20 +88,6 @@ const yearRange = projectYears.length
                 }
             </div>
         </section>
-
-        <aside
-            class="portfolio-outro animate-fade-in animate-delay-300"
-            aria-label="About the developer"
-        >
-            <div>
-                <h2>The person behind the projects</h2>
-                <p>More about my background and what I’m exploring now.</p>
-            </div>
-            <a href="/about">
-                About me
-                <MdArrowOutward size={18} aria-hidden="true" />
-            </a>
-        </aside>
     </main>
 </FixedWidthLayout>
 
@@ -143,29 +95,22 @@ const yearRange = projectYears.length
     .portfolio-page {
         padding: var(--page-space) 0 48px;
     }
-    .intro-topline,
-    .collection-heading,
     .project-meta,
-    .project-title,
-    .portfolio-outro {
+    .project-title {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
         gap: 16px;
     }
-    .year-range,
-    .collection-heading,
     .project-meta {
         font-family: var(--font-code);
         font-size: 11px;
         color: var(--color-text-secondary);
     }
-    .year-range,
     .project-year {
         white-space: nowrap;
     }
     h1 {
-        margin-top: 28px;
         font-family: var(--font-display);
         font-size: clamp(48px, 6.5vw, 76px);
         font-weight: 400;
@@ -182,9 +127,8 @@ const yearRange = projectYears.length
     .portfolio-intro {
         padding-bottom: 64px;
     }
-    .collection-heading {
-        padding: 20px 0;
-        border-block: 1px solid var(--color-border);
+    .project-list {
+        border-top: 1px solid var(--color-border);
     }
     .project-link {
         display: grid;
@@ -193,6 +137,9 @@ const yearRange = projectYears.length
         padding: 36px 0;
         border-bottom: 1px solid var(--color-border);
         align-items: center;
+    }
+    .project:last-child .project-link {
+        border-bottom: 0;
     }
     .project-image {
         background: var(--color-card);
@@ -212,7 +159,7 @@ const yearRange = projectYears.length
             box-shadow: 0 14px 24px -18px rgb(0 0 0 / 0.5);
         }
         .project-link:hover .project-title :global(svg) {
-            transform: translate(2px, -2px);
+            transform: translateX(3px);
         }
     }
     .project-image img {
@@ -222,14 +169,6 @@ const yearRange = projectYears.length
     }
     .project-content {
         min-width: 0;
-    }
-    .project-number {
-        display: block;
-        margin-bottom: 18px;
-    }
-    .featured-label {
-        margin-bottom: 16px;
-        font-size: 10px;
     }
     .project-meta {
         flex-wrap: wrap;
@@ -256,47 +195,9 @@ const yearRange = projectYears.length
         color: var(--color-text-secondary);
         line-height: 1.8;
     }
-    .view-project {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        min-height: 44px;
-        margin-top: 12px;
-        font-size: 12px;
-        text-decoration: underline;
-        text-underline-offset: 5px;
-        text-decoration-color: var(--color-border);
-    }
-    .view-project :global(svg) {
-        display: none;
-    }
-    .project-link:hover .view-project {
-        text-decoration-color: currentColor;
-    }
     .project-featured .project-link {
         grid-template-columns: 260px minmax(0, 1fr);
         padding-block: 40px;
-    }
-    .portfolio-outro {
-        padding-top: 40px;
-        align-items: center;
-    }
-    .portfolio-outro h2 {
-        font-size: 17px;
-        font-weight: 500;
-    }
-    .portfolio-outro p {
-        margin-top: 8px;
-        color: var(--color-text-secondary);
-        font-size: 14px;
-    }
-    .portfolio-outro a {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        min-height: 44px;
-        font-size: 13px;
-        flex-shrink: 0;
     }
     @media (max-width: 700px) {
         .portfolio-intro {
@@ -312,25 +213,11 @@ const yearRange = projectYears.length
         .project-title h2 {
             font-size: 25px;
         }
-        .project-number {
-            margin-bottom: 10px;
-        }
         .project-meta {
             font-size: 10px;
         }
         .project-description {
             font-size: 14px;
-        }
-        .featured-label {
-            font-size: 9px;
-            letter-spacing: 0.04em;
-        }
-        .collection-heading {
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .portfolio-outro {
-            flex-wrap: wrap;
         }
     }
 </style>

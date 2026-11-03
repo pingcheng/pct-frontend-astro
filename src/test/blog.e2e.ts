@@ -5,7 +5,7 @@ import path from "node:path";
 const dist = path.resolve(import.meta.dirname, "../../dist");
 const slug = "reviewing-tailscale-at-home";
 const description =
-    "Reviewing a home tailnet, device permissions and the trust that comes with each private connection.";
+    "Cleaning up old nodes and device permissions on my home tailnet.";
 function load(page: string) {
     document.documentElement.innerHTML = fs.readFileSync(
         path.join(dist, page),

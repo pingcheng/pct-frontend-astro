@@ -7,7 +7,7 @@ import {
     readingMinutes,
     type BlogFrontmatter,
 } from "@/utils/blog";
-import { MdArrowBack, MdArrowOutward } from "react-icons/md";
+import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 type Props = MarkdownLayoutProps<BlogFrontmatter>;
 const { frontmatter: post, rawContent } = Astro.props;
@@ -49,9 +49,8 @@ const canonical = new URL(
             </div>
         </article>
         <footer class="article-footer">
-            <p>Thanks for reading.</p>
             <a class="studio-link" href="/blog/">
-                All blog posts <MdArrowOutward size={16} aria-hidden="true" />
+                All blog posts <MdArrowForward size={16} aria-hidden="true" />
             </a>
         </footer>
     </main>
@@ -215,19 +214,9 @@ const canonical = new URL(
         margin-block: 28px;
     }
     .article-footer {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
         margin-top: 56px;
         padding-top: 24px;
         border-top: 1px solid var(--color-border);
-    }
-    .article-footer p {
-        color: var(--color-text-secondary);
-        font-family: var(--font-display);
-        font-size: 21px;
     }
     @media (max-width: 700px) {
         .back-link {

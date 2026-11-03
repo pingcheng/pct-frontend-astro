@@ -82,8 +82,7 @@ test.describe('personal site browser smoke', () => {
     );
     const closeMenuButton = page.getByRole('button', { name: 'Close main menu' });
     if (await closeMenuButton.isVisible()) await closeMenuButton.click();
-    await expect(page.getByText('I like making things that are useful.')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'A little more about me' })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute(
       'href', '/about',
     );
     await expect(page.getByText('I’m a software engineer in Melbourne, exploring coding agents, building personal tools, and tinkering with everyday life.')).toBeVisible();

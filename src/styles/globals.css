@@ -153,8 +153,13 @@ a > svg[aria-hidden="true"]:last-child {
 @media (hover: hover) {
     .studio-link:hover > [aria-hidden="true"],
     a:hover > svg[aria-hidden="true"]:last-child {
-        transform: translate(var(--arrow-x, 2px), var(--arrow-y, -2px));
+        transform: translate(var(--arrow-x, 3px), var(--arrow-y, 0px));
     }
+}
+/* Outward arrows on external links lift up and right instead. */
+a[target="_blank"] {
+    --arrow-x: 2px;
+    --arrow-y: -2px;
 }
 
 /* Disclosures slide open where supported; elsewhere they open instantly. */
@@ -252,12 +257,4 @@ h3 {
 h2[id],
 h3[id] {
     scroll-margin-top: 32px;
-}
-.editorial-label {
-    font-family: var(--font-code);
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
 }

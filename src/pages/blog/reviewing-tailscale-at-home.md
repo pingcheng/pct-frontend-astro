@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/BlogPostLayout.astro
 title: Reviewing Tailscale at home
-description: Reviewing a home tailnet, device permissions and the trust that comes with each private connection.
+description: Cleaning up old nodes and device permissions on my home tailnet.
 publishedAt: "2026-10-26"
 topic: Security at home
 ---

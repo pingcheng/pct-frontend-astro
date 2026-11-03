@@ -12,28 +12,22 @@ const breadcrumbItems = [
 ---
 
 <FixedWidthLayout
-    title="Friends | Ping Cheng - Personal Websites I Recommend"
-    description="A curated list of personal websites built by people Ping Cheng knows — engineers, makers, and friends worth following."
-    keywords="Ping Cheng Friends,Blogroll,Personal Websites,Software Engineers,Tech Community,Web Development"
-    ogTitle="Friends | Ping Cheng - Personal Websites I Recommend"
-    ogDescription="A curated list of personal websites built by people Ping Cheng knows."
+    title="Friends | Ping Cheng"
+    description="Personal websites of people I know."
+    ogTitle="Friends | Ping Cheng"
+    ogDescription="Personal websites of people I know."
     ogUrl={URLS.WEBSITE.FRIENDS}
     twitterCard="summary"
-    twitterTitle="Friends | Ping Cheng - Personal Websites I Recommend"
-    twitterDescription="A curated list of personal websites built by people Ping Cheng knows."
+    twitterTitle="Friends | Ping Cheng"
+    twitterDescription="Personal websites of people I know."
 >
     <StructuredData type="breadcrumb" breadcrumbItems={breadcrumbItems} />
 
     <main class="friends-page">
         <header class="animate-fade-in">
-            <p class="studio-eyebrow">Good company</p>
             <h1>Friends</h1>
             <p class="intro-text">Personal websites of people I know.</p>
         </header>
-        <div class="friends-heading editorial-label">
-            <span>Elsewhere on the web</span><span
-                >{String(Friends.length).padStart(2, "0")} sites</span>
-        </div>
         <div class="friend-grid animate-fade-in animate-delay-100">
             {Friends.map((friend) => <FriendCard friend={friend} />)}
         </div>
@@ -46,7 +40,6 @@ const breadcrumbItems = [
         min-height: 65vh;
     }
     h1 {
-        margin-top: 28px;
         font-family: var(--font-display);
         font-size: clamp(48px, 6.5vw, 76px);
         line-height: 1.1;
@@ -58,35 +51,19 @@ const breadcrumbItems = [
         font-size: 20px;
         line-height: 1.7;
     }
-    .friends-heading {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        margin-top: 48px;
-        padding-block: 18px;
-        border-block: 1px solid var(--color-border);
-    }
     .friend-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0 40px;
-        margin-top: 0;
+        margin-top: 48px;
+        border-top: 1px solid var(--color-border);
     }
     @media (max-width: 700px) {
         .friends-page {
             padding-top: 44px;
         }
-        .friends-heading {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 48px;
-            padding-block: 18px;
-            border-block: 1px solid var(--color-border);
-        }
         .friend-grid {
             grid-template-columns: 1fr;
-            margin-top: 0;
         }
     }
 </style>
