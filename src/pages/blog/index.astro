@@ -6,7 +6,6 @@ import {
     readingMinutes,
     type BlogFrontmatter,
 } from "@/utils/blog";
-import { MdArrowOutward } from "react-icons/md";
 
 const posts = Object.values(
     import.meta.glob<MarkdownInstance<BlogFrontmatter>>("./*.md", {
@@ -28,22 +27,13 @@ const canonical = new URL("/blog/", Astro.site).href;
 >
     <main class="blog-page">
         <header class="blog-intro animate-fade-in">
-            <p class="studio-eyebrow">Notes &amp; ideas</p>
             <h1>Blog</h1>
-            <p class="intro-text">A place for things worth writing down.</p>
-            <p class="intro-detail">
+            <p class="intro-text">
                 Notes on software, useful tools, and the details that make them
                 work.
             </p>
         </header>
-        <section aria-label="Blog posts">
-            <div class="collection-heading">
-                <p>From the notebook</p>
-                <span>
-                    {String(posts.length).padStart(2, "0")}{" "}
-                    {posts.length === 1 ? "entry" : "entries"}
-                </span>
-            </div>
+        <section class="post-list" aria-label="Blog posts">
             {posts.map((post, index) => (
                 <article
                     class="post-entry animate-fade-in"
@@ -52,23 +42,14 @@ const canonical = new URL("/blog/", Astro.site).href;
                     }}
                 >
                     <div class="post-date">
-                        <span class="editorial-label">
-                            Entry {String(index + 1).padStart(2, "0")}
-                        </span>
                         <time datetime={post.frontmatter.publishedAt}>
                             {formatPostDate(post.frontmatter.publishedAt)}
                         </time>
                     </div>
                     <div class="post-copy">
-                        <div class="post-labels">
-                            <span class="editorial-label">
-                                {post.frontmatter.topic}
-                            </span>
-                        </div>
                         <h2>
                             <a href={post.url?.replace(/\/*$/, "/")}>
                                 {post.frontmatter.title}
-                                <MdArrowOutward size={24} aria-hidden="true" />
                             </a>
                         </h2>
                         <p>{post.frontmatter.description}</p>
@@ -79,13 +60,6 @@ const canonical = new URL("/blog/", Astro.site).href;
                 </article>
             ))}
         </section>
-        <aside class="blog-note">
-            <p>A small collection, with room to grow.</p>
-            <a class="studio-link" href="/about">
-                The person behind the notes{" "}
-                <MdArrowOutward size={16} aria-hidden="true" />
-            </a>
-        </aside>
     </main>
 </FixedWidthLayout>
 
@@ -97,7 +71,6 @@ const canonical = new URL("/blog/", Astro.site).href;
         padding-bottom: 64px;
     }
     h1 {
-        margin-top: 28px;
         font-family: var(--font-display);
         font-size: clamp(48px, 6.5vw, 76px);
         font-weight: 400;
@@ -105,26 +78,12 @@ const canonical = new URL("/blog/", Astro.site).href;
         letter-spacing: -0.055em;
     }
     .intro-text {
-        margin-top: 24px;
-        font-family: var(--font-display);
-        font-size: clamp(24px, 3.5vw, 34px);
-        line-height: 1.4;
-        letter-spacing: -0.025em;
-    }
-    .intro-detail {
         max-width: 52ch;
-        margin-top: 16px;
+        margin-top: 24px;
         color: var(--color-text-secondary);
     }
-    .collection-heading {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 20px 0;
-        border-block: 1px solid var(--color-border);
-        font-family: var(--font-code);
-        font-size: 11px;
-        color: var(--color-text-secondary);
+    .post-list {
+        border-top: 1px solid var(--color-border);
     }
     .post-entry {
         display: grid;
@@ -133,11 +92,11 @@ const canonical = new URL("/blog/", Astro.site).href;
         padding: 44px 0;
         border-bottom: 1px solid var(--color-border);
     }
+    .post-entry:last-child {
+        border-bottom: 0;
+    }
     .post-date {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        padding-top: 4px;
+        padding-top: 14px;
     }
     .post-date time,
     .reading-time {
@@ -145,28 +104,14 @@ const canonical = new URL("/blog/", Astro.site).href;
         color: var(--color-text-secondary);
         font-size: 11px;
     }
-    .post-labels {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-    }
     h2 {
-        margin-top: 18px;
         font-family: var(--font-display);
         font-weight: 400;
         font-size: clamp(30px, 4vw, 44px);
         line-height: 1.2;
         letter-spacing: -0.035em;
     }
-    h2 a {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 20px;
-    }
-    h2 :global(svg) {
-        flex-shrink: 0;
+    h2 a:hover {
         color: var(--color-accent);
     }
     .post-copy {
@@ -182,18 +127,6 @@ const canonical = new URL("/blog/", Astro.site).href;
         display: block;
         margin-top: 22px;
     }
-    .blog-note {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px 24px;
-        padding-top: 32px;
-    }
-    .blog-note p {
-        font-size: 13px;
-        color: var(--color-text-secondary);
-    }
     @media (max-width: 700px) {
         .blog-intro {
             padding-bottom: 36px;
@@ -204,13 +137,7 @@ const canonical = new URL("/blog/", Astro.site).href;
             padding-block: 28px;
         }
         .post-date {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 12px;
-        }
-        h2 a {
-            gap: 14px;
+            padding-top: 0;
         }
     }
 </style>

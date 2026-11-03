@@ -9,7 +9,7 @@ import { profile } from "@/data/profile";
                 profile.fullName
             }
         </p>
-        <a href="/friends">Friends <span aria-hidden="true">↗</span></a>
+        <a href="/friends">Friends <span aria-hidden="true">→</span></a>
     </div>
 </footer>
 <style>
@@ -39,7 +39,7 @@ import { profile } from "@/data/profile";
     }
     @media (hover: hover) {
         a:hover > span {
-            transform: translate(2px, -2px);
+            transform: translateX(3px);
         }
     }
     @media (prefers-reduced-motion: reduce) {

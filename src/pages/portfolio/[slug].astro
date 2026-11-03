@@ -109,7 +109,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         <div class="project-copy">
             <section class="development" aria-labelledby="development-title">
                 <h2 id="development-title">
-                    <span aria-hidden="true">01 / </span>Development
+                    Development
                 </h2>
                 <ul class="work-list" role="list">
                     {portfolio.roleDescription.map((line) => <li>{line}</li>)}
@@ -125,7 +125,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 id="screenshots-title"
                 class="animate-fade-in animate-delay-200"
             >
-                <span aria-hidden="true">02 / </span>Screenshots
+                Screenshots
             </h2>
             <div class="screenshot-grid">
                 {
@@ -149,13 +149,11 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                                     decoding="async"
                                 />
                             </a>
-                            <figcaption>
-                                <span>
-                                    FIG {String(index + 1).padStart(2, "0")}
-                                </span>{" "}
-                                {portfolio.screenshotCaptions?.[index] ??
-                                    `${portfolio.name} · Screen ${index + 1}`}
-                            </figcaption>
+                            {portfolio.screenshotCaptions?.[index] && (
+                                <figcaption>
+                                    {portfolio.screenshotCaptions[index]}
+                                </figcaption>
+                            )}
                         </figure>
                     ))
                 }
@@ -268,9 +266,6 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         letter-spacing: 0.05em;
         line-height: 1.8;
     }
-    h2 span {
-        color: var(--color-accent);
-    }
     .work-list {
         max-width: var(--reading-width);
         display: grid;
@@ -317,12 +312,6 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         color: var(--color-text-secondary);
         font-size: 12px;
         line-height: 1.7;
-    }
-    figcaption span {
-        font-family: var(--font-code);
-        font-size: 10px;
-        color: var(--color-accent);
-        margin-right: 12px;
     }
     .project-navigation {
         display: flex;

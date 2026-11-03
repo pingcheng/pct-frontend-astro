@@ -9,7 +9,6 @@ type Props = SEOProps;
 const {
   title,
   description = import.meta.env.PUBLIC_APP_DESCRIPTION || '',
-  keywords = 'ping,cheng,software,developer,high,passionate',
   canonicalUrl,
   ogTitle,
   ogDescription,
@@ -60,7 +59,6 @@ const pageTransition: TransitionDirectionalAnimations = { forwards: pageSwap, ba
     <title>{title}</title>
     {(canonicalUrl || ogUrl) && <link rel="canonical" href={canonicalUrl || ogUrl} />}
     {description && <meta name="description" content={description} />}
-    {keywords && <meta name="keywords" content={keywords} />}
 
     {/* Open Graph */}
     {(ogTitle || title) && <meta property="og:title" content={ogTitle || title} />}

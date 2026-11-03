@@ -12,7 +12,6 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
 <FixedWidthLayout
     title="Ping Cheng"
     description={`Ping Cheng - ${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
-    keywords="Ping Cheng,Principal Engineer,Software Engineer,Melbourne,Node,TypeScript,PHP,Java,Linux,REA Group,PropTrack,Web Development,Digital Solutions"
     ogTitle="Ping Cheng"
     ogDescription={`${roleDescription}. Software engineer in Melbourne working with Node, TypeScript, and Java.`}
     ogUrl="https://www.pingchengtech.com"
@@ -64,24 +63,18 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
     <main class="home-page">
         <section class="home-hero" aria-labelledby="home-title">
             <div class="hero-copy animate-fade-in">
-                <p class="studio-eyebrow">A personal corner of the internet</p>
                 <h1 id="home-title">
                     <span>Hey, I’m</span>
                     {profile.fullName}<span class="name-period">.</span>
                 </h1>
                 <p class="hero-intro">
-                    I like making things that are useful.<br
-                        class="desktop-break"
-                    /> And figuring things out along the way.
-                </p>
-                <p class="hero-description">
                     I’m a software engineer in Melbourne, exploring coding
                     agents, building personal tools, and tinkering with everyday
                     life.
                 </p>
                 <a href="/about" class="studio-link"
-                    ><span class="hero-link-label">A little more about me</span>
-                    <span aria-hidden="true">↗</span></a
+                    ><span class="hero-link-label">More about me</span>
+                    <span aria-hidden="true">→</span></a
                 >
             </div>
             <div
@@ -97,10 +90,6 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
                     </div>
                 </div>
                 <div class="scene-frame"><StudioScene /></div>
-                <p class="scene-caption">
-                    <span aria-hidden="true">+</span> A little space to think &amp;
-                    build
-                </p>
             </div>
         </section>
     </main>
@@ -118,7 +107,6 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
         padding-bottom: 76px;
     }
     h1 {
-        margin-top: 25px;
         font-family: var(--font-display);
         font-weight: 400;
         font-size: clamp(60px, 7.3vw, 88px);
@@ -138,17 +126,11 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
         color: var(--color-accent);
     }
     .hero-intro {
+        max-width: 40ch;
         margin-top: 28px;
         font-size: 20px;
         line-height: 1.6;
         letter-spacing: -0.025em;
-    }
-    .hero-description {
-        max-width: 49ch;
-        margin-top: 17px;
-        font-size: 16px;
-        line-height: 1.8;
-        color: var(--color-text-secondary);
     }
     .hero-copy > a {
         margin-top: 20px;
@@ -200,29 +182,12 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
             8px 8px
         );
     }
-    .scene-caption {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 14px;
-        color: var(--color-text-secondary);
-        font-family: var(--font-code);
-        font-size: 10px;
-    }
-    .scene-caption span {
-        color: var(--color-moss);
-        font-size: 16px;
-    }
     @media (max-width: 900px) {
         .home-hero {
             gap: 32px;
         }
         .hero-intro {
             font-size: 18px;
-        }
-        .desktop-break {
-            display: none;
         }
         .portrait-note {
             margin-left: 0;

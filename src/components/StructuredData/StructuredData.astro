@@ -34,24 +34,14 @@ interface BreadcrumbItem {
     url: string;
 }
 
-interface ProfessionalServiceData {
-    name: string;
-    description: string;
-    provider: { name: string; url: string };
-    areaServed?: string;
-    serviceType?: string;
-}
-
 interface Props {
-    type: "person" | "website" | "breadcrumb" | "professionalService";
+    type: "person" | "website" | "breadcrumb";
     person?: PersonData;
     website?: WebsiteData;
     breadcrumbItems?: BreadcrumbItem[];
-    professionalService?: ProfessionalServiceData;
 }
 
-const { type, person, website, breadcrumbItems, professionalService } =
-    Astro.props;
+const { type, person, website, breadcrumbItems } = Astro.props;
 
 function buildStructuredData() {
     switch (type) {
@@ -113,26 +103,6 @@ function buildStructuredData() {
                     name: item.name,
                     item: item.url,
                 })),
-            };
-
-        case "professionalService":
-            if (!professionalService) return null;
-            return {
-                "@context": "https://schema.org",
-                "@type": "ProfessionalService",
-                name: professionalService.name,
-                description: professionalService.description,
-                provider: {
-                    "@type": "Person",
-                    name: professionalService.provider.name,
-                    url: professionalService.provider.url,
-                },
-                ...(professionalService.areaServed && {
-                    areaServed: professionalService.areaServed,
-                }),
-                ...(professionalService.serviceType && {
-                    serviceType: professionalService.serviceType,
-                }),
             };
 
         default:
