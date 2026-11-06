@@ -48,12 +48,15 @@
             d="M246 24h2v-4h-2v-4h2v4h2v4h-2v4h-2z"></path>
     </g>
 
-    <!-- One clear work surface: the monitor on its stand, the Mac mini beside it. -->
+    <!-- One clear work surface: Studio Display, Magic Keyboard, and the Mac mini beside them. -->
     <path fill="var(--scene-desktop)" d="M20 136h248v8H20z"></path>
     <g transform="translate(10 0)">
-        <path
-            fill="var(--scene-ink)"
-            d="M100 74h60v40h-60zM126 114h8v22h-8zM116 136h28v4h-28z"></path>
+        <!-- Studio Display: aluminium rim, black bezel, and a flat tilt stand. -->
+        <path fill="var(--scene-aluminium)" d="M120 114h20v20h-20z"></path>
+        <path fill="var(--scene-aluminium-top)" d="M118 134h24v2h-24z"></path>
+        <path fill="var(--scene-aluminium)" d="M118 136h24v4h-24z"></path>
+        <path fill="var(--scene-aluminium)" d="M100 74h60v40h-60z"></path>
+        <path fill="var(--scene-bezel)" d="M101 75h58v38h-58z"></path>
         <path fill="var(--scene-screen)" d="M104 78h52v32h-52z"></path>
         <!-- A tiny coding agent: prompt, streamed code, then a successful build. -->
         <g class="scene-editor">
@@ -95,7 +98,17 @@
                 fill="var(--scene-moss)"
                 d="M143 104h2v2h2v-2h2v-2h2v4h-2v2h-4v-2h-2z"></path>
         </g>
-        <path fill="var(--scene-frame)" d="M110 140h40v2h-40z"></path>
+        <!-- Magic Keyboard: a thin silver slab with white keys, in front of the stand. -->
+        <path fill="var(--scene-aluminium-top)" d="M108 140h44v1h-44z"></path>
+        <path fill="var(--scene-aluminium)" d="M107 141h46v3h-46z"></path>
+        <path
+            fill="var(--scene-face)"
+            d="M109 141h42v1h-42zM109 142h4v1h-4zM115 142h30v1h-30zM147 142h4v1h-4z"
+        ></path>
+        <path
+            fill="var(--scene-aluminium)"
+            d="M112 141h1v1h-1zM116 141h1v1h-1zM120 141h1v1h-1zM124 141h1v1h-1zM128 141h1v1h-1zM132 141h1v1h-1zM136 141h1v1h-1zM140 141h1v1h-1zM144 141h1v1h-1zM148 141h1v1h-1z"
+        ></path>
     </g>
 
     <!-- The Mac mini: a small rounded aluminium box with front ports and a dark foot. -->
@@ -187,6 +200,7 @@
         --scene-shadow: #d9d0be;
         --scene-aluminium-top: #d7dcd7;
         --scene-aluminium: #a5ada7;
+        --scene-bezel: #2a2c29;
         --scene-port: #48534e;
         --scene-status: #f6f6dc;
         --scene-gpt: #bbd586;
