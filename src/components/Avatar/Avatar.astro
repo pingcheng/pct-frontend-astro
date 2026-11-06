@@ -37,8 +37,9 @@ const initials = profile.fullName
         "--avatar-size": `${width}px`,
         "view-transition-name": transitionName,
     }}
-    role="img"
-    aria-label={alt}
+    role={alt ? "img" : undefined}
+    aria-label={alt || undefined}
+    aria-hidden={alt ? undefined : "true"}
 >
     <span class="avatar-fallback" aria-hidden="true">{fallbackLabel ?? initials}</span>
     <img

@@ -1,7 +1,8 @@
 ---
+import Avatar from "@/components/Avatar/Avatar.astro";
 import { profile } from "@/data/profile";
 import styles from "./style.module.css";
-import { isActive, menuItems } from "./menu";
+import { hasOwnPortrait, isActive, menuItems } from "./menu";
 
 interface Props {
     currentPath: string;
@@ -13,6 +14,8 @@ const links = menuItems.map((item) => ({
     ...item,
     active: isActive(item.path, currentPath),
 }));
+// Pages without their own photo get a small one here, so the photo keeps moving between pages.
+const showAvatar = !hasOwnPortrait(currentPath);
 ---
 
 <nav
@@ -28,17 +31,27 @@ const links = menuItems.map((item) => ({
             href="/"
             aria-label={`${profile.fullName} home`}
         >
-            <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                fill="currentColor"
-                aria-hidden="true"
-            >
-                <path
-                    d="M0 5h5V0h15v5h5v15h-5v5H5v-5H0V5Zm5 0v15h15V5H5Zm4 4h7v3h-4v4H9V9Z"
-                ></path>
-            </svg>
+            {
+                showAvatar ? (
+                    <Avatar
+                        width={25}
+                        height={25}
+                        alt=""
+                        class={styles.identityAvatar}
+                        transitionName="profile-avatar"
+                    />
+                ) : (
+                    <svg
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path d="M0 5h5V0h15v5h5v15h-5v5H5v-5H0V5Zm5 0v15h15V5H5Zm4 4h7v3h-4v4H9V9Z"></path>
+                    </svg>
+                )
+            }
             <span>{profile.fullName}</span>
         </a>
         <div class={styles.desktopMenu}>
