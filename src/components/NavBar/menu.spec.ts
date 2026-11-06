@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isActive, menuItems } from "./menu";
+import { hasOwnPortrait, isActive, menuItems } from "./menu";
 
 function activeLabels(currentPath: string) {
     return menuItems
@@ -31,5 +31,19 @@ describe("NavBar active link", () => {
         expect(menuItems.find((item) => item.label === "Blog")?.path).toBe(
             "/blog/",
         );
+    });
+});
+
+describe("NavBar portrait pages", () => {
+    it.each([
+        ["/", true],
+        ["/about", true],
+        ["/about/", true],
+        ["/portfolio", false],
+        ["/blog/", false],
+        ["/blog/reviewing-tailscale-at-home/", false],
+        ["/friends", false],
+    ])("%s has its own portrait: %s", (path, expected) => {
+        expect(hasOwnPortrait(path)).toBe(expected);
     });
 });

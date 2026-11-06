@@ -13,3 +13,11 @@ export function isActive(itemPath: string, currentPath: string): boolean {
         ? normalized === item || normalized.startsWith(`${item}/`)
         : normalized === item;
 }
+
+/** Pages that show the large profile photo themselves; elsewhere the nav carries a small one. */
+const portraitPages = ["/", "/about"];
+
+export function hasOwnPortrait(currentPath: string): boolean {
+    const normalized = currentPath.replace(/\/+$/, "") || "/";
+    return portraitPages.includes(normalized);
+}
