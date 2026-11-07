@@ -21,6 +21,9 @@ const {
     transitionName,
 } = Astro.props;
 
+// The profile avatar animates, so swap in a still version for reduced motion.
+const isProfileAvatar = src === profile.avatarUrl;
+
 const initials = profile.fullName
     .split(/\s+/)
     .map((word) => word.charAt(0))
@@ -42,14 +45,33 @@ const initials = profile.fullName
     aria-hidden={alt ? undefined : "true"}
 >
     <span class="avatar-fallback" aria-hidden="true">{fallbackLabel ?? initials}</span>
-    <img
-        src={src}
-        alt=""
-        width={width}
-        height={height}
-        decoding="async"
-        onerror="this.remove()"
-    />
+    {
+        isProfileAvatar ? (
+            <picture>
+                <source
+                    srcset={profile.avatarUrl}
+                    media="(prefers-reduced-motion: no-preference)"
+                />
+                <img
+                    src={profile.avatarStaticUrl}
+                    alt=""
+                    width={width}
+                    height={height}
+                    decoding="async"
+                    onerror="this.remove()"
+                />
+            </picture>
+        ) : (
+            <img
+                src={src}
+                alt=""
+                width={width}
+                height={height}
+                decoding="async"
+                onerror="this.remove()"
+            />
+        )
+    }
 </span>
 
 <style>
@@ -67,6 +89,9 @@ const initials = profile.fullName
     .avatar-fallback {
         font-size: calc(var(--avatar-size) / 2.8);
         line-height: 1;
+    }
+    picture {
+        display: contents;
     }
     img {
         position: absolute;

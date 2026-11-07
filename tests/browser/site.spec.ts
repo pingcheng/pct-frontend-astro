@@ -213,7 +213,7 @@ test('local Inter loads and every portfolio image decodes', async ({ page }) => 
 
   const { Portfolios } = await import('../../src/data/portfolios');
   const { profile } = await import('../../src/data/profile');
-  const images = [profile.avatarUrl, ...new Set(Portfolios.flatMap(
+  const images = [profile.avatarUrl, profile.avatarStaticUrl, ...new Set(Portfolios.flatMap(
     (portfolio) => [portfolio.coverImage, ...portfolio.screenshots],
   ))];
   const failures = await page.evaluate(async (sources) => {
@@ -311,4 +311,19 @@ test('reduced motion keeps home and inner-page content immediately readable', as
     ).length)).toBe(0);
     await expectNoHorizontalOverflow(page);
   }
+});
+
+test('the profile avatar only animates when motion is welcome', async ({ page }) => {
+  const { profile } = await import('../../src/data/profile');
+  const avatarSource = () => page.locator('.about-avatar img').evaluate(async (image: HTMLImageElement) => {
+    await image.decode();
+    return new URL(image.currentSrc).pathname;
+  });
+
+  await page.goto('/about');
+  expect(await avatarSource()).toBe(profile.avatarUrl);
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/about');
+  expect(await avatarSource()).toBe(profile.avatarStaticUrl);
 });

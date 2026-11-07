@@ -1,6 +1,8 @@
 export const profile = {
   fullName: "Ping Cheng",
   avatarUrl: "/images/avatar.svg",
+  // Shown instead of the animated avatar when the visitor prefers reduced motion.
+  avatarStaticUrl: "/images/avatar.webp",
   email: "info@pingchengtech.com",
   currentRole: "Principal Engineer",
   company: "REA Group",
