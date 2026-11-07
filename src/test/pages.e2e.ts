@@ -93,15 +93,15 @@ describe('Static Pages Content', () => {
         loadHtml('index.html');
 
         const measurementId = configuredGaMeasurementId as string;
-        const gaLoader = document.querySelector(
-            `script[src="https://www.googletagmanager.com/gtag/js?id=${measurementId}"]`,
-        );
+        // gtag.js is injected after load, so it must not be in the initial HTML.
+        const staticGaLoader = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
         const gaConfig = Array.from(document.querySelectorAll('script:not([src])')).find(
             (script) => script.textContent?.includes(measurementId),
         );
 
-        expect(gaLoader).not.toBeNull();
-        expect(gaLoader?.hasAttribute('async')).toBe(true);
+        expect(staticGaLoader).toBeNull();
+        expect(gaConfig?.textContent).toContain('https://www.googletagmanager.com/gtag/js?id=');
+        expect(gaConfig?.textContent).toContain('requestIdleCallback');
         expect(gaConfig?.textContent).toContain('window.gtag');
         expect(gaConfig?.textContent).toContain(
             `gtag('config', ${JSON.stringify(measurementId)})`,

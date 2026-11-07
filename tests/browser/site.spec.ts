@@ -267,6 +267,17 @@ test('navigation works when the optional analytics loader fails', async ({ page 
   await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
 });
 
+test('analytics loads after the page instead of during it', async ({ page }) => {
+  await page.route('https://www.googletagmanager.com/**', (route) => route.fulfill({ status: 204, body: '' }));
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const configured = await page.evaluate(() => typeof (window as unknown as { gtag?: unknown }).gtag === 'function');
+  test.skip(!configured, 'Build has no PUBLIC_GA_MEASUREMENT_ID');
+
+  const loader = page.locator('script[src^="https://www.googletagmanager.com/gtag/js"]');
+  await expect(loader).toHaveCount(1);
+  await expect(page.locator('script[src^="https://www.googletagmanager.com/gtag/js"][async]')).toHaveCount(1);
+});
+
 
 test('home entrances run once and finish with readable content', async ({ page }) => {
   await page.addInitScript(() => {
