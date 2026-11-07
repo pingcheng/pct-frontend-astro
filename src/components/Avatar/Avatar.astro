@@ -44,6 +44,7 @@ const initials = profile.fullName
         height: `${height}px`,
         "--avatar-size": `${width}px`,
         "view-transition-name": transitionName,
+        "view-transition-class": transitionName ? "morph morph-image" : undefined,
     }}
     role={alt ? "img" : undefined}
     aria-label={alt || undefined}

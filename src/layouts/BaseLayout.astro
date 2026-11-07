@@ -55,9 +55,10 @@ else window.addEventListener('load', scheduleGtag, { once: true });
   : '';
 
 // A quick fade out, then the new page settles in with a short rise.
+// The new page waits for the old one to be gone, so text from both never overlaps.
 const pageSwap = {
-  old: { name: 'page-out', duration: '140ms', easing: 'cubic-bezier(0.4, 0, 1, 1)', fillMode: 'both' },
-  new: { name: 'page-in', duration: '280ms', delay: '60ms', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'both' },
+  old: { name: 'page-out', duration: '120ms', easing: 'cubic-bezier(0.4, 0, 1, 1)', fillMode: 'both' },
+  new: { name: 'page-in', duration: '260ms', delay: '120ms', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'both' },
 };
 const pageTransition: TransitionDirectionalAnimations = { forwards: pageSwap, backwards: pageSwap };
 ---

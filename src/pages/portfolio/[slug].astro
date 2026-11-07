@@ -43,6 +43,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
             <h1
                 style={{
                     "view-transition-name": `project-title-${portfolio.slug}`,
+                    "view-transition-class": "morph morph-text",
                 }}
             >
                 {portfolio.name}
@@ -202,6 +203,8 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
         max-width: 820px;
     }
     h1 {
+        /* Hug the text, so the title morphs from the list without stretching sideways. */
+        width: fit-content;
         margin-top: 32px;
         font-family: var(--font-display);
         font-weight: 400;

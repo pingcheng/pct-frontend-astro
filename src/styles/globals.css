@@ -105,6 +105,41 @@ img {
     }
 }
 
+/*
+ * Elements that move between pages (the avatar, project titles).
+ * The browser's default crossfades two half-transparent snapshots while it
+ * stretches them, which shows up as a ghosted double image. Instead, show a
+ * single image that moves, timed to land with the page fade above.
+ */
+@keyframes morph-fade-in {
+    from {
+        opacity: 0;
+    }
+}
+::view-transition-group(*.morph) {
+    animation-duration: 380ms;
+    animation-timing-function: var(--ease-out);
+}
+::view-transition-old(*.morph),
+::view-transition-new(*.morph) {
+    mix-blend-mode: normal;
+}
+/* Text: only the new title moves; its old copy disappears straight away. */
+::view-transition-old(*.morph-text) {
+    animation: none;
+    opacity: 0;
+}
+::view-transition-new(*.morph-text) {
+    animation: none;
+}
+/* Images: the old one stays solid underneath while the new one fades in on top. */
+::view-transition-old(*.morph-image) {
+    animation: none;
+}
+::view-transition-new(*.morph-image) {
+    animation: morph-fade-in 380ms var(--ease-out) both;
+}
+
 /* One short entrance per content group on the first visit only. */
 @keyframes studio-enter {
     from {
