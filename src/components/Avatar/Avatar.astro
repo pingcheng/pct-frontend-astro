@@ -9,6 +9,8 @@ interface Props {
     fallbackLabel?: string;
     class?: string;
     transitionName?: string;
+    /** Set when the avatar is the page's main image, so the browser fetches it first. */
+    priority?: boolean;
 }
 
 const {
@@ -19,7 +21,10 @@ const {
     fallbackLabel,
     class: className,
     transitionName,
+    priority = false,
 } = Astro.props;
+
+const fetchpriority = priority ? "high" : undefined;
 
 // The profile avatar animates, so swap in a still version for reduced motion.
 const isProfileAvatar = src === profile.avatarUrl;
@@ -58,6 +63,7 @@ const initials = profile.fullName
                     width={width}
                     height={height}
                     decoding="async"
+                    fetchpriority={fetchpriority}
                     onerror="this.remove()"
                 />
             </picture>
@@ -68,6 +74,7 @@ const initials = profile.fullName
                 width={width}
                 height={height}
                 decoding="async"
+                fetchpriority={fetchpriority}
                 onerror="this.remove()"
             />
         )
