@@ -181,9 +181,10 @@ test('mobile menu works before slow images finish loading', async ({ page, isMob
   test.skip(!isMobile, 'Mobile navigation is only rendered on mobile viewports.');
 
   // Hold the avatar so the window load event can't fire yet.
+  const { profile } = await import('../../src/data/profile');
   let releaseAvatar = () => {};
   const avatarHeld = new Promise<void>((resolve) => (releaseAvatar = resolve));
-  await page.route('**/images/avatar.webp', async (route) => {
+  await page.route(`**${profile.avatarUrl}`, async (route) => {
     await avatarHeld;
     await route.continue();
   });
@@ -211,7 +212,8 @@ test('local Inter loads and every portfolio image decodes', async ({ page }) => 
   ))).toBe(true);
 
   const { Portfolios } = await import('../../src/data/portfolios');
-  const images = ['/images/avatar.webp', ...new Set(Portfolios.flatMap(
+  const { profile } = await import('../../src/data/profile');
+  const images = [profile.avatarUrl, ...new Set(Portfolios.flatMap(
     (portfolio) => [portfolio.coverImage, ...portfolio.screenshots],
   ))];
   const failures = await page.evaluate(async (sources) => {
