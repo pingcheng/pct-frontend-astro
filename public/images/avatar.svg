@@ -3,19 +3,21 @@
     .bob { animation: bob 5s ease-in-out infinite; transform-origin: 230px 460px; }
     .cover { transform-box: fill-box; transform-origin: 50% 0%; transform: scaleY(0); animation: cover 5.5s ease-in-out infinite; }
     .lidline { animation: lid 5.5s ease-in-out infinite; }
+    .glint { animation: glint 7s ease-in-out -4s infinite; }
     .steam path { opacity: 0; animation: steam 3.6s ease-in infinite; }
     .steam path:nth-child(2) { animation-delay: 1.2s; }
     .steam path:nth-child(3) { animation-delay: 2.4s; }
     @keyframes bob { 0%, 100% { transform: scale(1.03) translateY(0); } 50% { transform: scale(1.03) translateY(3px); } }
     @keyframes cover { 0%, 89%, 99%, 100% { transform: scaleY(0); } 92.5%, 95% { transform: scaleY(1); } }
     @keyframes lid { 0%, 89%, 99%, 100% { transform: translateY(0); } 92.5%, 95% { transform: translateY(var(--drop)); } }
+    @keyframes glint { 0%, 78% { transform: translateX(0); } 88%, 100% { transform: translateX(200px); } }
     @keyframes steam {
       0% { opacity: 0; transform: translateY(6px); }
       35% { opacity: 0.7; }
       100% { opacity: 0; transform: translateY(-34px); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .bob, .cover, .lidline, .steam path { animation: none; }
+      .bob, .cover, .lidline, .glint, .steam path { animation: none; }
     }
   </style>
   <rect width="460" height="460" fill="#d38b8c"/>
@@ -29,6 +31,17 @@
     <g transform="translate(237 218.3) rotate(10.8)" style="--drop: 21px">
       <rect class="cover" x="-3" y="-4" width="43" height="28" fill="#fddbc7"/>
       <path class="lidline" d="M0 0 L37 0" fill="none" stroke="#2b2320" stroke-width="3.6" stroke-linecap="round"/>
+    </g>
+    <!-- Glint: two light bands sweep across the lenses now and then -->
+    <clipPath id="lenses">
+      <rect x="148" y="191" width="54" height="52" rx="14"/>
+      <rect x="224" y="199" width="64" height="59" rx="16"/>
+    </clipPath>
+    <g clip-path="url(#lenses)">
+      <g class="glint" fill="#ffffff">
+        <rect x="104" y="170" width="13" height="110" opacity="0.55" transform="rotate(25 110 225)"/>
+        <rect x="122" y="170" width="5" height="110" opacity="0.45" transform="rotate(25 124 225)"/>
+      </g>
     </g>
     <g class="steam" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round">
       <path d="M106 276 C98 264 112 256 104 242"/>
