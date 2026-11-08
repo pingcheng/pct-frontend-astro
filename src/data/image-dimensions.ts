@@ -185,8 +185,8 @@ export const imageDimensions: Record<string, { width: number; height: number }> 
     "height": 460
   },
   "/images/portfolio/daily-english-worksheet.webp": {
-    "width": 900,
-    "height": 1200
+    "width": 600,
+    "height": 800
   },
   "/images/portfolio/daily-english-worksheet-today.webp": {
     "width": 1265,
