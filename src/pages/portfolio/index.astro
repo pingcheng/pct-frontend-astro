@@ -10,7 +10,7 @@ import { MdArrowForward } from "react-icons/md";
     description="Things I’ve built, from everyday tools to platforms for learning and work."
     ogTitle="Portfolio | Ping Cheng"
     ogDescription="Things I’ve built, from everyday tools to platforms for learning and work."
-    ogUrl="https://www.pingchengtech.com/portfolio"
+    ogUrl="https://www.pingchengtech.com/portfolio/"
     twitterCard="summary_large_image"
     twitterTitle="Portfolio | Ping Cheng"
     twitterDescription="Things I’ve built, from everyday tools to platforms for learning and work."
@@ -40,13 +40,12 @@ import { MdArrowForward } from "react-icons/md";
                         >
                             <a
                                 class="project-link"
-                                href={`/portfolio/${project.slug}`}
-                                aria-labelledby={`project-${project.slug}`}
+                                href={`/portfolio/${project.slug}/`}
                             >
                                 <div class="project-image">
                                     <img
                                         src={project.coverImage}
-                                        alt={`Cover image for ${project.name}`}
+                                        alt=""
                                         {...imageDimensions[project.coverImage]}
                                         loading={index === 0 ? "eager" : "lazy"}
                                         decoding="async"

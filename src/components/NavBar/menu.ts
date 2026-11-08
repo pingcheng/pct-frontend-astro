@@ -1,8 +1,8 @@
 export const menuItems = [
     { label: "Home", path: "/" },
-    { label: "Portfolio", path: "/portfolio" },
+    { label: "Portfolio", path: "/portfolio/" },
     { label: "Blog", path: "/blog/" },
-    { label: "About me", path: "/about" },
+    { label: "About me", path: "/about/" },
 ];
 
 /** Section links stay active on their nested pages; Home only matches "/". */

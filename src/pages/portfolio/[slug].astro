@@ -30,13 +30,13 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
     title={`Portfolio - ${portfolio.name}`}
     description={portfolio.longDescription}
     ogTitle={`Portfolio - ${portfolio.name}`}
-    ogUrl={new URL(`/portfolio/${portfolio.slug}`, Astro.site).href}
+    ogUrl={new URL(`/portfolio/${portfolio.slug}/`, Astro.site).href}
     ogImage={portfolio.coverImage}
     twitterImage={portfolio.coverImage}
 >
     <main class="project-page">
         <header class="project-header animate-fade-in">
-            <a class="back-link" href="/portfolio">
+            <a class="back-link" href="/portfolio/">
                 <MdArrowBack size={16} aria-hidden="true" />
                 Back to portfolio
             </a>
@@ -165,7 +165,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
             class="project-navigation animate-fade-in animate-delay-300"
             aria-label="Project navigation"
         >
-            <a href="/portfolio">
+            <a href="/portfolio/">
                 <MdArrowBack size={16} aria-hidden="true" />
                 All projects
             </a>
@@ -173,7 +173,7 @@ const nextProject = Portfolios[(projectIndex + 1) % Portfolios.length];
                 nextProject && nextProject.slug !== portfolio.slug && (
                     <a
                         class="next-project"
-                        href={`/portfolio/${nextProject.slug}`}
+                        href={`/portfolio/${nextProject.slug}/`}
                     >
                         <span>Next: {nextProject.name}</span>
                         <MdArrowOutward size={16} aria-hidden="true" />

@@ -74,16 +74,16 @@ test.describe('personal site browser smoke', () => {
     if (await menuButton.isVisible()) await menuButton.click();
     await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true })).toHaveAttribute(
       'href',
-      '/portfolio',
+      '/portfolio/',
     );
     await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About me', exact: true })).toHaveAttribute(
       'href',
-      '/about',
+      '/about/',
     );
     const closeMenuButton = page.getByRole('button', { name: 'Close main menu' });
     if (await closeMenuButton.isVisible()) await closeMenuButton.click();
     await expect(page.getByRole('link', { name: 'More about me' })).toHaveAttribute(
-      'href', '/about',
+      'href', '/about/',
     );
     await expect(page.getByText('I’m a software engineer in Melbourne, exploring coding agents, building personal tools, and tinkering with everyday life.')).toBeVisible();
     await expect(page.getByRole('img', { name: 'Ping Cheng profile photo', exact: true })).toBeVisible();
@@ -111,16 +111,16 @@ test.describe('personal site browser smoke', () => {
 
     const projectLink = page.getByRole('link', { name: /Empire CBS/ });
     await expect(projectLink).toBeVisible();
-    await expect(projectLink).toHaveAttribute('href', '/portfolio/empire-cbs');
+    await expect(projectLink).toHaveAttribute('href', '/portfolio/empire-cbs/');
 
     await expectNoHorizontalOverflow(page);
   });
 
   test('portfolio detail renders project data and safe external links', async ({ page }) => {
-    await page.goto('/portfolio/empire-cbs');
+    await page.goto('/portfolio/empire-cbs/');
 
     await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Back to portfolio' })).toHaveAttribute('href', '/portfolio');
+    await expect(page.getByRole('link', { name: 'Back to portfolio' })).toHaveAttribute('href', '/portfolio/');
     await expect(page.getByText('Backend & DevOps Developer', { exact: true }).first()).toBeVisible();
     await expect(page.getByText('Private project', { exact: true }).first()).toBeVisible();
 

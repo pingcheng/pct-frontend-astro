@@ -125,14 +125,14 @@ describe('Static Pages Content', () => {
 
         expect(document.title).toBe('About Ping Cheng');
         expect(getMetaContent('meta[property="og:url"]')).toBe(
-            'https://www.pingchengtech.com/about',
+            'https://www.pingchengtech.com/about/',
         );
         expect(getMetaContent('meta[property="og:type"]')).toBe('profile');
 
         // Canonical URL
         const canonical = document.querySelector('link[rel="canonical"]');
         expect(canonical).not.toBeNull();
-        expect(canonical?.getAttribute('href')).toBe('https://www.pingchengtech.com/about');
+        expect(canonical?.getAttribute('href')).toBe('https://www.pingchengtech.com/about/');
 
         const structuredData = getStructuredData();
         const personData = structuredData.find((item) => item?.['@type'] === 'Person');
@@ -155,7 +155,7 @@ describe('Static Pages Content', () => {
             expect.objectContaining({
                 position: 2,
                 name: 'About',
-                item: 'https://www.pingchengtech.com/about',
+                item: 'https://www.pingchengtech.com/about/',
             }),
         ]);
 
@@ -198,9 +198,9 @@ describe('Static Pages Content', () => {
         }
 
         // The Friends page is reached from the footer, not the navbar
-        const footerLink = document.querySelector('footer a[href="/friends"]');
+        const footerLink = document.querySelector('footer a[href="/friends/"]');
         expect(footerLink).not.toBeNull();
-        expect(document.querySelector('nav a[href="/friends"]')).toBeNull();
+        expect(document.querySelector('nav a[href="/friends/"]')).toBeNull();
     });
 
     it('should include friends page SEO metadata and structured data', () => {
@@ -208,14 +208,14 @@ describe('Static Pages Content', () => {
 
         expect(document.title).toBe('Friends | Ping Cheng');
         expect(getMetaContent('meta[property="og:url"]')).toBe(
-            'https://www.pingchengtech.com/friends',
+            'https://www.pingchengtech.com/friends/',
         );
 
         // Canonical URL
         const canonical = document.querySelector('link[rel="canonical"]');
         expect(canonical).not.toBeNull();
         expect(canonical?.getAttribute('href')).toBe(
-            'https://www.pingchengtech.com/friends',
+            'https://www.pingchengtech.com/friends/',
         );
 
         const structuredData = getStructuredData();
@@ -232,7 +232,7 @@ describe('Static Pages Content', () => {
             expect.objectContaining({
                 position: 2,
                 name: 'Friends',
-                item: 'https://www.pingchengtech.com/friends',
+                item: 'https://www.pingchengtech.com/friends/',
             }),
         ]);
     });
@@ -287,7 +287,7 @@ describe('Self-hosted static deployment', () => {
     it.each(Portfolios)('$slug keeps its canonical URL and screenshot dimensions', (portfolio) => {
         loadHtml(`portfolio/${portfolio.slug}/index.html`);
         expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
-            `https://www.pingchengtech.com/portfolio/${portfolio.slug}`,
+            `https://www.pingchengtech.com/portfolio/${portfolio.slug}/`,
         );
         for (const screenshot of document.querySelectorAll('img[loading="lazy"]')) {
             expect(Number(screenshot.getAttribute('width'))).toBeGreaterThan(0);
@@ -305,7 +305,7 @@ describe('Self-hosted static deployment', () => {
         expect(fs.readFileSync(path.join(DIST_DIR, 'sitemap-index.xml'), 'utf8')).toContain('sitemap-0.xml');
         const sitemap = fs.readFileSync(path.join(DIST_DIR, 'sitemap-0.xml'), 'utf8');
         for (const portfolio of Portfolios) {
-            expect(sitemap).toContain(`https://www.pingchengtech.com/portfolio/${portfolio.slug}`);
+            expect(sitemap).toContain(`https://www.pingchengtech.com/portfolio/${portfolio.slug}/`);
         }
         expect(sitemap).not.toContain('/404');
         loadHtml('404.html');

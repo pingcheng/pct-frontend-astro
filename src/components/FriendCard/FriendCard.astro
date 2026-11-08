@@ -22,13 +22,12 @@ const initials = friend.name
     target="_blank"
     rel="noopener noreferrer"
     class="friend-link flex items-center gap-4 h-full"
-    aria-label={`Visit ${friend.name}'s website`}
 >
     {
         friend.avatar ? (
             <Avatar
                 src={friend.avatar}
-                alt={`${friend.name} avatar`}
+                alt=""
                 fallbackLabel={initials}
                 width={48}
                 height={48}
@@ -37,8 +36,7 @@ const initials = friend.name
         ) : (
             <div
                 class="friend-avatar-fallback shrink-0"
-                role="img"
-                aria-label={`${friend.name} avatar`}
+                aria-hidden="true"
             >
                 {initials}
             </div>
@@ -101,7 +99,7 @@ const initials = friend.name
         font-size: 0.95rem;
         font-weight: 600;
         background: var(--color-border);
-        color: var(--color-text-secondary);
+        color: var(--color-text);
     }
 
     .friend-description {
