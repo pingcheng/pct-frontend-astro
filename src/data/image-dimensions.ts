@@ -17,8 +17,8 @@ export const imageDimensions: Record<string, { width: number; height: number }> 
     "height": 1946
   },
   "/images/portfolio/empire-cbs/empire-cbs.webp": {
-    "width": 1250,
-    "height": 1667
+    "width": 600,
+    "height": 800
   },
   "/images/portfolio/pinhr/1.webp": {
     "width": 1600,
@@ -101,8 +101,8 @@ export const imageDimensions: Record<string, { width: number; height: number }> 
     "height": 942
   },
   "/images/portfolio/pteplus/pteplus.webp": {
-    "width": 1250,
-    "height": 1667
+    "width": 600,
+    "height": 800
   },
   "/images/portfolio/pteplus/report-analysis.webp": {
     "width": 1600,
