@@ -131,7 +131,7 @@ export const Portfolios: Portfolio[] = [
     year: "2018",
   },
   {
-    slug: "vatgc",
+    slug: "vagtc",
     name: "VAGTC",
     shortDescription: "A final-year university project",
     coverImage: `${PORTFOLIO_BASE}/vagtc/vagtc.webp`,
