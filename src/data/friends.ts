@@ -8,14 +8,14 @@ export const Friends: Friend[] = [
     {
         name: "Ken Chen",
         url: "https://kenchen.info",
-        avatar: "/images/friends/kenchen.png",
+        avatar: "/images/friends/kenchen.webp",
         description:
             "Sydney-based Data Engineer passionate about data, cloud, and AI — sharing what he learns.",
     },
     {
         name: "Yangyang Cai",
         url: "https://yangyangcai.me",
-        avatar: "/images/friends/yangyangcai.png",
+        avatar: "/images/friends/yangyangcai.webp",
         description:
             "Melbourne-based Senior Data Engineer building data platforms for renewable energy and making AI practical.",
     },
