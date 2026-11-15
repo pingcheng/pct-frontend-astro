@@ -281,7 +281,7 @@ test('analytics loads after the page instead of during it', async ({ page }) => 
 
 test('home entrances run once and finish with readable content', async ({ page }) => {
   await page.addInitScript(() => {
-    const motionWindow = window as Window & { studioMotionEvents: string[] };
+    const motionWindow = window as unknown as Window & { studioMotionEvents: string[] };
     motionWindow.studioMotionEvents = [];
     for (const phase of ['animationstart', 'animationend']) {
       document.addEventListener(phase, (event) => {
@@ -296,13 +296,13 @@ test('home entrances run once and finish with readable content', async ({ page }
   });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect.poll(() => page.evaluate(() => (
-    window as Window & { studioMotionEvents: string[] }
+    window as unknown as Window & { studioMotionEvents: string[] }
   ).studioMotionEvents)).toEqual(expect.arrayContaining([
     'hero-copy:animationstart', 'hero-copy:animationend',
     'studio-vignette:animationstart', 'studio-vignette:animationend',
   ]));
   expect(await page.evaluate(() => (
-    window as Window & { studioMotionEvents: string[] }
+    window as unknown as Window & { studioMotionEvents: string[] }
   ).studioMotionEvents)).toHaveLength(4);
   expect(await page.locator('main').evaluate((main) =>
     main.checkVisibility({ checkOpacity: true }),
