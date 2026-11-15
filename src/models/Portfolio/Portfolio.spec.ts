@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import type { Portfolio } from "./Portfolio";
 
 describe("test Portfolio model", () => {

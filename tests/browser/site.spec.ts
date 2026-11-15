@@ -1,5 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    studioMotionEvents?: string[];
+  }
+}
+
 const browserErrors = new WeakMap<
   Page,
   {
@@ -270,7 +277,7 @@ test('navigation works when the optional analytics loader fails', async ({ page 
 test('analytics loads after the page instead of during it', async ({ page }) => {
   await page.route('https://www.googletagmanager.com/**', (route) => route.fulfill({ status: 204, body: '' }));
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  const configured = await page.evaluate(() => typeof (window as unknown as { gtag?: unknown }).gtag === 'function');
+  const configured = await page.evaluate(() => typeof window.gtag === 'function');
   test.skip(!configured, 'Build has no PUBLIC_GA_MEASUREMENT_ID');
 
   const loader = page.locator('script[src^="https://www.googletagmanager.com/gtag/js"]');
@@ -281,29 +288,25 @@ test('analytics loads after the page instead of during it', async ({ page }) => 
 
 test('home entrances run once and finish with readable content', async ({ page }) => {
   await page.addInitScript(() => {
-    const motionWindow = window as Window & { studioMotionEvents: string[] };
-    motionWindow.studioMotionEvents = [];
+    const studioMotionEvents: string[] = [];
+    window.studioMotionEvents = studioMotionEvents;
     for (const phase of ['animationstart', 'animationend']) {
       document.addEventListener(phase, (event) => {
         if (!(event.target instanceof Element)) return;
         for (const group of ['hero-copy', 'studio-vignette']) {
           if (event.target.classList.contains(group)) {
-            motionWindow.studioMotionEvents.push(`${group}:${phase}`);
+            studioMotionEvents.push(`${group}:${phase}`);
           }
         }
       });
     }
   });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await expect.poll(() => page.evaluate(() => (
-    window as Window & { studioMotionEvents: string[] }
-  ).studioMotionEvents)).toEqual(expect.arrayContaining([
+  await expect.poll(() => page.evaluate(() => window.studioMotionEvents)).toEqual(expect.arrayContaining([
     'hero-copy:animationstart', 'hero-copy:animationend',
     'studio-vignette:animationstart', 'studio-vignette:animationend',
   ]));
-  expect(await page.evaluate(() => (
-    window as Window & { studioMotionEvents: string[] }
-  ).studioMotionEvents)).toHaveLength(4);
+  expect(await page.evaluate(() => window.studioMotionEvents)).toHaveLength(4);
   expect(await page.locator('main').evaluate((main) =>
     main.checkVisibility({ checkOpacity: true }),
   )).toBe(true);
