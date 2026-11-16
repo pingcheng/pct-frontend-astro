@@ -111,6 +111,8 @@ function buildStructuredData() {
 }
 
 const data = buildStructuredData();
+// Escape "<" so a "</script>" inside the data can never close the tag early.
+const jsonLd = data ? JSON.stringify(data).replace(/</g, "\\u003c") : undefined;
 ---
 
-{data && <script type="application/ld+json" set:html={JSON.stringify(data)} />}
+{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}

@@ -50,14 +50,23 @@ describe('Static Pages Content', () => {
         );
         expect(getMetaContent('meta[property="og:type"]')).toBe('profile');
         expect(getMetaContent('meta[property="og:url"]')).toBe(
-            'https://www.pingchengtech.com',
+            'https://www.pingchengtech.com/',
         );
         expect(getMetaContent('meta[name="twitter:title"]')).toBe('Ping Cheng');
 
-        // Canonical URL
+        // Canonical URL matches the sitemap entry verbatim
         const canonical = document.querySelector('link[rel="canonical"]');
         expect(canonical).not.toBeNull();
-        expect(canonical?.getAttribute('href')).toBe('https://www.pingchengtech.com');
+        expect(canonical?.getAttribute('href')).toBe('https://www.pingchengtech.com/');
+        const sitemap = new DOMParser().parseFromString(
+            fs.readFileSync(path.join(DIST_DIR, 'sitemap-0.xml'), 'utf8'),
+            'application/xml',
+        );
+        const locations = Array.from(
+            sitemap.querySelectorAll('url > loc'),
+        ).map((loc) => loc.textContent);
+        expect(locations).toContain('https://www.pingchengtech.com/');
+        expect(locations).not.toContain('https://www.pingchengtech.com');
 
         // OG image should be an absolute URL
         const ogImage = getMetaContent('meta[property="og:image"]');
@@ -300,7 +309,7 @@ describe('Self-hosted static deployment', () => {
             '/sitemap.xml /sitemap-index.xml 301',
         );
         expect(fs.readFileSync(path.join(DIST_DIR, 'robots.txt'), 'utf8')).toContain(
-            'Sitemap: https://www.pingchengtech.com/sitemap.xml',
+            'Sitemap: https://www.pingchengtech.com/sitemap-index.xml',
         );
         expect(fs.readFileSync(path.join(DIST_DIR, 'sitemap-index.xml'), 'utf8')).toContain('sitemap-0.xml');
         const sitemap = fs.readFileSync(path.join(DIST_DIR, 'sitemap-0.xml'), 'utf8');
