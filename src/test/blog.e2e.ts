@@ -19,19 +19,27 @@ describe("Blog static output", () => {
         expect(document.querySelector("h1")?.textContent).toBe("Blog");
         const link = document.querySelector(`main h2 a[href='/blog/${slug}/']`);
         expect(link?.textContent).toContain("Reviewing Tailscale at home");
-        expect(document.querySelector("time")?.getAttribute("datetime")).toBe(
+        const entry = link?.closest(".post-entry");
+        expect(entry?.querySelector("time")?.getAttribute("datetime")).toBe(
             "2026-10-26",
         );
         expect(document.querySelector("main")?.textContent).not.toContain(
             "Sample post",
         );
-        expect(document.querySelectorAll("main .post-entry")).toHaveLength(1);
+        const entries = document.querySelectorAll("main .post-entry");
+        expect(entries).toHaveLength(2);
+        expect(entries[0].querySelector("h2 a")?.getAttribute("href")).toBe(
+            "/blog/charging-my-tesla-on-spare-solar/",
+        );
+        expect(entries[0].querySelector("time")?.getAttribute("datetime")).toBe(
+            "2026-11-16",
+        );
         expect(document.querySelector("main")?.textContent).toContain(
             description,
         );
-        expect(
-            document.querySelector(".reading-time")?.textContent?.trim(),
-        ).toBe("4 min read");
+        expect(entry?.querySelector(".reading-time")?.textContent?.trim()).toBe(
+            "4 min read",
+        );
     });
     it("renders a complete reading page with production canonical and rich content", () => {
         load(`blog/${slug}/index.html`);
