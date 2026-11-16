@@ -32,20 +32,20 @@ test("Blog navigation leads to a readable article and back", async ({
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
         "Reviewing Tailscale at home",
     );
-    await expect(page.locator(".article-body p")).toHaveCount(18);
+    await expect(page.locator(".article-body p")).toHaveCount(17);
     await expect(page.locator(".article-body h2")).toHaveText([
         "Why I still want a private network",
         "What I want to tighten next",
-        "Keeping up with the patches",
+        "Keeping things patched",
     ]);
     await expect(page.locator(".article-meta")).toContainText("4 min read");
     await expect(page.locator(".article-body a")).toHaveCount(7);
     await expect(page.locator(".sample-label, .sample-notice")).toHaveCount(0);
     await expect(page.locator(".article-body")).toContainText(
-        "made sure the built-in Tailscale SSH feature was off on every device.",
+        "made sure Tailscale’s built-in SSH was off on every device.",
     );
     const sourceLink = page.getByRole("link", {
-        name: "Reddit response on 25 October",
+        name: "Reddit reply on 25 October",
         exact: true,
     });
     await sourceLink.focus();
@@ -56,9 +56,9 @@ test("Blog navigation leads to a readable article and back", async ({
     );
     for (const name of [
         "Tailnet Lock",
-        "default policy",
-        "rule allowing that address and port",
-        "Listening on localhost",
+        "By default",
+        "a rule that allows that address and port",
+        "listening on localhost",
         "PHP",
         "Node.js/Brotli",
     ]) {
