@@ -73,7 +73,9 @@ uvx --from 'fonttools[woff]' pyftsubset InterVariable.woff2 --unicodes="U+0000-0
 
 - Font: https://raw.githubusercontent.com/rsms/inter/v4.1/docs/font-files/InterVariable.woff2
 - Licence: https://raw.githubusercontent.com/rsms/inter/v4.1/LICENSE.txt
-- Local files: `public/fonts/InterVariable-latin.woff2` and `public/fonts/LICENSE.txt` (SIL Open Font License 1.1; copyright 2016 The Inter Project Authors).
+- Local files: `public/fonts/InterVariable-latin-1a4ec1ab.woff2` and `public/fonts/LICENSE.txt` (SIL Open Font License 1.1; copyright 2016 The Inter Project Authors).
+
+`_headers` caches `/fonts/*` as immutable for a year, so the served filename must change whenever the bytes change. The file is named `InterVariable-latin-<hash>.woff2`, where `<hash>` is the first 8 hex chars of the file's SHA-256 (`shasum -a 256`). After regenerating the subset, rename the output to its new hash, replace the file in `public/fonts/`, and update the two references: the `@font-face` `src` in `src/styles/globals.css` and the preload in `src/layouts/BaseLayout.astro`.
 
 ## External storage retirement
 
