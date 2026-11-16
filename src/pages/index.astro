@@ -164,23 +164,9 @@ const roleDescription = `${profile.currentRole} at ${profile.company}`;
         margin-top: 2px;
         font-weight: 500;
     }
+    /* The pixel scene sits straight on the page, with no panel behind it. */
     .scene-frame {
-        padding: 18px 10px 14px;
-        background: var(--color-card);
-        clip-path: polygon(
-            8px 0,
-            calc(100% - 8px) 0,
-            calc(100% - 8px) 8px,
-            100% 8px,
-            100% calc(100% - 8px),
-            calc(100% - 8px) calc(100% - 8px),
-            calc(100% - 8px) 100%,
-            8px 100%,
-            8px calc(100% - 8px),
-            0 calc(100% - 8px),
-            0 8px,
-            8px 8px
-        );
+        padding-top: 8px;
     }
     @media (max-width: 900px) {
         .home-hero {
