@@ -10,7 +10,7 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 | /images/portfolio/empire-cbs/empire-cbs-2.webp | 1600 × 1586 | 377 → 44 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/empire-cbs/empire-cbs-2.png |
 | /images/portfolio/empire-cbs/empire-cbs-3.webp | 1600 × 1101 | 246 → 43 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/empire-cbs/empire-cbs-3.png |
 | /images/portfolio/empire-cbs/empire-cbs-4.webp | 1600 × 1946 | 357 → 36 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/empire-cbs/empire-cbs-4.png |
-| /images/portfolio/empire-cbs/empire-cbs.webp | 1250 × 1667 | 65 → 21 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/empire-cbs/empire-cbs.png |
+| /images/portfolio/empire-cbs/empire-cbs.webp | 600 × 800 | 65 → 21 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/empire-cbs/empire-cbs.png |
 | /images/portfolio/pinhr/1.webp | 1600 × 804 | 16 → 10 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pinhr/1.jpg |
 | /images/portfolio/pinhr/2.webp | 1600 × 954 | 92 → 83 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pinhr/2.jpg |
 | /images/portfolio/pinhr/3.webp | 1600 × 1110 | 55 → 46 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pinhr/3.jpg |
@@ -31,7 +31,7 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 | /images/portfolio/pteplus/op3.webp | 1600 × 804 | 58 → 57 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pteplus/op3.jpg |
 | /images/portfolio/pteplus/op4.webp | 1600 × 807 | 39 → 29 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pteplus/op4.jpg |
 | /images/portfolio/pteplus/op5.webp | 1600 × 942 | 55 → 49 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pteplus/op5.jpg |
-| /images/portfolio/pteplus/pteplus.webp | 1250 × 1667 | 82 → 17 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pteplus/pteplus.jpg |
+| /images/portfolio/pteplus/pteplus.webp | 600 × 800 | 82 → 17 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pteplus/pteplus.jpg |
 | /images/portfolio/pteplus/report-analysis.webp | 1600 × 5421 | 397 → 445 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/pteplus/report-analysis.jpg |
 | /images/portfolio/qce-eduplus/1.webp | 1600 × 1186 | 109 → 110 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/qce-eduplus/1.jpg |
 | /images/portfolio/qce-eduplus/2.webp | 1600 × 866 | 126 → 119 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/qce-eduplus/2.jpg |
@@ -52,7 +52,7 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 | /images/portfolio/vagtc/4.webp | 1600 × 1906 | 211 → 250 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/vagtc/4.jpg |
 | /images/portfolio/vagtc/vagtc.webp | 300 × 400 | 199 → 28 KiB | https://pct-frontend-assets.s3.ap-southeast-2.amazonaws.com/portfolio/vagtc/vagtc.png |
 | /images/avatar.webp | 460 × 460 | 34 → 11 KiB | https://avatars0.githubusercontent.com/u/8447539 |
-| /images/portfolio/daily-english-worksheet.webp | 900 × 1200 | 1573 → 179 KiB | public/images/portfolio/daily-english-worksheet.png |
+| /images/portfolio/daily-english-worksheet.webp | 600 × 800 | 1573 → 179 KiB | public/images/portfolio/daily-english-worksheet.png |
 | /images/portfolio/daily-english-worksheet-today.webp | 1265 × 889 | 253 → 54 KiB | public/images/portfolio/daily-english-worksheet-today.png |
 | /images/portfolio/daily-english-worksheet-history.webp | 1440 × 900 | 267 → 41 KiB | public/images/portfolio/daily-english-worksheet-history.png |
 | /images/blog/charging-my-tesla-on-spare-solar/cover.webp | 1280 × 720 | 535 → 38 KiB | Supplied PNG for the blog post, converted at WebP q80 |
