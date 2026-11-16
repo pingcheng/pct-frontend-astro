@@ -1,46 +1,47 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import type { Portfolio } from "./Portfolio";
+import { imageDimensions } from "@/data/image-dimensions";
+import { Portfolios } from "@/data/portfolios";
 
-describe("test Portfolio model", () => {
-  const mockPortfolio: Portfolio = {
-    slug: "test-portfolio",
-    name: "Test Portfolio",
-    coverImage: "/images/test-cover.jpg",
-    url: "https://example.com",
-    shortDescription: "This is a short description",
-    longDescription:
-      "This is a longer description that explains the portfolio in detail",
-    workplace: "Test Company",
-    projectRole: "Developer",
-    roleDescription: [
-      "Developed features",
-      "Fixed bugs",
-      "Deployed to production",
-    ],
-    members: ["John Doe", "Jane Smith"],
-    screenshots: ["/images/screenshot1.jpg", "/images/screenshot2.jpg"],
-    year: "2023",
-  };
+const publicDir = resolve(import.meta.dirname, "../../../public");
 
-  it("should have correct slug", () => {
-    expect(mockPortfolio.slug).toBe("test-portfolio");
+const allImages = Portfolios.flatMap((portfolio) => [
+  portfolio.coverImage,
+  ...portfolio.screenshots,
+]);
+
+describe("Portfolios data", () => {
+  it("should have unique slugs", () => {
+    const slugs = Portfolios.map((portfolio) => portfolio.slug);
+    const duplicates = slugs.filter(
+      (slug, index) => slugs.indexOf(slug) !== index,
+    );
+
+    expect(duplicates).toEqual([]);
   });
 
-  it("should have all required fields", () => {
-    expect(mockPortfolio.name).toBe("Test Portfolio");
-    expect(mockPortfolio.coverImage).toBe("/images/test-cover.jpg");
-    expect(mockPortfolio.url).toBe("https://example.com");
-    expect(mockPortfolio.shortDescription).toBe("This is a short description");
-    expect(mockPortfolio.workplace).toBe("Test Company");
-    expect(mockPortfolio.projectRole).toBe("Developer");
-    expect(mockPortfolio.roleDescription).toHaveLength(3);
-    expect(mockPortfolio.members).toHaveLength(2);
-    expect(mockPortfolio.screenshots).toHaveLength(2);
+  it("should have a screenshot caption for every screenshot when captions are provided", () => {
+    const mismatches = Portfolios.filter(
+      (portfolio) =>
+        portfolio.screenshotCaptions &&
+        portfolio.screenshotCaptions.length !== portfolio.screenshots.length,
+    ).map((portfolio) => portfolio.slug);
+
+    expect(mismatches).toEqual([]);
   });
 
-  it("should detect screenshots via length", () => {
-    expect(mockPortfolio.screenshots.length > 0).toBe(true);
-    const noScreens = { ...mockPortfolio, screenshots: [] };
-    expect(noScreens.screenshots.length > 0).toBe(false);
+  it("should record intrinsic dimensions for every cover image and screenshot", () => {
+    const missing = allImages.filter((src) => !imageDimensions[src]);
+
+    expect(missing).toEqual([]);
+  });
+
+  it("should serve every cover image and screenshot from public/", () => {
+    const missing = allImages.filter(
+      (src) => !existsSync(resolve(publicDir, `.${src}`)),
+    );
+
+    expect(missing).toEqual([]);
   });
 });
