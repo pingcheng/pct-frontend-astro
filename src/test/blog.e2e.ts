@@ -63,7 +63,7 @@ describe("Blog static output", () => {
                 .querySelector('nav a[aria-current="page"]')
                 ?.textContent?.trim(),
         ).toBe("Blog");
-        expect(document.querySelectorAll(".article-body p")).toHaveLength(18);
+        expect(document.querySelectorAll(".article-body p")).toHaveLength(17);
         expect(
             Array.from(document.querySelectorAll(".article-body h2")).map(
                 (heading) => heading.textContent,
@@ -71,7 +71,7 @@ describe("Blog static output", () => {
         ).toEqual([
             "Why I still want a private network",
             "What I want to tighten next",
-            "Keeping up with the patches",
+            "Keeping things patched",
         ]);
         expect(
             document.querySelector(".article-body strong")?.textContent,
@@ -92,7 +92,7 @@ describe("Blog static output", () => {
             document.querySelector(".article-body")?.textContent,
         ).not.toContain("Ping Cheng · 26 October 2026");
         expect(document.querySelector(".article-body")?.textContent).toContain(
-            "made sure the built-in Tailscale SSH feature was off on every device.",
+            "made sure Tailscale’s built-in SSH was off on every device.",
         );
         expect(
             Array.from(document.querySelectorAll(".article-body a")).map(
@@ -100,7 +100,7 @@ describe("Blog static output", () => {
             ),
         ).toEqual([
             [
-                "Reddit response on 25 October",
+                "Reddit reply on 25 October",
                 "https://www.reddit.com/r/Tailscale/comments/1xeoj1l/recent_tailscale_vulnerability_reports/",
             ],
             [
@@ -108,15 +108,15 @@ describe("Blog static output", () => {
                 "https://tailscale.com/docs/features/tailnet-lock",
             ],
             [
-                "default policy",
+                "By default",
                 "https://tailscale.com/docs/reference/examples/grants",
             ],
             [
-                "rule allowing that address and port",
+                "a rule that allows that address and port",
                 "https://tailscale.com/docs/reference/syntax/grants",
             ],
             [
-                "Listening on localhost",
+                "listening on localhost",
                 "https://tailscale.com/docs/features/tailscale-serve#identity-headers",
             ],
             [
