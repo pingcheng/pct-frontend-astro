@@ -6,7 +6,7 @@ publishedAt: "2026-11-16"
 topic: Home automation
 ---
 
-![A house with rooftop solar panels and a white Model Y charging in the driveway](/images/blog/charging-my-tesla-on-spare-solar/cover.png)
+![A house with rooftop solar panels and a white Model Y charging in the driveway](/images/blog/charging-my-tesla-on-spare-solar/cover.webp)
 
 On a sunny day our house often makes more power than it uses. We have solar panels on the roof, a home battery and a Model Y, and selling the extra back to the grid earns very little. I wanted the car to take that spare power instead, without draining the home battery and without me opening the Tesla app every time a cloud passed.
 
@@ -20,7 +20,7 @@ TeslaMate reads the car's state and publishes it over MQTT. Home Assistant uses 
 
 The control logic sits in a small pyscript controller, which an automation runs every 10 minutes.
 
-![How the pieces connect: solar and home battery feed Home Assistant, the pyscript controller sends commands through the Tesla Fleet API, and TeslaMate reports the car's state back over MQTT](/images/blog/charging-my-tesla-on-spare-solar/setup-diagram.png)
+![How the pieces connect: solar and home battery feed Home Assistant, the pyscript controller sends commands through the Tesla Fleet API, and TeslaMate reports the car's state back over MQTT](/images/blog/charging-my-tesla-on-spare-solar/setup-diagram.webp)
 
 ## How it decides
 
@@ -31,7 +31,7 @@ On each run, the controller takes the spare solar power averaged over the last 1
 - If the car is already at 5 A and the battery is still discharging, it stops charging.
 - When the sun comes back and there is enough for 5 A again, it wakes the car and starts charging.
 
-![The four checks the controller makes on each 10-minute run](/images/blog/charging-my-tesla-on-spare-solar/decision-flow.png)
+![The four checks the controller makes on each 10-minute run](/images/blog/charging-my-tesla-on-spare-solar/decision-flow.webp)
 
 It does nothing before 6 am, and it leaves the car alone once it reaches its charge limit.
 

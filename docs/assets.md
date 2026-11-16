@@ -55,6 +55,9 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 | /images/portfolio/daily-english-worksheet.webp | 900 × 1200 | 1573 → 179 KiB | public/images/portfolio/daily-english-worksheet.png |
 | /images/portfolio/daily-english-worksheet-today.webp | 1265 × 889 | 253 → 54 KiB | public/images/portfolio/daily-english-worksheet-today.png |
 | /images/portfolio/daily-english-worksheet-history.webp | 1440 × 900 | 267 → 41 KiB | public/images/portfolio/daily-english-worksheet-history.png |
+| /images/blog/charging-my-tesla-on-spare-solar/cover.webp | 1280 × 720 | 535 → 38 KiB | Supplied PNG for the blog post, converted at WebP q80 |
+| /images/blog/charging-my-tesla-on-spare-solar/setup-diagram.webp | 1600 × 900 | 246 → 31 KiB | Supplied 1920 × 1080 PNG for the blog post, resized and converted at WebP q80 |
+| /images/blog/charging-my-tesla-on-spare-solar/decision-flow.webp | 1600 × 900 | 376 → 52 KiB | Supplied 1920 × 1080 PNG for the blog post, resized and converted at WebP q80 |
 
 ## Inter
 
