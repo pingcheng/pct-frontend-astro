@@ -100,7 +100,7 @@ PLAYWRIGHT_BASE_URL=https://YOUR-PREVIEW.pages.dev npx playwright test
 ```
 
 The checks cover desktop/mobile navigation, React hydration, all portfolio image
-decodes, the local Inter font, SEO, unknown routes and analytics failure. When
+decodes, the local Allo font, SEO, unknown routes and analytics failure. When
 `PLAYWRIGHT_BASE_URL` is supplied, they also require a native 301 from
 `/sitemap.xml` to `/sitemap-index.xml`. Astro preview does not process Pages'
 `_redirects`; the retained Astro redirect provides an HTML fallback for other
@@ -185,11 +185,12 @@ with a maximum width of 1600 pixels and no enlargement. Screenshot dimensions,
 aspect ratios, alt text and lazy loading are preserved. Existing friend avatars
 and site icons remain local. Social previews use absolute production URLs.
 
-Inter v4.1 is served as a preloaded Latin subset from
-`public/fonts/InterVariable-latin.woff2`, using weights 300–900,
-`font-display: swap`, and a metric-matched Arial fallback. Its SIL Open Font License
-and attribution are included in `public/fonts/LICENSE.txt`. Vercel Analytics,
-Speed Insights and Google Fonts requests have been removed; optional GA remains.
+This local font experiment serves Allo 1.0 by Josh Puckett for body text, paired with
+the original Georgia display headings. The preloaded variable Friendly WOFF2
+keeps roundness at 50 with automatic optical sizing and weights 100–900. Regular and bold real obliques
+cover italic text. All files use `font-display: swap` and live alongside their
+SIL Open Font License in `public/fonts/allo/`. System and named CJK fallbacks
+cover Chinese; the existing monospace stack is unchanged.
 
 See [the asset inventory](docs/assets.md) for source URLs, output dimensions,
 sizes, font provenance and external-storage retirement guidance. Each image is

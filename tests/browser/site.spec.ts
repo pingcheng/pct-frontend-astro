@@ -211,12 +211,14 @@ test('mobile menu works before slow images finish loading', async ({ page, isMob
   await expect(page.getByRole('button', { name: 'Open main menu' })).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('local Inter loads and every portfolio image decodes', async ({ page }) => {
+test('local Allo pairs with serif headings and every portfolio image decodes', async ({ page }) => {
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
   expect(await page.evaluate(() => Array.from(document.fonts).some(
-    (font) => font.family === 'Inter' && font.status === 'loaded',
+    (font) => font.family === 'Allo' && font.status === 'loaded',
   ))).toBe(true);
+
+  await expect(page.locator('h1')).toHaveCSS('font-family', 'Georgia, "Times New Roman", serif');
 
   const { Portfolios } = await import('../../src/data/portfolios');
   const { profile } = await import('../../src/data/profile');

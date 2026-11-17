@@ -80,3 +80,20 @@ uvx --from 'fonttools[woff]' pyftsubset InterVariable.woff2 --unicodes="U+0000-0
 ## External storage retirement
 
 The frontend no longer requests the S3 images or GitHub avatar. The source bucket has not been modified or deleted. Check other sites, repositories, hotlinks and access logs before retiring it.
+
+## Allo preview experiment
+
+Allo 1.0 by Josh Puckett is self-hosted from the official distribution at
+https://allo.joshpuckett.me/downloads/Allo-1.0.zip. The `public/fonts/allo/`
+directory contains the Friendly variable WOFF2 (roundness fixed at 50, weight
+100–900 and automatic optical sizing), regular/bold oblique WOFF2 files, and
+the original OFL.txt. Filenames include SHA-256 prefixes for immutable caching.
+The body stack uses Allo at regular weight 400 with system and named CJK
+fallbacks. Display headings retain the original Georgia stack and their original
+weights, sizes and tracking. Allo keeps Friendly roundness (50) and automatic
+optical sizing: its softer texture complements the sharper serif headings.
+Negative tracking on larger Allo text (hero lines, intros, the nav name) is
+about half the Inter values, because Allo's display optical size already sets
+tighter spacing. Article body line height is 1.8 to suit Allo's tall x-height.
+Monospace fonts, layout and colours are preserved.
+The older Inter assets remain available but are not loaded by this experiment.
