@@ -185,9 +185,9 @@ with a maximum width of 1600 pixels and no enlargement. Screenshot dimensions,
 aspect ratios, alt text and lazy loading are preserved. Existing friend avatars
 and site icons remain local. Social previews use absolute production URLs.
 
-This local font experiment serves Allo 1.0 by Josh Puckett for body text and
-headings. The preloaded variable Friendly WOFF2 keeps roundness at 50 with
-automatic optical sizing and weights 100–900. Regular and bold real obliques
+This local font experiment serves Allo 1.0 by Josh Puckett for body text, paired with
+the original Georgia display headings. The preloaded variable Friendly WOFF2
+keeps roundness at 50 with automatic optical sizing and weights 100–900. Regular and bold real obliques
 cover italic text. All files use `font-display: swap` and live alongside their
 SIL Open Font License in `public/fonts/allo/`. System and named CJK fallbacks
 cover Chinese; the existing monospace stack is unchanged.

@@ -88,6 +88,9 @@ https://allo.joshpuckett.me/downloads/Allo-1.0.zip. The `public/fonts/allo/`
 directory contains the Friendly variable WOFF2 (roundness fixed at 50, weight
 100–900 and automatic optical sizing), regular/bold oblique WOFF2 files, and
 the original OFL.txt. Filenames include SHA-256 prefixes for immutable caching.
-Body and display stacks use Allo, with system and named CJK fallbacks; code
-fonts, type sizes, weights and spacing are preserved. The older Inter assets
-remain available but are not loaded by this experiment.
+The body stack uses Allo at regular weight 400 with system and named CJK
+fallbacks. Display headings retain the original Georgia stack and their original
+weights, sizes and tracking. Allo keeps Friendly roundness (50) and automatic
+optical sizing: its softer texture complements the sharper serif headings
+without changing spacing. Monospace fonts, layout and colours are preserved.
+The older Inter assets remain available but are not loaded by this experiment.
