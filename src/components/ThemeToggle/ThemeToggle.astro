@@ -79,9 +79,26 @@ const options = [
 </style>
 
 <script>
-    import { applyTheme, readTheme, writeTheme, isTheme } from "@/utils/theme";
+    import { applyTheme, isTheme, readTheme, writeTheme, type Theme } from "@/utils/theme";
 
     let cleanup: AbortController | undefined;
+
+    /** Crossfades to the new theme where view transitions exist and motion is welcome; otherwise switches at once. */
+    function switchTheme(theme: Theme, update: () => void) {
+        const html = document.documentElement;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!document.startViewTransition || reduceMotion) {
+            applyTheme(html, theme);
+            update();
+            return;
+        }
+        html.dataset.themeSwitching = "";
+        const transition = document.startViewTransition(() => {
+            applyTheme(html, theme);
+            update();
+        });
+        transition.finished.finally(() => delete html.dataset.themeSwitching);
+    }
 
     function syncButtons(root: HTMLElement) {
         const current = readTheme();
@@ -103,8 +120,7 @@ const options = [
             const value = (event.target as Element).closest<HTMLButtonElement>("[data-theme-value]")?.dataset.themeValue;
             if (!isTheme(value)) return;
             writeTheme(value);
-            applyTheme(document.documentElement, value);
-            syncButtons(root);
+            switchTheme(value, () => syncButtons(root));
         }, { signal });
 
         // Keep other open tabs in step with a choice made here.

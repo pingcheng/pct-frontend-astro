@@ -30,3 +30,25 @@
 :root[data-theme="dark"] {
     color-scheme: dark;
 }
+
+/*
+ * Theme switch: one crossfade of the whole page (see ThemeToggle).
+ * Page navigation names the nav, avatar and titles so they move on their
+ * own; while switching themes everything fades together as a single
+ * snapshot instead, and element transitions are paused so the new theme is
+ * captured at its final colours.
+ */
+:root[data-theme-switching] {
+    view-transition-name: root;
+}
+:root[data-theme-switching] *,
+:root[data-theme-switching] *::before,
+:root[data-theme-switching] *::after {
+    view-transition-name: none !important;
+    transition: none !important;
+}
+:root[data-theme-switching]::view-transition-old(root),
+:root[data-theme-switching]::view-transition-new(root) {
+    animation-duration: 320ms;
+    animation-timing-function: ease-in-out;
+}
