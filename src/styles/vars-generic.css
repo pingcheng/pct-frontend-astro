@@ -1,14 +1,21 @@
 @import "./vars-light.css";
 @import "./vars-dark.css";
 
+/*
+ * The theme follows the system unless the visitor picks one with the
+ * theme control, which sets data-theme on <html>. color-scheme drives
+ * light-dark(), so each token is declared once for both themes.
+ */
 :root {
-    --color-moss: var(--color-moss-light);
-    --color-bg: var(--color-bg-light);
-    --color-text: var(--color-text-light);
-    --color-text-secondary: var(--color-text-secondary-light);
-    --color-accent: var(--color-accent-light);
-    --color-card: var(--color-card-light);
-    --color-border: var(--color-border-light);
+    color-scheme: light dark;
+
+    --color-moss: light-dark(var(--color-moss-light), var(--color-moss-dark));
+    --color-bg: light-dark(var(--color-bg-light), var(--color-bg-dark));
+    --color-text: light-dark(var(--color-text-light), var(--color-text-dark));
+    --color-text-secondary: light-dark(var(--color-text-secondary-light), var(--color-text-secondary-dark));
+    --color-accent: light-dark(var(--color-accent-light), var(--color-accent-dark));
+    --color-card: light-dark(var(--color-card-light), var(--color-card-dark));
+    --color-border: light-dark(var(--color-border-light), var(--color-border-dark));
 
     /* One easing and two durations for every hover, disclosure and menu. */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -16,14 +23,10 @@
     --dur-medium: 280ms;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-moss: var(--color-moss-dark);
-        --color-bg: var(--color-bg-dark);
-        --color-text: var(--color-text-dark);
-        --color-text-secondary: var(--color-text-secondary-dark);
-        --color-accent: var(--color-accent-dark);
-        --color-card: var(--color-card-dark);
-        --color-border: var(--color-border-dark);
-    }
+:root[data-theme="light"] {
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
 }

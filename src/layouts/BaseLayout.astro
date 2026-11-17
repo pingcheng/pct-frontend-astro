@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import { ClientRouter } from 'astro:transitions';
 import type { TransitionDirectionalAnimations } from 'astro';
 import type { SEOProps } from '@/models/SEOProps';
+import { THEME_STORAGE_KEY } from '@/utils/theme';
 
 type Props = SEOProps;
 
@@ -54,6 +55,24 @@ else window.addEventListener('load', scheduleGtag, { once: true });
 `
   : '';
 
+// Must run before paint, so it is inlined rather than bundled. Mirrors src/utils/theme.ts.
+const themeScript = `
+(function () {
+  function apply(root) {
+    var theme = null;
+    try { theme = localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)}); } catch (e) {}
+    if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
+    else delete root.dataset.theme;
+  }
+  apply(document.documentElement);
+  if (window.__themeSwapWired) return;
+  window.__themeSwapWired = true;
+  document.addEventListener('astro:before-swap', function (event) {
+    apply(event.newDocument.documentElement);
+  });
+})();
+`;
+
 // A quick fade out, then the new page settles in with a short rise.
 // The new page waits for the old one to be gone, so text from both never overlaps.
 const pageSwap = {
@@ -87,6 +106,9 @@ const pageTransition: TransitionDirectionalAnimations = { forwards: pageSwap, ba
     {(twitterTitle || title) && <meta name="twitter:title" content={twitterTitle || title} />}
     {(twitterDescription || description) && <meta name="twitter:description" content={twitterDescription || description} />}
     {absoluteTwitterImage && <meta name="twitter:image" content={absoluteTwitterImage} />}
+
+    {/* Apply the stored theme before first paint, and carry it onto each page the router swaps in. */}
+    <script is:inline set:html={themeScript} />
 
     <slot name="head" />
     <ClientRouter />
