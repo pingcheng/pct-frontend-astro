@@ -26,6 +26,15 @@ export function writeTheme(theme: Theme): void {
     }
 }
 
+/**
+ * The theme the page is showing. The data-theme attribute is the source of
+ * truth while the page is open; storage only carries the choice to later visits.
+ */
+export function currentTheme(root: HTMLElement): Theme {
+    const theme = root.dataset.theme;
+    return theme === "light" || theme === "dark" ? theme : "system";
+}
+
 /** "system" removes the override so CSS falls back to prefers-color-scheme. */
 export function applyTheme(root: HTMLElement, theme: Theme): void {
     if (theme === "system") delete root.dataset.theme;

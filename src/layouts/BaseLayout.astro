@@ -58,17 +58,19 @@ else window.addEventListener('load', scheduleGtag, { once: true });
 // Must run before paint, so it is inlined rather than bundled. Mirrors src/utils/theme.ts.
 const themeScript = `
 (function () {
-  function apply(root) {
-    var theme = null;
-    try { theme = localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)}); } catch (e) {}
+  function apply(root, theme) {
     if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
     else delete root.dataset.theme;
   }
-  apply(document.documentElement);
+  var stored = null;
+  try { stored = localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)}); } catch (e) {}
+  apply(document.documentElement, stored);
   if (window.__themeSwapWired) return;
   window.__themeSwapWired = true;
+  // The live page holds the current choice, which may not have reached storage
+  // (storage can be blocked), so carry it over rather than rereading storage.
   document.addEventListener('astro:before-swap', function (event) {
-    apply(event.newDocument.documentElement);
+    apply(event.newDocument.documentElement, document.documentElement.dataset.theme);
   });
 })();
 `;

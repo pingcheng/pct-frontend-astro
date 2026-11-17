@@ -79,9 +79,12 @@ const options = [
 </style>
 
 <script>
-    import { applyTheme, isTheme, readTheme, writeTheme, type Theme } from "@/utils/theme";
+    import { applyTheme, currentTheme, isTheme, readTheme, THEME_STORAGE_KEY, writeTheme, type Theme } from "@/utils/theme";
 
     let cleanup: AbortController | undefined;
+    // The switch in progress, if any. Starting a new one skips the old one, so only
+    // the latest may clear the switching flag, and its target counts as the current theme.
+    let activeSwitch: { transition: ViewTransition; theme: Theme } | undefined;
 
     /** Crossfades to the new theme where view transitions exist and motion is welcome; otherwise switches at once. */
     function switchTheme(theme: Theme, update: () => void) {
@@ -97,11 +100,22 @@ const options = [
             applyTheme(html, theme);
             update();
         });
-        transition.finished.finally(() => delete html.dataset.themeSwitching);
+        const thisSwitch = { transition, theme };
+        activeSwitch = thisSwitch;
+        transition.finished.finally(() => {
+            if (activeSwitch !== thisSwitch) return;
+            activeSwitch = undefined;
+            delete html.dataset.themeSwitching;
+        });
+    }
+
+    /** The theme being shown, or the one a running crossfade is heading to. */
+    function selectedTheme(): Theme {
+        return activeSwitch?.theme ?? currentTheme(document.documentElement);
     }
 
     function syncButtons(root: HTMLElement) {
-        const current = readTheme();
+        const current = currentTheme(document.documentElement);
         root.querySelectorAll<HTMLButtonElement>("[data-theme-value]").forEach((button) => {
             button.setAttribute("aria-pressed", String(button.dataset.themeValue === current));
         });
@@ -118,13 +132,14 @@ const options = [
         syncButtons(root);
         root.addEventListener("click", (event) => {
             const value = (event.target as Element).closest<HTMLButtonElement>("[data-theme-value]")?.dataset.themeValue;
-            if (!isTheme(value)) return;
+            if (!isTheme(value) || value === selectedTheme()) return;
             writeTheme(value);
             switchTheme(value, () => syncButtons(root));
         }, { signal });
 
         // Keep other open tabs in step with a choice made here.
-        window.addEventListener("storage", () => {
+        window.addEventListener("storage", (event) => {
+            if (event.key !== THEME_STORAGE_KEY && event.key !== null) return;
             applyTheme(document.documentElement, readTheme());
             syncButtons(root);
         }, { signal });

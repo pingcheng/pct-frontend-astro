@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { applyTheme, readTheme, THEME_STORAGE_KEY, writeTheme } from "./theme";
+import { applyTheme, currentTheme, readTheme, THEME_STORAGE_KEY, writeTheme } from "./theme";
 
 afterEach(() => {
     localStorage.clear();
@@ -35,5 +35,15 @@ describe("applyTheme", () => {
         expect(root.dataset.theme).toBe("dark");
         applyTheme(root, "system");
         expect(root.dataset.theme).toBeUndefined();
+    });
+});
+
+describe("currentTheme", () => {
+    it("reads the theme the page is showing, independent of storage", () => {
+        const root = document.documentElement;
+        expect(currentTheme(root)).toBe("system");
+        applyTheme(root, "light");
+        expect(currentTheme(root)).toBe("light");
+        expect(readTheme()).toBe("system");
     });
 });
