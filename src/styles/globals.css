@@ -2,24 +2,27 @@
 @import "../styles/vars-generic.css";
 
 @font-face {
-    font-family: "Inter";
+    font-family: "Allo";
     font-style: normal;
-    font-weight: 300 900;
+    font-weight: 100 900;
     font-display: swap;
-    src: url("/fonts/InterVariable-latin-1a4ec1ab.woff2") format("woff2");
-    unicode-range:
-        U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-        U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2190-2199,
-        U+2212, U+2215, U+FEFF, U+FFFD;
+    src: url("/fonts/allo/AlloVariableFriendly-fe8bdab1.woff2") format("woff2");
 }
-/* Arial resized to Inter's metrics, so text doesn't reflow when Inter arrives. */
+
 @font-face {
-    font-family: "Inter Fallback";
-    src: local("Arial"), local("ArialMT");
-    ascent-override: 90.44%;
-    descent-override: 22.52%;
-    line-gap-override: 0%;
-    size-adjust: 107.12%;
+    font-family: "Allo";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/allo/Allo-Oblique-cac805ad.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Allo";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/allo/Allo-BoldOblique-0e4af5dc.woff2") format("woff2");
 }
 
 @theme {
@@ -44,7 +47,8 @@
 }
 
 :root {
-    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: "Allo", system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    --font-display: var(--font-body);
     interpolate-size: allow-keywords;
 }
 
@@ -54,7 +58,7 @@ html {
 body {
     color: var(--color-text);
     background: var(--color-bg);
-    font-family: "Inter", "Inter Fallback", system-ui, sans-serif;
+    font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
