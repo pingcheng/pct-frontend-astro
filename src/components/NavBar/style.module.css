@@ -25,6 +25,11 @@
 .identityAvatar {
     box-shadow: 0 0 0 1px var(--color-border);
 }
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
 .desktopMenu {
     display: flex;
     gap: 28px;
@@ -114,6 +119,9 @@
     }
     .navInner {
         min-height: 76px;
+    }
+    .navActions {
+        gap: 12px;
     }
     .desktopMenu {
         display: none;

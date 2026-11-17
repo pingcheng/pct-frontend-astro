@@ -187,29 +187,29 @@
 </svg>
 <style>
     .studio-scene {
-        --scene-frame: #af8f70;
-        --scene-sky: #e5e9db;
-        --scene-cloud: #fbf6e9;
-        --scene-sun: #d5ac69;
-        --scene-hill: #b0bc94;
-        --scene-leaf: #7b8a63;
-        --scene-moss: #59674b;
+        --scene-frame: light-dark(#af8f70, #a98b68);
+        --scene-sky: light-dark(#e5e9db, #444c43);
+        --scene-cloud: light-dark(#fbf6e9, #79816b);
+        --scene-sun: light-dark(#d5ac69, #d3aa6a);
+        --scene-hill: light-dark(#b0bc94, #657553);
+        --scene-leaf: light-dark(#7b8a63, #91a174);
+        --scene-moss: light-dark(#59674b, #a8b78b);
         --scene-clay: #b5684d;
         --scene-claude: #d27a58;
         --scene-wood: #a27b59;
-        --scene-desktop: #ddcbae;
+        --scene-desktop: light-dark(#ddcbae, #6f604b);
         --scene-gold: #c5a060;
-        --scene-ink: #514a3d;
-        --scene-screen: #e6e2cf;
+        --scene-ink: light-dark(#514a3d, #b7a78a);
+        --scene-screen: light-dark(#e6e2cf, #3b4338);
         --scene-paper: #f5edda;
-        --scene-shadow: #d9d0be;
+        --scene-shadow: light-dark(#d9d0be, #484337);
         --scene-aluminium-top: #d7dcd7;
         --scene-aluminium: #a5ada7;
         --scene-bezel: #2a2c29;
         --scene-port: #48534e;
         --scene-status: #f6f6dc;
         --scene-gpt: #bbd586;
-        --scene-grok: #252824;
+        --scene-grok: light-dark(#252824, #191d19);
         --scene-eyes: #292a24;
         --scene-face: #fbf2dd;
         display: block;
@@ -362,22 +362,6 @@
         }
         50% {
             opacity: 0;
-        }
-    }
-    @media (prefers-color-scheme: dark) {
-        .studio-scene {
-            --scene-frame: #a98b68;
-            --scene-sky: #444c43;
-            --scene-cloud: #79816b;
-            --scene-sun: #d3aa6a;
-            --scene-hill: #657553;
-            --scene-leaf: #91a174;
-            --scene-moss: #a8b78b;
-            --scene-ink: #b7a78a;
-            --scene-screen: #3b4338;
-            --scene-desktop: #6f604b;
-            --scene-shadow: #484337;
-            --scene-grok: #191d19;
         }
     }
 </style>

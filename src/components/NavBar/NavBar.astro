@@ -1,5 +1,6 @@
 ---
 import Avatar from "@/components/Avatar/Avatar.astro";
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle.astro";
 import { profile } from "@/data/profile";
 import styles from "./style.module.css";
 import { hasOwnPortrait, isActive, menuItems } from "./menu";
@@ -53,43 +54,46 @@ const showAvatar = !hasOwnPortrait(currentPath);
             }
             <span>{profile.fullName}</span>
         </a>
-        <div class={styles.desktopMenu}>
-            {
-                links.map((item) => (
-                    <a
-                        href={item.path}
-                        class:list={[styles.navItem, { [styles.active]: item.active }]}
-                        aria-current={item.active ? "page" : undefined}
-                    >
-                        {item.label}
-                    </a>
-                ))
-            }
-        </div>
-        <button
-            type="button"
-            class={styles.menuToggle}
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            aria-label="Open main menu"
-            data-menu-toggle
-        >
-            <span>Menu</span>
-            <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                aria-hidden="true"
+        <div class={styles.navActions}>
+            <div class={styles.desktopMenu}>
+                {
+                    links.map((item) => (
+                        <a
+                            href={item.path}
+                            class:list={[styles.navItem, { [styles.active]: item.active }]}
+                            aria-current={item.active ? "page" : undefined}
+                        >
+                            {item.label}
+                        </a>
+                    ))
+                }
+            </div>
+            <ThemeToggle />
+            <button
+                type="button"
+                class={styles.menuToggle}
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                aria-label="Open main menu"
+                data-menu-toggle
             >
-                <path class={styles.iconOpen} d="M1 3h14v2H1V3Zm0 8h14v2H1v-2Z"
-                ></path>
-                <path
-                    class={styles.iconClose}
-                    d="m3 2 5 5 5-5 1 1-5 5 5 5-1 1-5-5-5 5-1-1 5-5-5-5 1-1Z"
-                ></path>
-            </svg>
-        </button>
+                <span>Menu</span>
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    aria-hidden="true"
+                >
+                    <path class={styles.iconOpen} d="M1 3h14v2H1V3Zm0 8h14v2H1v-2Z"
+                    ></path>
+                    <path
+                        class={styles.iconClose}
+                        d="m3 2 5 5 5-5 1 1-5 5 5 5-1 1-5-5-5 5-1-1 5-5-5-5 1-1Z"
+                    ></path>
+                </svg>
+            </button>
+        </div>
     </div>
     <div
         id="mobile-menu"

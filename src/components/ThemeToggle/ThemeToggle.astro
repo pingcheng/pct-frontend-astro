@@ -1,0 +1,150 @@
+---
+// Picks light, dark or the system theme. The choice is applied before paint
+// by the inline script in BaseLayout; this control only changes and stores it.
+const options = [
+    { value: "light", label: "Light theme" },
+    { value: "system", label: "System theme" },
+    { value: "dark", label: "Dark theme" },
+] as const;
+---
+
+<div class="theme-toggle" role="group" aria-label="Colour theme" data-theme-toggle>
+    {
+        options.map((option) => (
+            <button
+                type="button"
+                class="theme-option"
+                aria-label={option.label}
+                title={option.label}
+                aria-pressed={option.value === "system" ? "true" : "false"}
+                data-theme-value={option.value}
+            >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    {option.value === "light" && (
+                        <>
+                            <circle cx="8" cy="8" r="3" />
+                            <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.4 1.4M11.55 11.55l1.4 1.4M3.05 12.95l1.4-1.4M11.55 4.45l1.4-1.4" />
+                        </>
+                    )}
+                    {option.value === "system" && (
+                        <>
+                            <rect x="1.75" y="2.75" width="12.5" height="8.5" />
+                            <path d="M5.5 14.25h5M8 11.25v3" />
+                        </>
+                    )}
+                    {option.value === "dark" && (
+                        <path d="M13.5 9.6A5.75 5.75 0 0 1 6.4 2.5a5.75 5.75 0 1 0 7.1 7.1Z" />
+                    )}
+                </svg>
+            </button>
+        ))
+    }
+</div>
+
+<style>
+    .theme-toggle {
+        display: inline-flex;
+        padding: 2px;
+        border: 1px solid var(--color-border);
+        border-radius: 2px;
+    }
+    .theme-option {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 1px;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        transition:
+            color var(--dur-fast) var(--ease-out),
+            background-color var(--dur-fast) var(--ease-out);
+    }
+    .theme-option:hover {
+        color: var(--color-text);
+    }
+    .theme-option[aria-pressed="true"] {
+        color: var(--color-accent);
+        background: var(--color-card);
+    }
+    .theme-option:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .theme-option {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    import { applyTheme, currentTheme, isTheme, readTheme, THEME_STORAGE_KEY, writeTheme, type Theme } from "@/utils/theme";
+
+    let cleanup: AbortController | undefined;
+    // The switch in progress, if any. Starting a new one skips the old one, so only
+    // the latest may clear the switching flag, and its target counts as the current theme.
+    let activeSwitch: { transition: ViewTransition; theme: Theme } | undefined;
+
+    /** Crossfades to the new theme where view transitions exist and motion is welcome; otherwise switches at once. */
+    function switchTheme(theme: Theme, update: () => void) {
+        const html = document.documentElement;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!document.startViewTransition || reduceMotion) {
+            applyTheme(html, theme);
+            update();
+            return;
+        }
+        html.dataset.themeSwitching = "";
+        const transition = document.startViewTransition(() => {
+            applyTheme(html, theme);
+            update();
+        });
+        const thisSwitch = { transition, theme };
+        activeSwitch = thisSwitch;
+        transition.finished.finally(() => {
+            if (activeSwitch !== thisSwitch) return;
+            activeSwitch = undefined;
+            delete html.dataset.themeSwitching;
+        });
+    }
+
+    /** The theme being shown, or the one a running crossfade is heading to. */
+    function selectedTheme(): Theme {
+        return activeSwitch?.theme ?? currentTheme(document.documentElement);
+    }
+
+    function syncButtons(root: HTMLElement) {
+        const current = currentTheme(document.documentElement);
+        root.querySelectorAll<HTMLButtonElement>("[data-theme-value]").forEach((button) => {
+            button.setAttribute("aria-pressed", String(button.dataset.themeValue === current));
+        });
+    }
+
+    function setupThemeToggle() {
+        const root = document.querySelector<HTMLElement>("[data-theme-toggle]");
+        if (!root) return;
+
+        cleanup?.abort();
+        cleanup = new AbortController();
+        const { signal } = cleanup;
+
+        syncButtons(root);
+        root.addEventListener("click", (event) => {
+            const value = (event.target as Element).closest<HTMLButtonElement>("[data-theme-value]")?.dataset.themeValue;
+            if (!isTheme(value) || value === selectedTheme()) return;
+            writeTheme(value);
+            switchTheme(value, () => syncButtons(root));
+        }, { signal });
+
+        // Keep other open tabs in step with a choice made here.
+        window.addEventListener("storage", (event) => {
+            if (event.key !== THEME_STORAGE_KEY && event.key !== null) return;
+            applyTheme(document.documentElement, readTheme());
+            syncButtons(root);
+        }, { signal });
+    }
+
+    setupThemeToggle();
+    document.addEventListener("astro:page-load", setupThemeToggle);
+</script>
