@@ -60,6 +60,9 @@ Images use WebP quality 90, with a maximum width of 1600 pixels (512 for the ava
 | /images/blog/charging-my-tesla-on-spare-solar/decision-flow.webp | 1600 × 900 | 376 → 52 KiB | Supplied 1920 × 1080 PNG for the blog post, resized and converted at WebP q80 |
 | /images/blog/reviewing-tailscale-at-home/cover.webp | 1280 × 720 | 561 → 18 KiB | Supplied PNG for the blog post, converted at WebP q80 |
 | /images/blog/reviewing-tailscale-at-home/access-map.webp | 1600 × 900 | 391 → 48 KiB | Supplied 1920 × 1080 PNG for the blog post, resized and converted at WebP q80 |
+| /images/blog/family-bot-team/ai-team-zh.webp | 1600 × 900 | 313 → 57 KiB | Supplied 1600 × 900 PNG for the blog post, converted at WebP q80 |
+| /images/blog/family-bot-team/home-portal-zh.webp | 1600 × 900 | 265 → 55 KiB | Supplied 1600 × 900 PNG for the blog post, converted at WebP q80 |
+| /images/blog/family-bot-team/bot-messages-v3.webp | 1600 × 900 | 353 → 83 KiB | Supplied 1600 × 900 PNG for the blog post, converted at WebP q80 |
 
 ## Inter
 
