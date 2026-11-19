@@ -1,9 +1,9 @@
 :root {
-    --color-bg-dark: #24231f;
-    --color-text-dark: #eee7da;
-    --color-text-secondary-dark: #b9b0a2;
+    --color-bg-dark: #18181a;
+    --color-text-dark: #ecebe8;
+    --color-text-secondary-dark: #aeaba6;
     --color-accent-dark: #e6a185;
-    --color-card-dark: #302e28;
-    --color-border-dark: #4b463d;
+    --color-card-dark: #222225;
+    --color-border-dark: #36363b;
     --color-moss-dark: #b1bc98;
 }
