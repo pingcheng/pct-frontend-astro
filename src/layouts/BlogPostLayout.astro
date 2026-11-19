@@ -35,7 +35,9 @@ const canonical = new URL(
                     <p class="studio-eyebrow">{post.topic}</p>
                 </div>
                 <h1 id="article-title">{post.title}</h1>
-                <p class="standfirst">{post.description}</p>
+                {post.description && (
+                    <p class="standfirst">{post.description}</p>
+                )}
                 <div class="article-meta">
                     <span>{profile.fullName}</span>
                     <time datetime={post.publishedAt}>
@@ -160,7 +162,7 @@ const canonical = new URL(
         padding: 2px 0 2px 24px;
         border-left: 2px solid var(--color-accent);
         font-family: var(--font-display);
-        font-size: 23px;
+        font-size: 1em;
         color: var(--color-text-secondary);
     }
     .article-body :global(code) {
@@ -230,7 +232,6 @@ const canonical = new URL(
         }
         .article-body :global(blockquote) {
             padding-left: 18px;
-            font-size: 21px;
         }
         .article-meta {
             gap: 8px 18px;

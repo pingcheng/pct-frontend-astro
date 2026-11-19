@@ -91,6 +91,11 @@ const pageTransition: TransitionDirectionalAnimations = { forwards: pageSwap, ba
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
     <link rel="preload" href="/fonts/allo/AlloVariableFriendly-fe8bdab1.woff2" as="font" type="font/woff2" crossorigin />
+    {/* CJK glyphs for the display font (headings, quotes). Its unicode-range slices download only when a page shows Chinese text in that font. Loaded as print media, then switched on, so it never blocks render. */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap" /></noscript>
 
     <title>{title}</title>
     {(canonicalUrl || ogUrl) && <link rel="canonical" href={canonicalUrl || ogUrl} />}

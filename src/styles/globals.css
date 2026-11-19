@@ -48,7 +48,7 @@
 
 :root {
     --font-body: "Allo", system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-    --font-display: Georgia, "Times New Roman", serif;
+    --font-display: Georgia, "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", serif;
     interpolate-size: allow-keywords;
 }
 

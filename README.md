@@ -110,8 +110,8 @@ routes that render the homepage.
 Check HTTPS and certificate status, `/`, `/about`, `/friends`, `/portfolio`,
 every portfolio detail, `/robots.txt`, both sitemap URLs and a missing route on
 the real preview. In DevTools, confirm images/fonts come from the preview's own
-origin and there are no Google Fonts, S3, GitHub avatar or Vercel telemetry
-requests. GA is optional and external; its async loader must not delay rendering
+origin and there are no Google Fonts (except Noto Serif SC, below), S3, GitHub
+avatar or Vercel telemetry requests. GA is optional and external; its async loader must not delay rendering
 or navigation when unreachable.
 
 Compare repeatable cold-cache and warm-cache page-load measurements with the
@@ -190,7 +190,16 @@ the original Georgia display headings. The preloaded variable Friendly WOFF2
 keeps roundness at 50 with automatic optical sizing and weights 100–900. Regular and bold real obliques
 cover italic text. All files use `font-display: swap` and live alongside their
 SIL Open Font License in `public/fonts/allo/`. System and named CJK fallbacks
-cover Chinese; the existing monospace stack is unchanged.
+cover Chinese body text; the existing monospace stack is unchanged.
+
+One exception to self-hosting: Chinese in the display font (titles, headings and
+quotes) uses Noto Serif SC (weight 400) from Google Fonts, after Georgia in the
+`--font-display` stack so Latin text stays Georgia. It loads without blocking
+render, and its `unicode-range` slices download only for pages with Chinese in
+that font, so English pages fetch the small stylesheet but no font files. Google
+Fonts is blocked in mainland China; there, the stack falls back to Source Han
+Serif SC, Songti SC or the system serif. The browser and static checks allow
+exactly this stylesheet and its `fonts.gstatic.com/s/notoserifsc/` files.
 
 See [the asset inventory](docs/assets.md) for source URLs, output dimensions,
 sizes, font provenance and external-storage retirement guidance. Each image is

@@ -27,11 +27,17 @@ describe("Blog static output", () => {
             "Sample post",
         );
         const entries = document.querySelectorAll("main .post-entry");
-        expect(entries).toHaveLength(2);
+        expect(entries).toHaveLength(3);
         expect(entries[0].querySelector("h2 a")?.getAttribute("href")).toBe(
-            "/blog/charging-my-tesla-on-spare-solar/",
+            "/blog/family-bot-team/",
         );
         expect(entries[0].querySelector("time")?.getAttribute("datetime")).toBe(
+            "2026-11-20",
+        );
+        expect(entries[1].querySelector("h2 a")?.getAttribute("href")).toBe(
+            "/blog/charging-my-tesla-on-spare-solar/",
+        );
+        expect(entries[1].querySelector("time")?.getAttribute("datetime")).toBe(
             "2026-11-16",
         );
         expect(document.querySelector("main")?.textContent).toContain(

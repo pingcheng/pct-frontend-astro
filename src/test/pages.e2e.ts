@@ -4,6 +4,11 @@ import path from 'path';
 import { Portfolios } from '../data/portfolios';
 
 const DIST_DIR = path.resolve(__dirname, '../../dist');
+const ALLOWED_GOOGLE_FONT_URLS = [
+    'https://fonts.googleapis.com',
+    'https://fonts.gstatic.com',
+    'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap',
+];
 const configuredGaMeasurementId = process.env.PUBLIC_GA_MEASUREMENT_ID;
 const gaTest = configuredGaMeasurementId ? it : it.skip;
 
@@ -290,7 +295,12 @@ describe('Self-hosted static deployment', () => {
             expect(image.origin).toBe('https://www.pingchengtech.com');
             expect(fs.existsSync(path.join(DIST_DIR, image.pathname))).toBe(true);
         }
-        expect(document.documentElement.innerHTML).not.toMatch(/fonts\.googleapis|fonts\.gstatic|_vercel\/|vercel-insights/);
+        // Noto Serif SC (the CJK display font) is the one asset allowed from Google Fonts.
+        const googleFontUrls = (document.documentElement.innerHTML.match(/https?:\/\/fonts\.(googleapis|gstatic)\.com[^"'\s)<]*/g) ?? []).map((url) =>
+            url.replaceAll('&amp;', '&'),
+        );
+        expect(new Set(googleFontUrls)).toEqual(new Set(ALLOWED_GOOGLE_FONT_URLS));
+        expect(document.documentElement.innerHTML).not.toMatch(/_vercel\/|vercel-insights/);
     });
 
     it.each(Portfolios)('$slug keeps its canonical URL and screenshot dimensions', (portfolio) => {

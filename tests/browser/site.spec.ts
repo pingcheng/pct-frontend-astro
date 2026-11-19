@@ -1,5 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 
+const NOTO_SERIF_SC =
+  /^https:\/\/fonts\.googleapis\.com\/css2\?family=Noto\+Serif\+SC:wght@400&display=swap$|^https:\/\/fonts\.gstatic\.com\/s\/notoserifsc\//;
+
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -33,6 +36,8 @@ function installBrowserErrorGuards(page: Page) {
   });
 
   page.on('request', (request) => {
+    // Noto Serif SC (the CJK display font) is the one asset allowed from Google Fonts.
+    if (NOTO_SERIF_SC.test(request.url())) return;
     if (/fonts\.googleapis|fonts\.gstatic|_vercel\/|vercel-insights|avatars0?\.githubusercontent|pct-frontend-assets\.s3/.test(request.url())) {
       errors.unexpectedRequests.push(request.url());
     }
@@ -218,7 +223,7 @@ test('local Allo pairs with serif headings and every portfolio image decodes', a
     (font) => font.family === 'Allo' && font.status === 'loaded',
   ))).toBe(true);
 
-  await expect(page.locator('h1')).toHaveCSS('font-family', 'Georgia, "Times New Roman", serif');
+  await expect(page.locator('h1')).toHaveCSS('font-family', 'Georgia, "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Times New Roman", serif');
 
   const { Portfolios } = await import('../../src/data/portfolios');
   const { profile } = await import('../../src/data/profile');
