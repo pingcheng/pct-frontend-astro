@@ -1,6 +1,6 @@
 export interface BlogFrontmatter {
     title: string;
-    description: string;
+    description?: string;
     publishedAt: string;
     topic: string;
 }

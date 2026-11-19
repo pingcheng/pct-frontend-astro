@@ -52,7 +52,9 @@ const canonical = new URL("/blog/", Astro.site).href;
                                 {post.frontmatter.title}
                             </a>
                         </h2>
-                        <p>{post.frontmatter.description}</p>
+                        {post.frontmatter.description && (
+                            <p>{post.frontmatter.description}</p>
+                        )}
                         <span class="reading-time">
                             {readingMinutes(post.rawContent())} min read
                         </span>

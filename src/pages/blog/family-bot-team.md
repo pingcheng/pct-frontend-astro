@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/BlogPostLayout.astro
 title: 一个够用就好的家庭 bot team
-description: 先跑起来，不做多余的事：我家 bot team 的分工，和背后那个 Home Portal。
 publishedAt: "2026-11-20"
 topic: Home automation
 ---
