@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readingMinutes } from "./blog";
+import { containsCjk, readingMinutes } from "./blog";
 
 const words = (n: number) => Array.from({ length: n }, () => "word").join(" ");
 const han = (n: number) => "字".repeat(n);
@@ -37,5 +37,13 @@ describe("readingMinutes", () => {
         ).join("");
         expect(readingMinutes(mixed)).toBe(4);
         expect(readingMinutes(`我用 Home Assistant 和 Tesla 充电`)).toBe(1);
+    });
+});
+
+describe("containsCjk", () => {
+    it("detects CJK characters reliably across repeated calls", () => {
+        expect(containsCjk("一个够用就好的家庭 bot team")).toBe(true);
+        expect(containsCjk("一个够用就好的家庭 bot team")).toBe(true);
+        expect(containsCjk("Charging my Tesla on spare solar")).toBe(false);
     });
 });

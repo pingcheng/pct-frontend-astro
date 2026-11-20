@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/BlogPostLayout.astro
 title: 一个够用就好的家庭 bot team
+description: 从过度设计到回归简单：用四个各司其职的 agent 和一个家庭数据 portal，接管日常琐事的实践记录。
 publishedAt: "2026-11-20"
 topic: Home automation
 ---

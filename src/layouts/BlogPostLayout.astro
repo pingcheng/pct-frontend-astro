@@ -1,8 +1,9 @@
 ---
-import type { MarkdownLayoutProps } from "astro";
+import type { MarkdownInstance, MarkdownLayoutProps } from "astro";
 import FixedWidthLayout from "./FixedWidthLayout.astro";
 import { profile } from "@/data/profile";
 import {
+    containsCjk,
     formatPostDate,
     readingMinutes,
     type BlogFrontmatter,
@@ -11,10 +12,27 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 type Props = MarkdownLayoutProps<BlogFrontmatter>;
 const { frontmatter: post, rawContent } = Astro.props;
-const canonical = new URL(
-    `${Astro.url.pathname.replace(/\/+$/, "")}/`,
-    Astro.site,
-).href;
+const currentPath = `${Astro.url.pathname.replace(/\/+$/, "")}/`;
+const canonical = new URL(currentPath, Astro.site).href;
+const isCjk = containsCjk(post.title);
+
+const allPosts = Object.values(
+    import.meta.glob<MarkdownInstance<BlogFrontmatter>>(
+        "../pages/blog/*.md",
+        { eager: true },
+    ),
+).sort(
+    (a, b) =>
+        Date.parse(b.frontmatter.publishedAt) -
+        Date.parse(a.frontmatter.publishedAt),
+);
+const currentIndex = allPosts.findIndex(
+    (item) => `${item.url?.replace(/\/+$/, "")}/` === currentPath,
+);
+const nextPost =
+    currentIndex >= 0 && allPosts.length > 1
+        ? allPosts[(currentIndex + 1) % allPosts.length]
+        : undefined;
 ---
 
 <FixedWidthLayout
@@ -29,7 +47,10 @@ const canonical = new URL(
             <MdArrowBack size={16} aria-hidden="true" />
             Back to blog
         </a>
-        <article aria-labelledby="article-title">
+        <article
+            aria-labelledby="article-title"
+            lang={isCjk ? "zh-CN" : undefined}
+        >
             <header class="article-header animate-fade-in">
                 <div class="article-topline">
                     <p class="studio-eyebrow">{post.topic}</p>
@@ -52,8 +73,21 @@ const canonical = new URL(
         </article>
         <footer class="article-footer">
             <a class="studio-link" href="/blog/">
-                All blog posts <MdArrowForward size={16} aria-hidden="true" />
+                <MdArrowBack size={16} aria-hidden="true" /> All blog posts
             </a>
+            {nextPost && (
+                <a
+                    class="next-post"
+                    href={`${nextPost.url?.replace(/\/+$/, "")}/`}
+                    lang={containsCjk(nextPost.frontmatter.title) ? "zh-CN" : undefined}
+                >
+                    <span class="next-post-label">Next post</span>
+                    <span class="next-post-title">
+                        {nextPost.frontmatter.title}
+                        <MdArrowForward size={16} aria-hidden="true" />
+                    </span>
+                </a>
+            )}
         </footer>
     </main>
 </FixedWidthLayout>
@@ -65,13 +99,16 @@ const canonical = new URL(
         padding: var(--page-space) 0 48px;
     }
     .back-link {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         min-height: 44px;
         margin-bottom: 40px;
-        font-size: 12px;
+        font-family: var(--font-code);
+        font-size: 11px;
         color: var(--color-text-secondary);
+        --arrow-x: -2px;
+        --arrow-y: 0px;
     }
     .article-topline {
         display: flex;
@@ -87,6 +124,10 @@ const canonical = new URL(
         line-height: 1.12;
         letter-spacing: -0.045em;
         overflow-wrap: anywhere;
+    }
+    article:lang(zh) h1 {
+        letter-spacing: -0.01em;
+        line-height: 1.25;
     }
     .standfirst {
         margin-top: 28px;
@@ -111,6 +152,9 @@ const canonical = new URL(
         font-size: 17px;
         line-height: 1.8;
     }
+    article:lang(zh) .article-body {
+        text-spacing-trim: trim-start;
+    }
     .article-body :global(p) {
         margin-block: 24px;
     }
@@ -121,6 +165,12 @@ const canonical = new URL(
         font-weight: 400;
         line-height: 1.3;
         letter-spacing: -0.025em;
+    }
+    article:lang(zh) .article-body :global(h2),
+    article:lang(zh) .article-body :global(h3),
+    article:lang(zh) .article-body :global(h4) {
+        letter-spacing: 0;
+        line-height: 1.38;
     }
     .article-body :global(h2) {
         margin: 52px 0 20px;
@@ -159,11 +209,23 @@ const canonical = new URL(
     }
     .article-body :global(blockquote) {
         margin-block: 32px;
-        padding: 2px 0 2px 24px;
+        padding: 16px 22px;
         border-left: 2px solid var(--color-accent);
+        border-radius: 0 3px 3px 0;
+        background: color-mix(in srgb, var(--color-card) 55%, transparent);
         font-family: var(--font-display);
-        font-size: 1em;
+        font-size: 0.98em;
+        line-height: 1.75;
         color: var(--color-text-secondary);
+    }
+    .article-body :global(blockquote p) {
+        margin-block: 10px;
+    }
+    .article-body :global(blockquote p:first-child) {
+        margin-top: 0;
+    }
+    .article-body :global(blockquote p:last-child) {
+        margin-bottom: 0;
     }
     .article-body :global(code) {
         font-family: var(--font-code);
@@ -180,10 +242,14 @@ const canonical = new URL(
         overflow-x: auto;
         padding: 24px;
         margin-block: 28px;
+        background: var(--color-card) !important;
         border: 1px solid var(--color-border);
-        border-radius: 2px;
+        border-radius: 3px;
         line-height: 1.8;
         tab-size: 2;
+    }
+    .article-body :global(pre.astro-code span) {
+        color: light-dark(var(--shiki-light), var(--shiki-dark));
     }
     .article-body :global(pre code) {
         white-space: pre;
@@ -212,13 +278,82 @@ const canonical = new URL(
         background: var(--color-card);
     }
     .article-body :global(img) {
+        display: block;
+        width: 100%;
         height: auto;
-        margin-block: 28px;
+        margin-block: 32px;
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        transition: filter var(--dur-medium) var(--ease-out);
+    }
+    :global(:root[data-theme="dark"]) .article-body :global(img) {
+        filter: brightness(0.92) contrast(1.02);
+    }
+    @media (prefers-color-scheme: dark) {
+        :global(:root:not([data-theme="light"])) .article-body :global(img) {
+            filter: brightness(0.92) contrast(1.02);
+        }
+    }
+    @media (hover: hover) {
+        .article-body :global(img:hover) {
+            filter: none;
+        }
+    }
+    @media (min-width: 900px) {
+        .article-body :global(p:has(> img:only-child)) {
+            margin-inline: -32px;
+        }
     }
     .article-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px 32px;
         margin-top: 56px;
-        padding-top: 24px;
+        padding-top: 28px;
         border-top: 1px solid var(--color-border);
+    }
+    .article-footer .studio-link {
+        --arrow-x: -2px;
+        --arrow-y: 0px;
+    }
+    .next-post {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+        margin-left: auto;
+        text-align: right;
+    }
+    .next-post-label {
+        font-family: var(--font-code);
+        font-size: 11px;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+    .next-post-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-display);
+        font-size: 20px;
+        line-height: 1.3;
+        letter-spacing: -0.02em;
+    }
+    .next-post:lang(zh) .next-post-title {
+        letter-spacing: 0;
+    }
+    .next-post-title :global(svg) {
+        flex-shrink: 0;
+        color: var(--color-accent);
+        transition: transform var(--dur-fast) var(--ease-out);
+    }
+    @media (hover: hover) {
+        .next-post:hover .next-post-title :global(svg) {
+            transform: translateX(3px);
+        }
     }
     @media (max-width: 700px) {
         .back-link {
@@ -231,10 +366,15 @@ const canonical = new URL(
             padding: 18px;
         }
         .article-body :global(blockquote) {
-            padding-left: 18px;
+            padding: 14px 16px;
         }
         .article-meta {
             gap: 8px 18px;
+        }
+        .next-post {
+            align-items: flex-start;
+            margin-left: 0;
+            text-align: left;
         }
     }
 </style>
