@@ -22,6 +22,13 @@ const CJK_CHAR =
 // CJK and fullwidth punctuation (、。，：「」 etc.) is not read as words.
 const CJK_PUNCTUATION = /[\u3000-\u303f\uff00-\uffef]/gu;
 
+const HAS_CJK_CHAR =
+    /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
+
+export function containsCjk(text: string): boolean {
+    return HAS_CJK_CHAR.test(text);
+}
+
 export function readingMinutes(content: string): number {
     const cjkChars = content.match(CJK_CHAR)?.length ?? 0;
     const rest = content

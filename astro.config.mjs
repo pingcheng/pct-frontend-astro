@@ -9,6 +9,15 @@ export default defineConfig({
   site: 'https://www.pingchengtech.com',
   output: 'static',
   integrations: [react(), sitemap()],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'vitesse-light',
+        dark: 'vitesse-dark',
+      },
+      defaultColor: false,
+    },
+  },
   // The CSS is small, so inlining it avoids render-blocking requests on first paint.
   build: {
     inlineStylesheets: 'always',

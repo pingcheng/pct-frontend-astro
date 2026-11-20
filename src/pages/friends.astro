@@ -47,9 +47,12 @@ const breadcrumbItems = [
         letter-spacing: -0.055em;
     }
     .intro-text {
+        max-width: 44ch;
         margin-top: 24px;
-        font-size: 20px;
-        line-height: 1.7;
+        font-size: clamp(19px, 2.4vw, 23px);
+        line-height: 1.65;
+        letter-spacing: -0.01em;
+        color: var(--color-text-secondary);
     }
     .friend-grid {
         display: grid;
