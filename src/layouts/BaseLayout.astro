@@ -124,6 +124,24 @@ const pageTransition: TransitionDirectionalAnimations = { forwards: pageSwap, ba
       document.addEventListener('astro:before-swap', (event) => {
         event.newDocument.documentElement.dataset.navigated = '';
       });
+
+      // Shared elements (avatar, project titles) should only move between pages when they
+      // are on screen. One scrolled out of view would otherwise fly in from off-screen,
+      // e.g. the nav avatar dropping in from the top after clicking a post far down a list.
+      // Off-screen copies drop their name and simply fade with the page instead.
+      const unnameOffscreen = () => {
+        const viewportHeight = window.innerHeight;
+        document.querySelectorAll<HTMLElement>('[style*="view-transition-name"]').forEach((el) => {
+          const { top, bottom } = el.getBoundingClientRect();
+          if (bottom <= 0 || top >= viewportHeight) {
+            el.style.viewTransitionName = 'none';
+          }
+        });
+      };
+      // Runs just before the old page is captured, at its current scroll position.
+      document.addEventListener('astro:after-preparation', unnameOffscreen);
+      // Runs after the new page is in place and scrolled (top, or restored on back).
+      document.addEventListener('astro:after-swap', unnameOffscreen);
     </script>
   </head>
   <body>

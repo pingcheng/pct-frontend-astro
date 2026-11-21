@@ -145,6 +145,17 @@ img {
 ::view-transition-new(*.morph-image) {
     animation: morph-fade-in 380ms var(--ease-out) both;
 }
+/*
+ * Unpaired copies (the other side was scrolled out of view, see BaseLayout):
+ * no movement, they just fade out and in with the rest of the page.
+ */
+::view-transition-old(*.morph):only-child {
+    opacity: 1;
+    animation: page-out 120ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(*.morph):only-child {
+    animation: page-in 260ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
 
 /* One short entrance per content group on the first visit only. */
 @keyframes studio-enter {
