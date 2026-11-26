@@ -8,7 +8,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://www.pingchengtech.com',
   output: 'static',
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    // The portfolio is kept live as an unlisted archive, so leave it out of the sitemap.
+    sitemap({ filter: (page) => !new URL(page).pathname.startsWith('/portfolio') }),
+  ],
   markdown: {
     shikiConfig: {
       themes: {

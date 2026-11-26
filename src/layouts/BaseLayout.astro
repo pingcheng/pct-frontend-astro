@@ -20,6 +20,7 @@ const {
   twitterTitle,
   twitterDescription,
   twitterImage = 'https://www.pingchengtech.com/apple-icon.png',
+  noindex = false,
 } = Astro.props;
 
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
@@ -100,6 +101,7 @@ const pageTransition: TransitionDirectionalAnimations = { forwards: pageSwap, ba
     <title>{title}</title>
     {(canonicalUrl || ogUrl) && <link rel="canonical" href={canonicalUrl || ogUrl} />}
     {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
 
     {/* Open Graph */}
     {(ogTitle || title) && <meta property="og:title" content={ogTitle || title} />}

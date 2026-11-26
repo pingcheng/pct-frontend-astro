@@ -84,10 +84,11 @@ test.describe('personal site browser smoke', () => {
     await expect(page.getByRole('heading', { name: /Ping Cheng/ })).toBeVisible();
     const menuButton = page.getByRole('button', { name: 'Open main menu' });
     if (await menuButton.isVisible()) await menuButton.click();
-    await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true })).toHaveAttribute(
+    await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Blog', exact: true })).toHaveAttribute(
       'href',
-      '/portfolio/',
+      '/blog/',
     );
+    await expect(page.locator('a[href^="/portfolio"]')).toHaveCount(0);
     await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About me', exact: true })).toHaveAttribute(
       'href',
       '/about/',
@@ -112,6 +113,7 @@ test.describe('personal site browser smoke', () => {
     await expect(page.getByRole('heading', { name: 'Professional Experience' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Visit my GitHub profile' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Visit my LinkedIn profile' })).toBeVisible();
+    await expect(page.locator('a[href^="/portfolio"]')).toHaveCount(0);
 
     await expectNoHorizontalOverflow(page);
   });
@@ -120,6 +122,9 @@ test.describe('personal site browser smoke', () => {
     await page.goto('/portfolio');
 
     await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+    await expect(page.getByText('An archive of older work')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'blog', exact: true })).toHaveAttribute('href', '/blog/');
 
     const projectLink = page.getByRole('link', { name: /Empire CBS/ });
     await expect(projectLink).toBeVisible();
@@ -133,6 +138,7 @@ test.describe('personal site browser smoke', () => {
 
     await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Back to portfolio' })).toHaveAttribute('href', '/portfolio/');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
     await expect(page.getByText('Backend & DevOps Developer', { exact: true }).first()).toBeVisible();
     await expect(page.getByText('Private project', { exact: true }).first()).toBeVisible();
 
@@ -164,8 +170,9 @@ test.describe('personal site browser smoke', () => {
       'aria-expanded',
       'true',
     );
-    await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Portfolio' })).toBeVisible();
+    await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Blog' })).toBeVisible();
     await expect(page.locator('#mobile-menu').getByRole('link', { name: 'About me' })).toBeVisible();
+    await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Portfolio' })).toHaveCount(0);
 
     await page.keyboard.press('Escape');
     await expect(page.getByRole('button', { name: 'Open main menu' })).toHaveAttribute(
@@ -206,7 +213,7 @@ test('mobile menu works before slow images finish loading', async ({ page, isMob
 
   await page.getByRole('button', { name: 'Open main menu' }).click();
   await expect(page.getByRole('button', { name: 'Close main menu' })).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Portfolio' })).toBeVisible();
+  await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Blog' })).toBeVisible();
 
   // The later page-load setup must not break or reset the open menu.
   releaseAvatar();
@@ -275,10 +282,9 @@ test('navigation works when the optional analytics loader fails', async ({ page 
   }
   const menuButton = page.getByRole('button', { name: 'Open main menu' });
   if (await menuButton.isVisible()) await menuButton.click();
-  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Portfolio', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Portfolio' })).toBeVisible();
-  await page.getByRole('link', { name: /Empire CBS/ }).click();
-  await expect(page.getByRole('heading', { name: 'Empire CBS' })).toBeVisible();
+  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About me', exact: true }).click();
+  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page.getByRole('heading', { name: 'Focus & Interests' })).toBeVisible();
 });
 
 test('analytics loads after the page instead of during it', async ({ page }) => {
