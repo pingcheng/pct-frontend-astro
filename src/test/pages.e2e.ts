@@ -187,7 +187,9 @@ describe('Static Pages Content', () => {
         expect(document.querySelectorAll('a[href^="/portfolio/"]').length).toBeGreaterThan(0);
 
         // The archive note points readers to the blog
-        expectTextContent('An archive of older work');
+        expect(document.querySelector('.archive-note')?.textContent?.trim()).toBe(
+            'An archive of older work. For what I’m up to now, read the blog.',
+        );
         expect(document.querySelector('.archive-note a[href="/blog/"]')).not.toBeNull();
 
         // The portfolio is unlisted: no nav entry and kept out of search results
