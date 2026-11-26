@@ -11,4 +11,6 @@ export type SEOProps = {
   twitterTitle?: string;
   twitterDescription?: string;
   twitterImage?: string;
+  /** Keep the page out of search results (adds a robots noindex meta tag). */
+  noindex?: boolean;
 };

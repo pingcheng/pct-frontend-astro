@@ -12,15 +12,19 @@ describe("NavBar active link", () => {
         ["/", "Home"],
         ["/about", "About me"],
         ["/about/", "About me"],
-        ["/portfolio", "Portfolio"],
-        ["/portfolio/", "Portfolio"],
-        ["/portfolio/empire-cbs/", "Portfolio"],
         ["/blog", "Blog"],
         ["/blog/", "Blog"],
         ["/blog/reviewing-tailscale-at-home", "Blog"],
         ["/blog/reviewing-tailscale-at-home/", "Blog"],
     ])("selects only the right link at %s", (currentPath, label) => {
         expect(activeLabels(currentPath)).toEqual([label]);
+    });
+
+    it("leaves the unlisted portfolio archive out of the nav", () => {
+        expect(menuItems.some((item) => item.path.startsWith("/portfolio"))).toBe(false);
+        expect(menuItems.some((item) => item.label === "Portfolio")).toBe(false);
+        expect(activeLabels("/portfolio/")).toEqual([]);
+        expect(activeLabels("/portfolio/empire-cbs/")).toEqual([]);
     });
 
     it("does not mark Blog active for a similarly named route", () => {

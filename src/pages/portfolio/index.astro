@@ -14,9 +14,13 @@ import { MdArrowForward } from "react-icons/md";
     twitterCard="summary_large_image"
     twitterTitle="Portfolio | Ping Cheng"
     twitterDescription="Things I’ve built, from everyday tools to platforms for learning and work."
+    noindex
 >
     <main class="portfolio-page">
         <header class="portfolio-intro animate-fade-in">
+            <p class="archive-note">
+                An archive of older work. For what I’m up to now, read the <a href="/blog/">blog</a>.
+            </p>
             <h1>Portfolio</h1>
             <p class="intro-text">
                 A selection of things I’ve built, from everyday tools to
@@ -127,6 +131,17 @@ import { MdArrowForward } from "react-icons/md";
     }
     .portfolio-intro {
         padding-bottom: 64px;
+    }
+    .archive-note {
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--color-text-secondary);
+    }
+    .archive-note a {
+        color: var(--color-accent);
+        text-decoration: underline;
+        text-underline-offset: 3px;
     }
     .project-list {
         border-top: 1px solid var(--color-border);

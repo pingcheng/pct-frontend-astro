@@ -186,8 +186,15 @@ describe('Static Pages Content', () => {
         // Ensure portfolio items are rendered by checking links pointing to portfolio details
         expect(document.querySelectorAll('a[href^="/portfolio/"]').length).toBeGreaterThan(0);
 
-        const activeNav = document.querySelector('nav a[class*="active"]');
-        expect(activeNav?.textContent?.trim()).toBe('Portfolio');
+        // The archive note points readers to the blog
+        expect(document.querySelector('.archive-note')?.textContent?.trim()).toBe(
+            'An archive of older work. For what I’m up to now, read the blog.',
+        );
+        expect(document.querySelector('.archive-note a[href="/blog/"]')).not.toBeNull();
+
+        // The portfolio is unlisted: no nav entry and kept out of search results
+        expect(document.querySelector('nav[aria-label="Main navigation"] a[href^="/portfolio"]')).toBeNull();
+        expect(getMetaContent('meta[name="robots"]')).toBe('noindex');
     });
 
     it('should render the Friends page correctly', () => {
@@ -260,9 +267,8 @@ describe('Static Pages Content', () => {
         expectTextContent('Backend & DevOps Developer');
         expectTextContent('Private project');
 
-        // Nav should still outline "Portfolio" as active
-        const activeNav = document.querySelector('nav a[class*="active"]');
-        expect(activeNav?.textContent?.trim()).toBe('Portfolio');
+        // The portfolio is unlisted, so no nav item is active here
+        expect(document.querySelector('nav[aria-label="Main navigation"] a[href^="/portfolio"]')).toBeNull();
 
         // External links should have rel="noopener noreferrer"
         const externalLinks = document.querySelectorAll('a[target="_blank"]');
@@ -305,6 +311,7 @@ describe('Self-hosted static deployment', () => {
 
     it.each(Portfolios)('$slug keeps its canonical URL and screenshot dimensions', (portfolio) => {
         loadHtml(`portfolio/${portfolio.slug}/index.html`);
+        expect(getMetaContent('meta[name="robots"]')).toBe('noindex');
         expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
             `https://www.pingchengtech.com/portfolio/${portfolio.slug}/`,
         );
@@ -313,6 +320,15 @@ describe('Self-hosted static deployment', () => {
             expect(Number(screenshot.getAttribute('height'))).toBeGreaterThan(0);
         }
     });
+
+    it.each(['index.html', 'about/index.html', 'friends/index.html', 'blog/index.html', '404.html'])(
+        '%s has no portfolio entry point and stays indexable',
+        (file) => {
+            loadHtml(file);
+            expect(document.querySelector('a[href^="/portfolio"]')).toBeNull();
+            expect(document.querySelector('meta[name="robots"]')).toBeNull();
+        },
+    );
 
     it('includes Pages redirect rules, sitemaps, robots and a static 404', () => {
         expect(fs.readFileSync(path.join(DIST_DIR, '_redirects'), 'utf8')).toContain(
@@ -323,8 +339,10 @@ describe('Self-hosted static deployment', () => {
         );
         expect(fs.readFileSync(path.join(DIST_DIR, 'sitemap-index.xml'), 'utf8')).toContain('sitemap-0.xml');
         const sitemap = fs.readFileSync(path.join(DIST_DIR, 'sitemap-0.xml'), 'utf8');
-        for (const portfolio of Portfolios) {
-            expect(sitemap).toContain(`https://www.pingchengtech.com/portfolio/${portfolio.slug}/`);
+        // The portfolio stays live but unlisted, so it is left out of the sitemap
+        expect(sitemap).not.toContain('/portfolio');
+        for (const page of ['', 'about/', 'blog/', 'friends/']) {
+            expect(sitemap).toContain(`<loc>https://www.pingchengtech.com/${page}</loc>`);
         }
         expect(sitemap).not.toContain('/404');
         loadHtml('404.html');
