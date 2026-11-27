@@ -11,4 +11,5 @@ export const profile = {
 export const socialUrls = {
   github: "https://github.com/pingcheng",
   linkedin: "https://www.linkedin.com/in/ping-cheng-5a47b484",
+  x: "https://x.com/_pingcheng",
 } as const;

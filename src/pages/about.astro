@@ -12,6 +12,7 @@ import { workExperiences } from "@/data/work-experience";
 import { URLS } from "@/constants/urls";
 
 import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { MdArrowOutward, MdEmail } from "react-icons/md";
 
 const links = [
@@ -26,6 +27,12 @@ const links = [
         text: "LinkedIn",
         ariaLabel: "Visit my LinkedIn profile",
         Icon: FaLinkedin,
+    },
+    {
+        url: socialUrls.x,
+        text: "X",
+        ariaLabel: "Visit my X profile",
+        Icon: FaXTwitter,
     },
     {
         url: `mailto:${profile.email}`,
@@ -67,7 +74,7 @@ const breadcrumbItems = [
             jobTitle: profile.currentRole,
             url: URLS.WEBSITE.BASE,
             image: URLS.ASSETS.APPLE_ICON,
-            sameAs: [socialUrls.github, socialUrls.linkedin],
+            sameAs: [socialUrls.github, socialUrls.linkedin, socialUrls.x],
             worksFor: { name: profile.company, url: URLS.COMPANY.REA_GROUP },
             knowsAbout: allSkills,
             address: {
