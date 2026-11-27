@@ -92,6 +92,7 @@ describe('Static Pages Content', () => {
             expect.arrayContaining([
                 'https://github.com/pingcheng',
                 'https://www.linkedin.com/in/ping-cheng-5a47b484',
+                'https://x.com/_pingcheng',
             ]),
         );
 
